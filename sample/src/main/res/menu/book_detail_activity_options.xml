@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/book_viewer"
+        android:title="@string/pick_file"
+        android:icon="@drawable/baseline_book_black_24"
+        android:tooltipText="@string/pick_file"
+        app:showAsAction="always"
+        tools:targetApi="o" />
+    <item
+        android:id="@+id/comment"
+        android:icon="@drawable/baseline_border_color_black_24"
+        android:title="@string/edit_user_information"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+</menu>

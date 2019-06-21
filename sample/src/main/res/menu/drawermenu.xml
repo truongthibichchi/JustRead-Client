@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    >
+    <item android:title="Cá nhân">
+        <menu>
+            <item
+                android:id="@+id/menu_user_info"
+                android:icon="@drawable/ic_user"
+                android:title="@string/user_information"
+                >
+            </item>
+
+            <item
+                android:id="@+id/menu_reading_history"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Lịch sử đọc sách"
+                >
+            </item>
+
+            <item
+                android:id="@+id/menu_user_share_book"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Sách đã chia sẻ "
+                >
+            </item>
+
+        </menu>
+    </item>
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/menu_all_book"
+            android:icon="@drawable/ic_search_books"
+            android:title="Tra cứu sách"
+            >
+        </item>
+
+        <item
+            android:id="@+id/menu_all_user"
+            android:icon="@drawable/ic_all_users"
+            android:title="Tra cứu người dùng"
+            >
+        </item>
+
+        <item
+            android:id="@+id/menu_admin"
+            android:icon="@drawable/ic_admin"
+            android:title="Quản trị hệ thống"
+            android:visible="false"
+            >
+        </item>
+    </group>
+
+
+
+</menu>

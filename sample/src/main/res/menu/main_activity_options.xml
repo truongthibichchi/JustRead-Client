@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/user_information"
+        android:title="@string/user_information"
+        android:tooltipText="@string/user_information"
+        android:icon="@drawable/baseline_account_circle_black_24"
+        app:showAsAction="always"
+        tools:targetApi="o"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/add_news"
+        android:title="@string/share_book"
+        android:tooltipText="@string/share_book"
+        android:icon="@drawable/baseline_book_black_24"
+        app:showAsAction="always"
+        tools:targetApi="o"
+        tools:ignore="AlwaysShowAction" />
+</menu>

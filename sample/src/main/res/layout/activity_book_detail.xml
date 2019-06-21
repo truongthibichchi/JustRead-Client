@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/img_background"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:id="@+id/bookDetailImage"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+
+                android:layout_width="250dp"
+                android:layout_height="250dp" />
+
+            <TextView
+                android:id="@+id/bookDetailTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tieu de"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textAlignment="center"
+                android:textColor="@color/colorSecondary"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.AppCompatRatingBar
+                android:id="@+id/ratingbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:numStars="5"
+                android:stepSize="0.5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:text="@string/book_category"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/bookDetailCategory"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:textAlignment="textStart"
+                            android:text="Ten the loai"
+                            android:textColor="#cca300"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:text="@string/book_author"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/bookDetailAuthor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:textAlignment="textStart"
+                            android:text="Ten tac gia"
+                            android:textColor="#cca300"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:text="@string/book_public_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/bookDetailPublicDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:textAlignment="textStart"
+                            android:text="@string/book_public_date"
+                            android:textColor="#cca300"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:text="@string/book_pages"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/bookDetailPages"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:padding="8dp"
+                            android:text="So trang"
+                            android:textAlignment="textStart"
+                            android:textColor="#cca300"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:text="@string/book_rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/bookDetailRating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:textAlignment="textStart"
+                            android:text="@string/book_rating"
+                            android:textColor="#cca300"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:text="@string/book_rated_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/bookDetailRatedTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:textAlignment="textStart"
+                            android:text="@string/book_rated_time"
+                            android:textColor="#cca300"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:dividerPadding="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_bookDetailDescription"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:text="Xem tom tat"
+                    android:layout_margin="30dp"
+                    android:textColor="#ffffff"
+                    android:background="#ffa64d"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/btn_ReadBook"
+                    android:layout_weight="1"
+                    android:textColor="#ffffff"
+                    android:background="#39ac73"
+                    android:layout_margin="30dp"
+                    android:layout_width="match_parent"
+                    android:text="doc sach "
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+            <ListView
+                android:id="@+id/comment_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:scrollbarStyle="insideInset" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="#cce5ff"
+        android:layout_width="match_parent"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="12dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_detail_parent">
+
+                <EditText
+                    android:id="@+id/et_comment_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nhap binh luan"
+                    android:layout_centerInParent="true" />
+
+                <Button
+                    android:id="@+id/btn_comment"
+                    android:text="Gửi"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+
+
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

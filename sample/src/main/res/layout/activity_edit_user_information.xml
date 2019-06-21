@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@drawable/child_radius_background_primary"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColorHint="@color/colorSecondary">
+
+            <EditText
+                android:id="@+id/input_fullname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_fullname"
+                android:inputType="textCapWords" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColorHint="@color/colorSecondary">
+
+            <EditText
+                android:id="@+id/input_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_address"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColorHint="@color/colorSecondary">
+
+            <EditText
+                android:id="@+id/input_birthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_birthday"
+                android:inputType="date" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_edit"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/yellow"
+        android:padding="12dp"
+        android:text="@string/edit_user_information" />
+</android.support.v7.widget.LinearLayoutCompat>
