@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.Resource;
 import com.github.barteksc.sample.R;
 import com.github.barteksc.sample.adapter.HorizontalAdapter;
@@ -242,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             intent.putExtra("address", userLogin.getAddress());
             intent.putExtra("date_of_birth", userLogin.getDateOfBirth());
             intent.putExtra("avatar", userLogin.getAvatar());
+            intent.putExtra("is_admin", userLogin.getIsAdmin());
             startActivity(intent);
 
         } else if (id == R.id.drawermenu_reading_history) {
@@ -289,6 +291,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     tvHeaderFullName.setText(userLogin.getFullname());
                     Glide.with(getApplicationContext())
                             .load(Uri.parse(ApiLink.HOST + userLogin.getAvatar()))
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
                             .into(imgHeaderAvatar);
 
 

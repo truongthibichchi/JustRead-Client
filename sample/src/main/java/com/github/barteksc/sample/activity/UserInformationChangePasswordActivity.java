@@ -23,7 +23,6 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.Calendar;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -47,8 +46,6 @@ public class UserInformationChangePasswordActivity extends AppCompatActivity {
     EditText etNewPassAgain;
     @ViewById(R.id.btn_user_change_pass_save)
     Button btnSave;
-
-//    int year, month, day;
 
     @AfterViews
     protected void init() {

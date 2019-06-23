@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import java.util.List;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Multipart;
@@ -28,8 +29,14 @@ public interface APIService {
     @POST(ApiLink.GET_USER_INFO)
     Call<UserModel> getUserInfo(@Body JsonObject userInfo);
 
+    @Multipart
     @POST(ApiLink.UPDATE_USER_INFO)
-    Call<String> updateUserInfo(@Body JsonObject userInfo);
+    Call<String> updateUserInfo(@Part("username") RequestBody username,
+                                @Part("fullname") RequestBody fullname,
+                                @Part("date_of_birth") RequestBody date_of_birth,
+                                @Part("address") RequestBody address,
+                                @Part("is_admin") RequestBody is_admin,
+                                @Part MultipartBody.Part avatar);
 
     @POST(ApiLink.CHANGE_PASSWORD)
     Call<String> changePassword(@Body JsonObject userInfo);
