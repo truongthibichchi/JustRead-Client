@@ -36,7 +36,7 @@ public class UserModel {
     @SerializedName("is_admin")
     @Expose
     public String isAdmin;
-    @SerializedName("created_time")
+    @SerializedName("created_date")
     @Expose
-    public String createdTime;
+    public String createdDate;
 }

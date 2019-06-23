@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public class ApiLink {
-    public final static String HOST = "http://35.193.223.167:4600";
+    public final static String HOST = "http://192.168.1.103:4600";
 
     //login + register
     public final static String LOG_IN = "/login";
@@ -13,7 +13,7 @@ public class ApiLink {
     //user info
     public final static String GET_USER_INFO = "/get-user-info";
     public final static String UPDATE_USER_INFO = "/update-user-info";
-    public final static String CHANGE_PASSWORD = "/change_password";
+    public final static String CHANGE_PASSWORD = "/change-password";
 
     //reading history
     public final static String GET_READING_HISTORY = "/get-reading-history";

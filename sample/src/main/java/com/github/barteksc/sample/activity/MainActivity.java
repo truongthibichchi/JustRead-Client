@@ -92,13 +92,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             = (item -> {
         switch (item.getItemId()) {
             case R.id.menu_main_home:
-                Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_main_book_news:
-                Toast.makeText(getApplicationContext(), "book news", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_main_users:
-                Toast.makeText(getApplicationContext(), "users", Toast.LENGTH_SHORT).show();
                 return true;
         }
         return false;
@@ -125,30 +122,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         sharedPreferences = getSharedPreferences("loginref", MODE_PRIVATE);
         saveLogin = sharedPreferences.getBoolean("savelogin", true);
         username = sharedPreferences.getString("username", null);
         password = sharedPreferences.getString("password", null);
 
-        if (username.length() == 0 || password.length() == 0) {
+        if (username ==null || password== null) {
             Intent intent = new Intent(MainActivity.this, LogInActivity_.class);
             startActivity(intent);
 
         } else {
             if (isNetworkAvailable()) {
                 logInAPIExecute();
-                getNewestBooks();
-                getTopBooks();
-                getRecommendBooks();
-                getUserInformation();
-                setOnItemClickAction();
+
             } else {
                 Toasty.info(getApplicationContext(), ConstString.NETWORK_ERROR, Toast.LENGTH_SHORT, true).show();
             }
         }
+        navigationView.setNavigationItemSelectedListener(this);
+        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
 
@@ -164,6 +157,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Hello, "+username, Toast.LENGTH_SHORT).show();
+                    getNewestBooks();
+                    getTopBooks();
+                    getRecommendBooks();
+                    getUserInformation();
+                    setOnItemClickAction();
 
                 } else {
                     Toasty.info(getApplicationContext(), ConstString.FAILURE_LOGIN, Toast.LENGTH_SHORT, true).show();
@@ -237,7 +235,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.drawermenu_user_info) {
             Intent intent = new Intent(MainActivity.this, UserInformationActivity.class);
+            intent.putExtra("username", userLogin.getUsername());
+            intent.putExtra("password", userLogin.getPassword());
+            intent.putExtra("fullname", userLogin.getFullname());
+            intent.putExtra("created_date", userLogin.getCreatedDate());
+            intent.putExtra("address", userLogin.getAddress());
+            intent.putExtra("date_of_birth", userLogin.getDateOfBirth());
+            intent.putExtra("avatar", userLogin.getAvatar());
             startActivity(intent);
+
         } else if (id == R.id.drawermenu_reading_history) {
             Intent intent = new Intent(MainActivity.this, UserReadingHistoryActivity_.class);
             startActivity(intent);
@@ -277,6 +283,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             .isAdmin(response.body().isAdmin)
                             .fullname(response.body().fullname)
                             .username(response.body().username)
+                            .createdDate(response.body().createdDate)
+                            .password(response.body().password)
                             .build();
                     tvHeaderFullName.setText(userLogin.getFullname());
                     Glide.with(getApplicationContext())
@@ -301,7 +309,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void getNewestBooks() {
-        Toast.makeText(getApplicationContext(), "newest", Toast.LENGTH_SHORT).show();
         books.clear();
         apiService.getMenuBook().enqueue(new Callback<List<BookModel>>() {
             @Override

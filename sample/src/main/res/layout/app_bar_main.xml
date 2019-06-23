@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:cardCornerRadius="30dp"
+                app:cardCornerRadius="20dp"
                 app:cardElevation="6dp">
 
                 <RelativeLayout
@@ -34,6 +34,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:enabled="false"
+                        android:textColor="@color/colorSecondary"
                         android:hint="@string/search" />
 
                     <ImageView

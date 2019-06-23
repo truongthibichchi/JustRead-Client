@@ -34,9 +34,12 @@ public class ConstString {
     public static final String GET_USER_FAILURE = "Failure user data initialization";
 
     //dialog
-    public static final String NULL_USER_INFOR = "You are new. Wanna introduce yourself ?";
-    public static final String OOPS= "Oops";
+    public static final String NULL_USER_INFOR = "Bạn muốn thay đổi mật khẩu mới?";
+    public static final String OOPS= "Đổi mật khẩu";
     public static final String YES ="Yes";
     public static final String NO ="No";
     public static final String NA ="n.a";
+
+    public static final String PASSWORD_NOT_MATCH = "Mật khẩu mới không khớp! Vui lòng nhập lại";
+    public static final String WRONG_PASSWORD = "Sai mật khẩu";
 }
