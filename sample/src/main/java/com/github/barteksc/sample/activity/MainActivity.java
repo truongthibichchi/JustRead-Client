@@ -1,38 +1,55 @@
 package com.github.barteksc.sample.activity;
 
+import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.LoginFilter;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.Resource;
 import com.github.barteksc.sample.R;
-import com.github.barteksc.sample.adapter.BooksAdapter;
 import com.github.barteksc.sample.adapter.HorizontalAdapter;
+import com.github.barteksc.sample.api.APIService;
+import com.github.barteksc.sample.api.ApiUtils;
+import com.github.barteksc.sample.constant.ApiLink;
 import com.github.barteksc.sample.constant.ConstString;
 import com.github.barteksc.sample.jsonObject.CreateJsonObject;
 import com.github.barteksc.sample.model.BookModel;
 import com.github.barteksc.sample.model.UserModel;
 import com.github.barteksc.sample.utilities.HandleAPIResponse;
 import com.github.barteksc.sample.utilities.HorizontalListView;
+import com.github.barteksc.sample.utilities.ToastyConfigUtility;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.ViewById;
 
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,77 +58,328 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.github.barteksc.sample.activity.LogInActivity.apiService;
-import static com.github.barteksc.sample.activity.LogInActivity.books;
-import static com.github.barteksc.sample.activity.LogInActivity.recommendBooks;
-import static com.github.barteksc.sample.activity.LogInActivity.topBooks;
-import static com.github.barteksc.sample.activity.LogInActivity.userLogin;
 
-@EActivity(R.layout.activity_main)
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    public SharedPreferences sharedPreferences;
+    public boolean saveLogin;
 
-    public static BookModel book;
-    private ActionBarDrawerToggle mToggle;
-    @ViewById(R.id.drawer)
-    DrawerLayout mDrawerLayout;
-    @ViewById(R.id.navigation_menu)
-    NavigationView mNavigation;
-    @ViewById(R.id.toolbar)
-    Toolbar mToolbar;
-    @ViewById(R.id.HorizontalListView_1)
-    HorizontalListView horizontalListView1;
-    @ViewById(R.id.HorizontalListView_2)
-    HorizontalListView horizontalListView2;
-    @ViewById(R.id.HorizontalListView_3)
-    HorizontalListView horizontalListView3;
-    @ViewById(R.id.btn_report)
-    Button btnReport;
-    @ViewById(R.id.foryou)
-    TextView foryou;
+    public BookModel book;
+    public List<BookModel> books = new ArrayList<>();
+    public List<BookModel> topBooks = new ArrayList<>();
+    public List<BookModel> recommendBooks = new ArrayList<>();
+    public HorizontalAdapter horizontalAdapter1, horizontalAdapter2, horizontalAdapter3;
+    public UserModel userLogin;
+    public APIService apiService;
 
-    @AfterViews
-    public void init() {
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
-        mDrawerLayout.addDrawerListener(mToggle);
-        mToggle.syncState();
-        initHorizontalListBooks();
-        initHorizontalListTopBooks();
-        getRecommendBooks();
-        getUserInformation();
-        setOnItemClickAction();
-//        spCategory.setOnItemSelectedListener(spinnerOnItemSelectedListener);
+    private Toolbar toolbar;
+    private FloatingActionButton fab;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle toggle;
+    private BottomNavigationView navView;
+    private HorizontalListView horizontalListView1;
+    private HorizontalListView horizontalListView2;
+    private HorizontalListView horizontalListView3;
+    private View headerView;
+    private Menu menuNav;
+    private ImageView imgHeaderAvatar;
+    private TextView tvHeaderFullName;
+    private MenuItem itemAdmin;
+    private String username;
+    private String password;
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = (item -> {
+        switch (item.getItemId()) {
+            case R.id.menu_main_home:
+                Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.menu_main_book_news:
+                Toast.makeText(getApplicationContext(), "book news", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.menu_main_users:
+                Toast.makeText(getApplicationContext(), "users", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return false;
+    });
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        findViewsByIds();
+        apiService = ApiUtils.getAPIService();
+        ToastyConfigUtility.createInstance();
+
+        setSupportActionBar(toolbar);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        sharedPreferences = getSharedPreferences("loginref", MODE_PRIVATE);
+        saveLogin = sharedPreferences.getBoolean("savelogin", true);
+        username = sharedPreferences.getString("username", null);
+        password = sharedPreferences.getString("password", null);
+
+        if (username.length() == 0 || password.length() == 0) {
+            Intent intent = new Intent(MainActivity.this, LogInActivity_.class);
+            startActivity(intent);
+
+        } else {
+            if (isNetworkAvailable()) {
+                logInAPIExecute();
+                getNewestBooks();
+                getTopBooks();
+                getRecommendBooks();
+                getUserInformation();
+                setOnItemClickAction();
+            } else {
+                Toasty.info(getApplicationContext(), ConstString.NETWORK_ERROR, Toast.LENGTH_SHORT, true).show();
+            }
+        }
     }
 
 
-    //Cho nay de hien thi chi tiet sach, tam thoi khong co du lieu gi nha
-
-    @Click(R.id.HorizontalListView_1)
-    public void HorizontalListView_1() {
-        Intent intent = new Intent(MainActivity.this, BookDetail_.class);
-        startActivity(intent);
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    @Click(R.id.HorizontalListView_2)
-    public void HorizontalListView_2() {
-        Intent intent = new Intent(MainActivity.this, BookDetail_.class);
-        startActivity(intent);
+    public void logInAPIExecute() {
+        apiService.logIn(CreateJsonObject.usernameAndPassword(username, password)).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Hello, "+username, Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toasty.info(getApplicationContext(), ConstString.FAILURE_LOGIN, Toast.LENGTH_SHORT, true).show();
+                    Intent intent = new Intent(MainActivity.this, LogInActivity_.class);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                HandleAPIResponse.handleFailureResponse(getApplicationContext(), t);
+            }
+        });
     }
-    @Click(R.id.HorizontalListView_3)
-    public void HorizontalListView_3() {
-        Intent intent = new Intent(MainActivity.this, BookDetail_.class);
-        startActivity(intent);
+
+    private void findViewsByIds() {
+        toolbar = findViewById(R.id.toolbar);
+        fab = findViewById(R.id.fab);
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_bottom_view);
+
+        horizontalListView1 = findViewById(R.id.hlv_main_all_books);
+        horizontalListView2 = findViewById(R.id.hlv_main_top_books);
+        horizontalListView3 = findViewById(R.id.hlv_main_recommend_book);
+        headerView = navigationView.getHeaderView(0);
+        imgHeaderAvatar = headerView.findViewById(R.id.img_header_avatar);
+        tvHeaderFullName = headerView.findViewById(R.id.tv_header_fullname);
+
+        menuNav = navigationView.getMenu();
+        itemAdmin = menuNav.findItem(R.id.drawermenu_admin);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.drawermenu_user_info) {
+            Intent intent = new Intent(MainActivity.this, UserInformationActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.drawermenu_reading_history) {
+            Intent intent = new Intent(MainActivity.this, UserReadingHistoryActivity_.class);
+            startActivity(intent);
+        } else if (id == R.id.drawermenu_user_share_book) {
+            Intent intent = new Intent(MainActivity.this, UserShareBookActivity_.class);
+            startActivity(intent);
+        } else if (id == R.id.drawermenu_book_library) {
+            Intent intent = new Intent(MainActivity.this, BookLibraryActivity_.class);
+            startActivity(intent);
+        } else if (id == R.id.drawermenu_all_user) {
+            Intent intent = new Intent(MainActivity.this, UsersActivity_.class);
+            startActivity(intent);
+        } else if (id == R.id.drawermenu_admin) {
+            Intent intent = new Intent(MainActivity.this, AdminActivity_.class);
+            startActivity(intent);
+        } else if (id == R.id.drawermenu_logout) {
+            Intent intent = new Intent(MainActivity.this, LogInActivity_.class);
+            startActivity(intent);
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
 
-    @Click(R.id.btn_report)
-    public void setBtnReportAction() {
-        Intent intent = new Intent(MainActivity.this, AdminActivity_.class);
-        startActivity(intent);
+    void getUserInformation() {
+        userLogin = null;
+        apiService.getUserInfo(CreateJsonObject.username(username)).enqueue(new Callback<UserModel>() {
+            @Override
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                if (response.body() != null) {
+                    userLogin = UserModel.builder()
+                            .avatar(response.body().avatar)
+                            .address(response.body().address)
+                            .dateOfBirth(response.body().dateOfBirth)
+                            .isAdmin(response.body().isAdmin)
+                            .fullname(response.body().fullname)
+                            .username(response.body().username)
+                            .build();
+                    tvHeaderFullName.setText(userLogin.getFullname());
+                    Glide.with(getApplicationContext())
+                            .load(Uri.parse(ApiLink.HOST + userLogin.getAvatar()))
+                            .into(imgHeaderAvatar);
+
+
+                    if (userLogin.isAdmin.equalsIgnoreCase("1")) {
+                        itemAdmin.setVisible(true);
+                    }
+                } else {
+                    Toasty.info(getApplicationContext(), response.message(), Toast.LENGTH_SHORT, true).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                HandleAPIResponse.handleFailureResponse(getApplicationContext(), t);
+            }
+        });
     }
+
+
+    private void getNewestBooks() {
+        Toast.makeText(getApplicationContext(), "newest", Toast.LENGTH_SHORT).show();
+        books.clear();
+        apiService.getMenuBook().enqueue(new Callback<List<BookModel>>() {
+            @Override
+            public void onResponse(Call<List<BookModel>> call, Response<List<BookModel>> response) {
+                if (response.body() != null) {
+                    for (int i = 0; i < response.body().size(); i++) {
+                        BookModel book = BookModel.builder()
+                                .bookAuthor(response.body().get(i).getBookAuthor())
+                                .bookCategory(response.body().get(i).getBookCategory())
+                                .bookDescription(response.body().get(i).getBookDescription())
+                                .bookDownload(response.body().get(i).getBookDownload())
+                                .bookFile(response.body().get(i).getBookFile())
+                                .bookId(response.body().get(i).getBookId())
+                                .bookImage(response.body().get(i).getBookImage())
+                                .bookPage(response.body().get(i).getBookPage())
+                                .bookPublicDate(response.body().get(i).getBookPublicDate())
+                                .bookRatedTime(response.body().get(i).getBookRatedTime())
+                                .bookRating(response.body().get(i).getBookRating())
+                                .bookReadTimes(response.body().get(i).getBookReadTimes())
+                                .bookTitle(response.body().get(i).getBookTitle())
+                                .bookType(response.body().get(i).getBookType()).build();
+                        books.add(i, book);
+                    }
+                    horizontalAdapter1 = new HorizontalAdapter(getApplicationContext(), books);
+                    horizontalListView1.setAdapter(horizontalAdapter1);
+                    horizontalAdapter1.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BookModel>> call, Throwable t) {
+                HandleAPIResponse.handleFailureResponse(getApplicationContext(), t);
+            }
+        });
+    }
+
+
+    private void getTopBooks() {
+        topBooks.clear();
+        apiService.getTopBooks().enqueue(new Callback<List<BookModel>>() {
+            @Override
+            public void onResponse(Call<List<BookModel>> call, Response<List<BookModel>> response) {
+                if (response.body() != null) {
+                    for (int i = 0; i < response.body().size(); i++) {
+                        BookModel book = BookModel.builder()
+                                .bookAuthor(response.body().get(i).getBookAuthor())
+                                .bookCategory(response.body().get(i).getBookCategory())
+                                .bookDescription(response.body().get(i).getBookDescription())
+                                .bookDownload(response.body().get(i).getBookDownload())
+                                .bookFile(response.body().get(i).getBookFile())
+                                .bookId(response.body().get(i).getBookId())
+                                .bookImage(response.body().get(i).getBookImage())
+                                .bookPage(response.body().get(i).getBookPage())
+                                .bookPublicDate(response.body().get(i).getBookPublicDate())
+                                .bookRatedTime(response.body().get(i).getBookRatedTime())
+                                .bookRating(response.body().get(i).getBookRating())
+                                .bookReadTimes(response.body().get(i).getBookReadTimes())
+                                .bookTitle(response.body().get(i).getBookTitle())
+                                .bookType(response.body().get(i).getBookType()).build();
+                        topBooks.add(i, book);
+                    }
+                    horizontalAdapter2 = new HorizontalAdapter(getApplicationContext(), topBooks);
+                    horizontalListView2.setAdapter(horizontalAdapter2);
+                    horizontalAdapter2.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BookModel>> call, Throwable t) {
+                HandleAPIResponse.handleFailureResponse(getApplicationContext(), t);
+            }
+        });
+    }
+
 
     void getRecommendBooks() {
         recommendBooks.clear();
-        apiService.getRecommendBooks(CreateJsonObject.username()).enqueue(new Callback<List<BookModel>>() {
+        apiService.getRecommendBooks(CreateJsonObject.username(username)).enqueue(new Callback<List<BookModel>>() {
             @Override
             public void onResponse(Call<List<BookModel>> call, Response<List<BookModel>> response) {
                 if (response.body() != null) {
@@ -133,11 +401,9 @@ public class MainActivity extends AppCompatActivity {
                                 .bookType(response.body().get(i).getBookType()).build();
                         recommendBooks.add(i, book);
                     }
-                    initHorizontalListRecommendBooks();
-                    if (recommendBooks.size() != 0) {
-                        horizontalListView3.setVisibility(View.VISIBLE);
-                        foryou.setVisibility(View.VISIBLE);
-                    }
+                    horizontalAdapter3 = new HorizontalAdapter(getApplicationContext(), recommendBooks);
+                    horizontalListView3.setAdapter(horizontalAdapter3);
+                    horizontalAdapter3.notifyDataSetChanged();
                 }
             }
 
@@ -148,104 +414,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-//    final AdapterView.OnItemSelectedListener spinnerOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
-//        @Override
-//        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-//            //getBooksByCategoryAPIExecute();
-//        }
-//
-//        @Override
-//        public void onNothingSelected(AdapterView<?> parentView) {
-//            // your code here
-//        }
-//    };
-
-//    @OptionsItem(R.id.user_information)
-//    void transferToUserInformation() {
-//        Intent intent = new Intent(MainActivity.this, UserInformation_.class);
-//        startActivity(intent);
-//    }
-//
-//    @OptionsItem(R.id.add_news)
-//    void addnews() {
-//        Intent intent = new Intent(MainActivity.this, AddNewsActivity_.class);
-//        startActivity(intent);
-//    }
-
-
-//    void getBooksByCategoryAPIExecute() {
-//        apiService.getBooksByCategory(CreateJsonObject.categoryValue(spCategory.getSelectedItem().toString())).enqueue(new Callback<List<BookModel>>() {
-//            @Override
-//            public void onResponse(Call<List<BookModel>> call, Response<List<BookModel>> response) {
-//                if (response.body() != null) {
-//                    books = response.body();
-//                    Toasty.success(getApplicationContext(), ConstString.GET_USER_SUCCESSFULL, Toast.LENGTH_SHORT, true).show();
-//
-//                } else {
-//                    Toasty.info(getApplicationContext(), response.message(), Toast.LENGTH_SHORT, true).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<BookModel>> call, Throwable t) {
-//                HandleAPIResponse.handleFailureResponse(getApplicationContext(), t);
-//            }
-//        });
-//    }
-
-    void getUserInformation() {
-        userLogin = null;
-        apiService.getUserInfo(CreateJsonObject.username()).enqueue(new Callback<UserModel>() {
-            @Override
-            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-                if (response.body() != null) {
-                    userLogin = UserModel.builder()
-                            .avatar(response.body().avatar)
-                            .address(response.body().address)
-                            .dateOfBirth(response.body().dateOfBirth)
-                            .isAdmin(response.body().isAdmin)
-                            .fullname(response.body().fullname)
-                            .username(response.body().username)
-                            .build();
-                    if (userLogin.isAdmin.equalsIgnoreCase("1")) {
-                        btnReport.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    Toasty.info(getApplicationContext(), response.message(), Toast.LENGTH_SHORT, true).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserModel> call, Throwable t) {
-                HandleAPIResponse.handleFailureResponse(getApplicationContext(), t);
-            }
-        });
-    }
-
-    private void initHorizontalListBooks() {
-
-        HorizontalAdapter horizontalAdapter1 = new HorizontalAdapter(getApplicationContext(), books);
-        horizontalListView1.setAdapter(horizontalAdapter1);
-        horizontalAdapter1.notifyDataSetChanged();
-    }
-
-    private void initHorizontalListTopBooks() {
-        HorizontalAdapter horizontalAdapter2 = new HorizontalAdapter(getApplicationContext(), topBooks);
-        horizontalListView2.setAdapter(horizontalAdapter2);
-        horizontalAdapter2.notifyDataSetChanged();
-    }
-
-    private void initHorizontalListRecommendBooks() {
-        HorizontalAdapter horizontalAdapter3 = new HorizontalAdapter(getApplicationContext(), recommendBooks);
-        horizontalListView3.setAdapter(horizontalAdapter3);
-        horizontalAdapter3.notifyDataSetChanged();
-    }
-
-
     void horizontalOnItemClick(AdapterView<?> parentAdapter, int position) {
         book = (BookModel) parentAdapter.getItemAtPosition(position);
-        Intent intent = new Intent(MainActivity.this, BookDetail_.class);
+        Intent intent = new Intent(MainActivity.this, BookDetailActivity_.class);
         startActivity(intent);
     }
 
@@ -260,5 +431,6 @@ public class MainActivity extends AppCompatActivity {
             horizontalOnItemClick(parentAdapter, position);
         });
     }
+
 
 }

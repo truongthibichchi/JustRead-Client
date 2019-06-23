@@ -2,10 +2,8 @@ package com.github.barteksc.sample.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.barteksc.sample.R;
@@ -19,8 +17,6 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.Objects;
-
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,15 +25,15 @@ import retrofit2.Response;
 import static com.github.barteksc.sample.activity.LogInActivity.apiService;
 
 @EActivity(R.layout.activity_register)
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
-    @ViewById(R.id.input_username)
+    @ViewById(R.id.et_register_username)
     EditText et_username;
-    @ViewById(R.id.input_password)
+    @ViewById(R.id.et_register_password)
     EditText et_password;
-    @ViewById(R.id.intput_fullname)
+    @ViewById(R.id.et_register_fullname)
     EditText et_fullname;
-    @ViewById(R.id.btn_register)
+    @ViewById(R.id.btn_register_register)
     AppCompatButton btnRegister;
 
     @AfterViews
@@ -47,7 +43,7 @@ public class Register extends AppCompatActivity {
         et_fullname.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_face_black_24, 0, 0, 0);
     }
 
-    @Click(R.id.btn_register)
+    @Click(R.id.btn_register_register)
     public void buttonRegisterAction() {
         if (isNull()) {
             Toasty.info(getApplicationContext(), ConstString.NULL_INPUT_REGISTER, Toast.LENGTH_SHORT, true).show();
@@ -62,7 +58,7 @@ public class Register extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Toasty.info(getApplicationContext(), response.body(), Toast.LENGTH_SHORT, true).show();
-                    Intent intent = new Intent(Register.this, LogInActivity_.class);
+                    Intent intent = new Intent(RegisterActivity.this, LogInActivity_.class);
                     startActivity(intent);
                 } else {
                     Toasty.info(getApplicationContext(), ConstString.FAILURE_STATUS, Toast.LENGTH_SHORT, true).show();

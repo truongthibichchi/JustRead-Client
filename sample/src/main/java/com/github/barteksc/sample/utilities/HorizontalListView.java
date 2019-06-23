@@ -1186,7 +1186,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     }
 
     /**
-     * Register a callback to be invoked when the HorizontalListView has been clicked.
+     * RegisterActivity a callback to be invoked when the HorizontalListView has been clicked.
      *
      * @param listener The callback that will be invoked.
      */

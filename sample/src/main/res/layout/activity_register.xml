@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/gradient_background_blue"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -29,7 +29,8 @@
             android:textColorHint="@color/colorSecondary">
 
             <EditText
-                android:id="@+id/input_username"
+                android:id="@+id/et_register_username"
+                android:drawableLeft="@drawable/ic_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_username"
@@ -46,10 +47,11 @@
             android:textColorHint="@color/colorSecondary">
 
             <EditText
-                android:id="@+id/input_password"
+                android:id="@+id/et_register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_password"
+                android:drawableLeft="@drawable/ic_password"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
                 tools:ignore="UnusedAttribute" />
@@ -63,7 +65,8 @@
             android:textColorHint="@color/colorSecondary">
 
             <EditText
-                android:id="@+id/intput_fullname"
+                android:id="@+id/et_register_fullname"
+                android:drawableLeft="@drawable/ic_stars"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_fullname"
@@ -73,12 +76,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_register"
-            android:layout_width="fill_parent"
+            android:id="@+id/btn_register_register"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:backgroundTint="@color/yellow"
+            android:layout_gravity="center"
             android:padding="12dp"
             android:text="@string/register"
             tools:targetApi="lollipop"

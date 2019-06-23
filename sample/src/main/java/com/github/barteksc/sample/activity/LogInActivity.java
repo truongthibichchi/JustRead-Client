@@ -1,8 +1,13 @@
 package com.github.barteksc.sample.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,9 +20,7 @@ import com.github.barteksc.sample.jsonObject.CreateJsonObject;
 import com.github.barteksc.sample.model.BookModel;
 import com.github.barteksc.sample.model.UserModel;
 import com.github.barteksc.sample.utilities.HandleAPIResponse;
-import com.github.barteksc.sample.utilities.PasswordUtility;
 import com.github.barteksc.sample.utilities.ToastyConfigUtility;
-import com.google.gson.JsonObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -26,7 +29,6 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -35,64 +37,90 @@ import retrofit2.Response;
 
 @EActivity(R.layout.activity_log_in)
 public class LogInActivity extends AppCompatActivity {
+    public String username;
+    public String password;
+    public SharedPreferences sharedPreferences;
+    public SharedPreferences.Editor editor;
+    public boolean saveLogin;
 
-    public static UserModel userLogin;
-    public static List<BookModel> books = new ArrayList<>();
-    public static List<BookModel> topBooks = new ArrayList<>();
-    public static List<BookModel> recommendBooks = new ArrayList<>();
-
-    @ViewById(R.id.input_username)
+    @ViewById(R.id.et_login_username)
     EditText et_username;
 
-    @ViewById(R.id.input_password)
+    @ViewById(R.id.et_login_password)
     EditText et_password;
 
-    @ViewById(R.id.tv_register)
+    @ViewById(R.id.cb_login_remember_me)
+    CheckBox cb_save_login;
+
+    @ViewById(R.id.tv_login_register)
     TextView tv_register;
 
-    @ViewById(R.id.btn_login)
+    @ViewById(R.id.btn_login_login)
     AppCompatButton btn_login;
 
     public static APIService apiService;
     public static String usernameLogin;
 
+
     @AfterViews
     public void init( ) {
+
         apiService = ApiUtils.getAPIService();
         ToastyConfigUtility.createInstance();
         et_username.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_account_circle_black_24,0,0,0);
         et_password.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_lock_black_24,0,0,0);
-        getLimitedBooks();
-        getTopBooks();
+
+        sharedPreferences = getSharedPreferences("loginref", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        saveLogin = sharedPreferences.getBoolean("savelogin", true);
+        if(saveLogin==true){
+            et_username.setText(sharedPreferences.getString("username", null));
+            et_password.setText(sharedPreferences.getString("password", null));
+        }
+
     }
 
-    @Click(R.id.btn_login)
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    @Click(R.id.btn_login_login)
     public void buttonLoginAction() {
         if (isNull()) {
             Toasty.info(getApplicationContext(), ConstString.NULL_INPUT_LOGIN, Toast.LENGTH_SHORT, true).show();
         } else {
-//            logInAPIExecute();
-            Intent intent = new Intent(LogInActivity.this, MainActivity_.class);
-            startActivity(intent);
+
+            if(isNetworkAvailable()){
+                username = et_username.getText().toString();
+                password = et_password.getText().toString();
+                logInAPIExecute(username, password);
+            }
+            else{
+                Toasty.info(getApplicationContext(), ConstString.NETWORK_ERROR, Toast.LENGTH_SHORT, true).show();
+            }
         }
     }
 
-    @Click(R.id.tv_register)
+    @Click(R.id.tv_login_register)
     public void tvRegisterAction(){
-        Intent intent = new Intent(LogInActivity.this, Register_.class);
+        Intent intent = new Intent(LogInActivity.this, RegisterActivity_.class);
         startActivity(intent);
         cleanInputText();
     }
 
-    public void logInAPIExecute() {
-        apiService.logIn(CreateJsonObject.usernameAndPassword(et_username.getText().toString(),et_password.getText().toString())).enqueue(new Callback<String>() {
+    public void logInAPIExecute(String username, String password) {
+        apiService.logIn(CreateJsonObject.usernameAndPassword(username,password)).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()){
+                    editor.putBoolean("savelogin", true);
+                    editor.putString("username", username);
+                    editor.putString("password", password);
+                    editor.commit();
                     Toasty.info(getApplicationContext(), ConstString.SUCCESS_LOGIN, Toast.LENGTH_SHORT, true).show();
-                    Intent intent = new Intent(LogInActivity.this, MainActivity_.class);
-                    startActivity(intent);
-                    usernameLogin = et_username.getText().toString();
+                    showMainActivity();
                     cleanInputText();
 
                 }else {
@@ -107,73 +135,12 @@ public class LogInActivity extends AppCompatActivity {
         });
     }
 
-    void getLimitedBooks() {
-        books.clear();
-        apiService.getMenuBook().enqueue(new Callback<List<BookModel>>() {
-            @Override
-            public void onResponse(Call<List<BookModel>> call, Response<List<BookModel>> response) {
-                if (response.body() != null) {
-                    for (int i = 0; i < response.body().size(); i++) {
-                        BookModel book = BookModel.builder()
-                                .bookAuthor(response.body().get(i).getBookAuthor())
-                                .bookCategory(response.body().get(i).getBookCategory())
-                                .bookDescription(response.body().get(i).getBookDescription())
-                                .bookDownload(response.body().get(i).getBookDownload())
-                                .bookFile(response.body().get(i).getBookFile())
-                                .bookId(response.body().get(i).getBookId())
-                                .bookImage(response.body().get(i).getBookImage())
-                                .bookPage(response.body().get(i).getBookPage())
-                                .bookPublicDate(response.body().get(i).getBookPublicDate())
-                                .bookRatedTime(response.body().get(i).getBookRatedTime())
-                                .bookRating(response.body().get(i).getBookRating())
-                                .bookReadTimes(response.body().get(i).getBookReadTimes())
-                                .bookTitle(response.body().get(i).getBookTitle())
-                                .bookType(response.body().get(i).getBookType()).build();
-                        books.add(i, book);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<BookModel>> call, Throwable t) {
-                HandleAPIResponse.handleFailureResponse(getApplicationContext(), t);
-            }
-        });
+    void showMainActivity(){
+        Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
-    void getTopBooks() {
-        topBooks.clear();
-        apiService.getTopBooks().enqueue(new Callback<List<BookModel>>() {
-            @Override
-            public void onResponse(Call<List<BookModel>> call, Response<List<BookModel>> response) {
-                if (response.body() != null) {
-                    for (int i = 0; i < response.body().size(); i++) {
-                        BookModel book = BookModel.builder()
-                                .bookAuthor(response.body().get(i).getBookAuthor())
-                                .bookCategory(response.body().get(i).getBookCategory())
-                                .bookDescription(response.body().get(i).getBookDescription())
-                                .bookDownload(response.body().get(i).getBookDownload())
-                                .bookFile(response.body().get(i).getBookFile())
-                                .bookId(response.body().get(i).getBookId())
-                                .bookImage(response.body().get(i).getBookImage())
-                                .bookPage(response.body().get(i).getBookPage())
-                                .bookPublicDate(response.body().get(i).getBookPublicDate())
-                                .bookRatedTime(response.body().get(i).getBookRatedTime())
-                                .bookRating(response.body().get(i).getBookRating())
-                                .bookReadTimes(response.body().get(i).getBookReadTimes())
-                                .bookTitle(response.body().get(i).getBookTitle())
-                                .bookType(response.body().get(i).getBookType()).build();
-                        topBooks.add(i, book);
-                    }
-                }
-            }
 
-            @Override
-            public void onFailure(Call<List<BookModel>> call, Throwable t) {
-                HandleAPIResponse.handleFailureResponse(getApplicationContext(), t);
-            }
-        });
-    }
 
 
     boolean isNull() {

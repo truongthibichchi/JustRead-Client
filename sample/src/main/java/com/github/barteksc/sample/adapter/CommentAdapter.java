@@ -1,23 +1,15 @@
 package com.github.barteksc.sample.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.github.barteksc.sample.R;
-import com.github.barteksc.sample.activity.BookDetail_;
-import com.github.barteksc.sample.activity.MainActivity;
-import com.github.barteksc.sample.activity.UserInformation;
-import com.github.barteksc.sample.constant.ApiLink;
-import com.github.barteksc.sample.model.BookModel;
 import com.github.barteksc.sample.model.CommentModel;
 
 import java.util.List;
@@ -56,7 +48,7 @@ public class CommentAdapter extends ArrayAdapter<CommentModel> {
     }
 
     private void setViewHolder(ViewHolder viewHolder, View convertView) {
-        viewHolder.tvusername = convertView.findViewById(R.id.tv_username);
+        viewHolder.tvusername = convertView.findViewById(R.id.tv_comment_item_fullname);
         viewHolder.tvcontent = convertView.findViewById(R.id.tv_content);
     }
 

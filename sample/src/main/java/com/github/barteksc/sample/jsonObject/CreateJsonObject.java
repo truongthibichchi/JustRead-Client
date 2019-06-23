@@ -22,9 +22,9 @@ public class CreateJsonObject {
         return bodyRequest;
     }
 
-    public static JsonObject username() {
+    public static JsonObject username(String username) {
         JsonObject bodyRequest = new JsonObject();
-        bodyRequest.addProperty("username", LogInActivity.usernameLogin);
+        bodyRequest.addProperty("username", username);
         return bodyRequest;
     }
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.github.barteksc.sample">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,14 +14,16 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
-
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-
+        <activity android:name=".activity.UsersActivity_"></activity>
+        <activity android:name=".activity.BookLibraryActivity_" />
+        <activity android:name=".activity.UserShareBookActivity_" />
+        <activity android:name=".activity.UserReadingHistoryActivity_" />
         <activity android:name=".activity.AddNewsActivity_" />
         <activity android:name=".activity.AdminActivity_" />
         <activity
-            android:name=".activity.BookDetail_"
+            android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,34 +32,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.EditUserInformation"
+            android:name=".activity.UserInformationChangePasswordActivity_"
             android:label="User" />
         <activity
-            android:name=".activity.EditUserInformation_"
+            android:name=".activity.UserInformationActivity"
             android:label="User" />
         <activity
-            android:name=".activity.UserInformation"
-            android:label="User" />
-        <activity
-            android:name=".activity.UserInformation_"
-            android:label="User" />
-        <activity
-            android:name=".activity.LogInActivity_"
+            android:name=".activity.BookDetailActivity_"
             android:label="Book detail" />
         <activity
-            android:name=".activity.BookDetail"
+            android:name=".activity.BookDetailActivity"
             android:label="Book detail" />
         <activity
-            android:name=".activity.Register_"
+            android:name=".activity.RegisterActivity_"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.PDFViewActivity_"
             android:label="@string/book_viewer" />
         <activity
-            android:name=".activity.MainActivity_"
-            android:label="@string/home" />
-        <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.LogInActivity_"
             android:label="@string/home" />
     </application>
 

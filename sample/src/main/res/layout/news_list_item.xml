@@ -9,7 +9,7 @@
     android:padding="5dp">
 
     <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/ivBook"
+        android:id="@+id/img_book_item_book_image"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"

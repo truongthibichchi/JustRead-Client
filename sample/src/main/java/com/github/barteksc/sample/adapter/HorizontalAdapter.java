@@ -2,7 +2,6 @@ package com.github.barteksc.sample.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.github.barteksc.sample.R;
-import com.github.barteksc.sample.activity.BookDetail_;
-import com.github.barteksc.sample.activity.MainActivity;
 import com.github.barteksc.sample.model.BookModel;
 
 import java.util.List;

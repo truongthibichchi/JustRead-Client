@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_main_home"
+        android:icon="@drawable/baseline_home_black_24"
+        android:title="Trang chủ"
+        >
+    </item>
+    <item
+        android:id="@+id/menu_main_book_news"
+        android:icon="@drawable/ic_menu_slideshow"
+        android:title="Tra cứu sách"
+        >
+    </item>
+
+    <item
+        android:id="@+id/menu_main_users"
+        android:icon="@drawable/ic_user"
+        android:title="Tra cứu người dùng"
+        >
+    </item>
+
+</menu>

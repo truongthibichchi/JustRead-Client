@@ -31,6 +31,9 @@ public interface APIService {
     @POST(ApiLink.UPDATE_USER_INFO)
     Call<String> updateUserInfo(@Body JsonObject userInfo);
 
+    @POST(ApiLink.CHANGE_PASSWORD)
+    Call<String> changePassword(@Body JsonObject userInfo);
+
     @POST(ApiLink.GET_BOOKS_BY_CATEGORY)
     Call<List<BookModel>> getBooksByCategory(@Body JsonObject categoryObjectJson);
 
