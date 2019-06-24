@@ -236,14 +236,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.drawermenu_user_info) {
             Intent intent = new Intent(MainActivity.this, UserInformationActivity.class);
-            intent.putExtra("username", userLogin.getUsername());
-            intent.putExtra("password", userLogin.getPassword());
-            intent.putExtra("fullname", userLogin.getFullname());
-            intent.putExtra("created_date", userLogin.getCreatedDate());
-            intent.putExtra("address", userLogin.getAddress());
-            intent.putExtra("date_of_birth", userLogin.getDateOfBirth());
-            intent.putExtra("avatar", userLogin.getAvatar());
-            intent.putExtra("is_admin", userLogin.getIsAdmin());
+            intent.putExtra("username", userLogin.getUserUsername());
+            intent.putExtra("password", userLogin.getUserPassword());
+            intent.putExtra("fullname", userLogin.getUserFullname());
+            intent.putExtra("created_date", userLogin.getUserCreatedDate());
+            intent.putExtra("address", userLogin.getUserAddress());
+            intent.putExtra("date_of_birth", userLogin.getUserDateOfBirth());
+            intent.putExtra("avatar", userLogin.getUserAvatar());
+            intent.putExtra("is_admin", userLogin.getUserIsAdmin());
             startActivity(intent);
 
         } else if (id == R.id.drawermenu_reading_history) {
@@ -279,24 +279,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 if (response.body() != null) {
                     userLogin = UserModel.builder()
-                            .avatar(response.body().avatar)
-                            .address(response.body().address)
-                            .dateOfBirth(response.body().dateOfBirth)
-                            .isAdmin(response.body().isAdmin)
-                            .fullname(response.body().fullname)
-                            .username(response.body().username)
-                            .createdDate(response.body().createdDate)
-                            .password(response.body().password)
+                            .userAvatar(response.body().userAvatar)
+                            .userAddress(response.body().userAddress)
+                            .userDateOfBirth(response.body().userDateOfBirth)
+                            .userIsAdmin(response.body().userIsAdmin)
+                            .userFullname(response.body().userFullname)
+                            .userUsername(response.body().userUsername)
+                            .userCreatedDate(response.body().userCreatedDate)
+                            .userPassword(response.body().userPassword)
                             .build();
-                    tvHeaderFullName.setText(userLogin.getFullname());
+                    tvHeaderFullName.setText(userLogin.getUserFullname());
                     Glide.with(getApplicationContext())
-                            .load(Uri.parse(ApiLink.HOST + userLogin.getAvatar()))
+                            .load(Uri.parse(ApiLink.HOST + userLogin.getUserAvatar()))
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
                             .into(imgHeaderAvatar);
 
 
-                    if (userLogin.isAdmin.equalsIgnoreCase("1")) {
+                    if (userLogin.userIsAdmin.equalsIgnoreCase("1")) {
                         itemAdmin.setVisible(true);
                     }
                 } else {

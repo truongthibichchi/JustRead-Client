@@ -53,8 +53,8 @@ public class CommentAdapter extends ArrayAdapter<CommentModel> {
     }
 
     private void setViewHolderItemContent(ViewHolder viewHolder, CommentModel comment) {
-        viewHolder.tvusername.setText(comment.getUsername());
-        viewHolder.tvcontent.setText(comment.getContent());
+        viewHolder.tvusername.setText(comment.getCommentUsername());
+        viewHolder.tvcontent.setText(comment.getCommentContent());
     }
 
 }

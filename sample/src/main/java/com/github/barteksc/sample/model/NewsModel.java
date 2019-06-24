@@ -15,22 +15,22 @@ import lombok.Setter;
 @Setter
 @Builder
 public class NewsModel {
-    @SerializedName("id")
+    @SerializedName("news_id")
     @Expose
-    public String id;
-    @SerializedName("username")
+    public String newsId;
+    @SerializedName("news_username")
     @Expose
-    public String username;
-    @SerializedName("book_id")
+    public String newsUsername;
+    @SerializedName("news_book_id")
     @Expose
-    public String bookId;
-    @SerializedName("content")
+    public String newsBookId;
+    @SerializedName("news_content")
     @Expose
-    public String content;
-    @SerializedName("createdTime")
+    public String newsContent;
+    @SerializedName("news_created_time")
     @Expose
-    public String created_time;
-    @SerializedName("is_deleted")
+    public String newsCreated_time;
+    @SerializedName("news_is_deleted")
     @Expose
-    public String isDeleted;
+    public String newsIsDeleted;
 }

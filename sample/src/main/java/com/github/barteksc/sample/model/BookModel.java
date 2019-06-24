@@ -58,8 +58,8 @@ public final class BookModel {
     @SerializedName("book_type")
     @Expose
     private String bookType;
-    @SerializedName("is_deleted")
+    @SerializedName("book_is_deleted")
     @Expose
-    private String isDeleted;
+    private String bookIsDeleted;
 
 }

@@ -15,19 +15,19 @@ import lombok.Setter;
 @Builder
 @Setter
 public class CommentModel {
-    @SerializedName("id")
+    @SerializedName("comment_id")
     @Expose
-    public String id;
-    @SerializedName("username")
+    public String commentId;
+    @SerializedName("comment_username")
     @Expose
-    public String username;
-    @SerializedName("content")
+    public String commentUsername;
+    @SerializedName("comment_content")
     @Expose
-    public String content;
-    @SerializedName("created_time")
+    public String commentContent;
+    @SerializedName("comment_created_time")
     @Expose
-    public String createdTime;
-    @SerializedName("is_deleted")
+    public String commentCreatedTime;
+    @SerializedName("comment_is_deleted")
     @Expose
-    public String isDeleted;
+    public String commentIsDeleted;
 }

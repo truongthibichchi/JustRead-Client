@@ -15,28 +15,28 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserModel {
-    @SerializedName("username")
+    @SerializedName("user_username")
     @Expose
-    public String username;
-    @SerializedName("password")
+    public String userUsername;
+    @SerializedName("user_password")
     @Expose
-    public String password;
-    @SerializedName("fullname")
+    public String userPassword;
+    @SerializedName("user_fullname")
     @Expose
-    public String fullname;
-    @SerializedName("date_of_birth")
+    public String userFullname;
+    @SerializedName("user_date_of_birth")
     @Expose
-    public String dateOfBirth;
-    @SerializedName("address")
+    public String userDateOfBirth;
+    @SerializedName("user_address")
     @Expose
-    public String address;
-    @SerializedName("avatar")
+    public String userAddress;
+    @SerializedName("user_avatar")
     @Expose
-    public String avatar;
-    @SerializedName("is_admin")
+    public String userAvatar;
+    @SerializedName("user_is_admin")
     @Expose
-    public String isAdmin;
-    @SerializedName("created_date")
+    public String userIsAdmin;
+    @SerializedName("user_created_date")
     @Expose
-    public String createdDate;
+    public String userCreatedDate;
 }
