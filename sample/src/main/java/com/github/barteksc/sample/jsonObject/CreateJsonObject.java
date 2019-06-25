@@ -55,4 +55,11 @@ public class CreateJsonObject {
         bodyRequest.addProperty("rating", ratingFloatToIntPercent(rating));
         return bodyRequest;
     }
+
+    public static JsonObject removeNews(String newsId, String bookId) {
+        JsonObject bodyRequest = new JsonObject();
+        bodyRequest.addProperty("news_id", newsId);
+        bodyRequest.addProperty("book_id", bookId);
+        return bodyRequest;
+    }
 }

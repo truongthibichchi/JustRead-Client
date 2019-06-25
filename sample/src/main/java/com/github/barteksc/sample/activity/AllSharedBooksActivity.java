@@ -1,12 +1,16 @@
 package com.github.barteksc.sample.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -109,8 +113,20 @@ public class AllSharedBooksActivity extends AppCompatActivity {
                                 .bookType(response.body().get(i).getBookType()).build();
                         mSharedBookList.add(i, sharedBookModel);
                     }
-                    mAdapter = new SharedBookAdapter(getApplicationContext(), mSharedBookList);
+                    mAdapter = new SharedBookAdapter(getApplicationContext(), mSharedBookList, username);
                     gvAllSharedBooks.setAdapter(mAdapter);
+//                    gvAllSharedBooks.setOnItemLongClickListener((parent, view, position, id) -> {
+//                        final CharSequence[] items = {"Edit", "Delete"};
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+//                        builder.setItems(items, (dialog, which) -> {
+//                            Toast.makeText(getApplicationContext(), items[which], Toast.LENGTH_SHORT).show();
+//
+//                        });
+//                        AlertDialog alert = builder.create();
+//                        alert.show();
+//
+//                        return true;
+//                    });
                 }
             }
 
@@ -129,12 +145,12 @@ public class AllSharedBooksActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_shared_book_create_new:
                 Intent intent = new Intent(AllSharedBooksActivity.this, AddSharedBookActivity.class);
                 intent.putExtra("username", username);
                 intent.putExtra("fullname", fullname);
-                intent.putExtra("avatar", ApiLink.HOST+avatar);
+                intent.putExtra("avatar", ApiLink.HOST + avatar);
                 intent.putExtra("is_admin", isAdmin);
                 intent.putExtra("action", ConstString.ACTION_ADD);
                 startActivity(intent);

@@ -28,6 +28,9 @@ public interface APIService {
     @POST(ApiLink.REGISTER)
     Call<String> register(@Body JsonObject registerInfo);
 
+    @POST(ApiLink.GET_ALL_USERS)
+    Call<List<UserModel>> getAllUsers();
+
     @POST(ApiLink.GET_USER_INFO)
     Call<UserModel> getUserInfo(@Body JsonObject userInfo);
 
@@ -70,6 +73,9 @@ public interface APIService {
     @POST(ApiLink.GET_NEWS)
     Call<List<SharedBookModel>> getNews();
 
+    @POST(ApiLink.GET_NEWS_BY_USERNAME)
+    Call<List<SharedBookModel>> getNewsByUserName(@Body JsonObject username);
+
     @Multipart
     @POST(ApiLink.ADD_NEWS)
     Call<String> addNews(@Part("username") RequestBody news_username,
@@ -81,6 +87,9 @@ public interface APIService {
                          @Part("book_description") RequestBody book_description,
                          @Part("content") RequestBody news_content,
                          @Part MultipartBody.Part book_image);
+
+    @POST(ApiLink.REMOVE_NEWS)
+    Call<String> removeNews(@Body JsonObject newsObjectJson);
 
     @Multipart
     @POST(ApiLink.UPDATE_NEWS)

@@ -11,6 +11,7 @@ public class ApiLink {
     public final static String REGISTER = "/register";
 
     //user info
+    public final static String GET_ALL_USERS = "/get-all-users";
     public final static String GET_USER_INFO = "/get-user-info";
     public final static String UPDATE_USER_INFO = "/update-user-info";
     public final static String CHANGE_PASSWORD = "/change-password";
@@ -30,6 +31,7 @@ public class ApiLink {
 
     //news
     public final static String GET_NEWS = "/get-news";
+    public final static String GET_NEWS_BY_USERNAME = "/get-news-by-username";
     public final static String ADD_NEWS = "/add-news";
     public final static String UPDATE_NEWS = "/update-news";
     public final static String REMOVE_NEWS = "/remove-news";

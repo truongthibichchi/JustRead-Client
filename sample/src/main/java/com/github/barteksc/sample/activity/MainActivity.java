@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(MainActivity.this, UserReadingHistoryActivity.class);
             startActivity(intent);
         } else if (id == R.id.drawermenu_user_share_book) {
-            Intent intent = new Intent(MainActivity.this, UserShareBookActivity_.class);
+            Intent intent = new Intent(MainActivity.this, UserShareBookActivity.class);
             intent.putExtra("username", userLogin.getUserUsername());
             intent.putExtra("password", userLogin.getUserPassword());
             intent.putExtra("fullname", userLogin.getUserFullname());
@@ -272,7 +272,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(MainActivity.this, BookLibraryActivity_.class);
             startActivity(intent);
         } else if (id == R.id.drawermenu_all_user) {
-            Intent intent = new Intent(MainActivity.this, UsersActivity_.class);
+            Intent intent = new Intent(MainActivity.this, UsersActivity.class);
+            intent.putExtra("username", username);
+            intent.putExtra("fullname", userLogin.getUserFullname());
+            intent.putExtra("avatar", userLogin.getUserAvatar());
+            intent.putExtra("is_admin", userLogin.getUserIsAdmin());
+
             startActivity(intent);
         } else if (id == R.id.drawermenu_admin) {
             Intent intent = new Intent(MainActivity.this, AdminActivity_.class);
@@ -280,6 +285,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.drawermenu_logout) {
             Intent intent = new Intent(MainActivity.this, LogInActivity_.class);
             startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

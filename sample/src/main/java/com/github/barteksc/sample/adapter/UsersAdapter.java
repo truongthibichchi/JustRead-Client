@@ -3,12 +3,10 @@ package com.github.barteksc.sample.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.view.menu.MenuView;
-import android.util.AndroidException;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,20 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.barteksc.sample.R;
-import com.github.barteksc.sample.activity.AddSharedBookActivity;
 import com.github.barteksc.sample.activity.BookDetailActivity;
-import com.github.barteksc.sample.activity.PDFViewActivity_;
-import com.github.barteksc.sample.activity.UserInformationActivity;
-import com.github.barteksc.sample.activity.UserInformationChangePasswordActivity_;
 import com.github.barteksc.sample.api.APIService;
 import com.github.barteksc.sample.api.ApiUtils;
 import com.github.barteksc.sample.constant.ApiLink;
 import com.github.barteksc.sample.constant.ConstString;
 import com.github.barteksc.sample.jsonObject.CreateJsonObject;
 import com.github.barteksc.sample.model.CommentModel;
-import com.github.barteksc.sample.model.ReadModel;
 import com.github.barteksc.sample.model.SharedBookModel;
 import com.github.barteksc.sample.model.UserModel;
 import com.github.barteksc.sample.utilities.HandleAPIResponse;
@@ -42,10 +34,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SharedBookAdapter extends BaseAdapter {
+public class UsersAdapter extends BaseAdapter {
+    private List<UserModel> users;
+    private Context context;
+
     private Context mContext;
-    private List<SharedBookModel> mSharedBookModelList;
-    private SharedBookModel sharedBook;
+    private List<UserModel> mUserModel;
+    private UserModel userModel;
     public APIService apiService = ApiUtils.getAPIService();
     public String userLogin;
 
@@ -62,21 +57,21 @@ public class SharedBookAdapter extends BaseAdapter {
     Button btnComment;
     Button btnSave;
 
-    public SharedBookAdapter(Context mContext, List<SharedBookModel> mSharedBookModelList, String userLogin) {
+    public UsersAdapter(Context mContext, List<UserModel> mUserModel, String userLogin) {
         this.mContext = mContext;
-        this.mSharedBookModelList = mSharedBookModelList;
+        this.mUserModel = mUserModel;
         this.userLogin = userLogin;
     }
 
     @Override
     public int getCount() {
-        return mSharedBookModelList.size();
+        return mUserModel.size();
     }
 
     @Override
     public Object getItem(int position) {
 
-        return mSharedBookModelList.get(position);
+        return mUserModel.get(position);
     }
 
     @Override
@@ -87,46 +82,19 @@ public class SharedBookAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View recycled, ViewGroup parent) {
         View itemView;
-        sharedBook = mSharedBookModelList.get(position);
+        userModel = mUserModel.get(position);
         if (recycled == null) {
-            itemView = View.inflate(mContext, R.layout.item_shared_book, null);
+            itemView = View.inflate(mContext, R.layout.item_user, null);
         } else {
             itemView = recycled;
         }
-        tvUserFullname = itemView.findViewById(R.id.tv_item_shared_book_fullname);
-        tvNewsContent = itemView.findViewById(R.id.tv_item_shared_book_content);
-        imgAvatar = itemView.findViewById(R.id.img_item_shared_book_avatar);
-        imgBookImage = itemView.findViewById(R.id.img_item_shared_book_book_image);
-        tvBookTitle = itemView.findViewById(R.id.tv_item_shared_book_title);
-        tvBookRating = itemView.findViewById(R.id.tv_item_shared_book_rating);
-        tvBookComment = itemView.findViewById(R.id.tv_item_shared_book_comment);
-        llItem = itemView.findViewById(R.id.ll_item_shared_book);
-        btnRating = itemView.findViewById(R.id.btn_item_shared_book_rating);
-        btnComment = itemView.findViewById(R.id.btn_item_shared_book_comment);
-        btnSave = itemView.findViewById(R.id.btn_item_shared_book_save);
-        imgDelete = itemView.findViewById(R.id.img_item_shared_book_delete);
+        tvUserFullname = itemView.findViewById(R.id.tv_item_user_fullname);
+        imgAvatar = itemView.findViewById(R.id.img_item_user_avatar);
 
-        if(userLogin.equals(mSharedBookModelList.get(position).getNewsUsername())){
-            imgDelete.setVisibility(View.VISIBLE);
-        }
-
-        tvBookTitle.setText(mSharedBookModelList.get(position).getBookTitle());
-        tvNewsContent.setText(mSharedBookModelList.get(position).getNewsContent());
-        tvBookRating.setText(mSharedBookModelList.get(position).getBookRating() + "%");
-        tvUserFullname.setText(mSharedBookModelList.get(position).getNewsUserFullname());
+        tvUserFullname.setText(mUserModel.get(position).getUserFullname());
         Glide.with(mContext)
-                .load(Uri.parse(ApiLink.HOST + mSharedBookModelList.get(position).getBookImage()))
-                .into(imgBookImage);
-
-        Glide.with(mContext)
-                .load(Uri.parse(ApiLink.HOST + mSharedBookModelList.get(position).getNewsUserAvatar()))
+                .load(Uri.parse(ApiLink.HOST + mUserModel.get(position).getUserAvatar()))
                 .into(imgAvatar);
-
-//        getUserInfoByUsername(sharedBook.getNewsUsername());
-        getCommentByBookId(sharedBook.getBookId());
-        setEventHandler(sharedBook);
-        itemView.setTag(mSharedBookModelList.get(position).getBookId());
-
 
         return itemView;
     }
@@ -228,37 +196,4 @@ public class SharedBookAdapter extends BaseAdapter {
         });
 
     }
-
-//    private void getUserInfoByUsername(String username) {
-//
-//        apiService.getUserInfo(CreateJsonObject.username(username)).enqueue(new Callback<UserModel>() {
-//            @Override
-//            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-//                if (response.body() != null) {
-//                    UserModel user = UserModel.builder()
-//                            .userAvatar(response.body().userAvatar)
-//                            .userAddress(response.body().userAddress)
-//                            .userDateOfBirth(response.body().userDateOfBirth)
-//                            .userIsAdmin(response.body().userIsAdmin)
-//                            .userFullname(response.body().userFullname)
-//                            .userUsername(response.body().userUsername)
-//                            .userCreatedDate(response.body().userCreatedDate)
-//                            .userPassword(response.body().userPassword)
-//                            .build();
-//                    tvUserFullname.setText(user.getUserFullname());
-//                    Glide.with(mContext)
-//                            .load(Uri.parse(ApiLink.HOST + user.getUserAvatar()))
-//                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                            .skipMemoryCache(true)
-//                            .into(imgAvatar);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<UserModel> call, Throwable t) {
-//                HandleAPIResponse.handleFailureResponse(mContext, t);
-//            }
-//        });
-//    }
-
 }

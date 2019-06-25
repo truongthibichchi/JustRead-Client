@@ -23,9 +23,9 @@
         tools:targetApi="n">
         <activity android:name=".activity.AddSharedBookActivity"></activity>
         <activity android:name=".activity.AllSharedBooksActivity" />
-        <activity android:name=".activity.UsersActivity_" />
+        <activity android:name=".activity.UsersActivity" />
         <activity android:name=".activity.BookLibraryActivity_" />
-        <activity android:name=".activity.UserShareBookActivity_" />
+        <activity android:name=".activity.UserShareBookActivity" />
         <activity android:name=".activity.UserReadingHistoryActivity" />
         <activity android:name=".activity.AddNewsActivity_" />
         <activity android:name=".activity.AdminActivity_" />
