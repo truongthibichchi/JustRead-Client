@@ -89,34 +89,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String username;
     private String password;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = (item -> {
-        switch (item.getItemId()) {
-            case R.id.menu_main_home:
-                return true;
-            case R.id.menu_main_book_news:
-                return true;
-            case R.id.menu_main_users:
-                return true;
-        }
-        return false;
-    });
+//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+//            = (item -> {
+//        switch (item.getItemId()) {
+//            case R.id.menu_main_home:
+//                return true;
+//            case R.id.menu_main_book_news:
+//                return true;
+//            case R.id.menu_main_users:
+//                return true;
+//        }
+//        return false;
+//    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         findViewsByIds();
         apiService = ApiUtils.getAPIService();
         ToastyConfigUtility.createInstance();
 
         setSupportActionBar(toolbar);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
+        fab.setOnClickListener(view->{
+
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
         });
 
         toggle = new ActionBarDrawerToggle(
@@ -142,9 +146,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         navigationView.setNavigationItemSelectedListener(this);
-        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-    }
+//        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+    }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -157,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Hello, "+username, Toast.LENGTH_SHORT).show();
                     getNewestBooks();
                     getTopBooks();
                     getRecommendBooks();
@@ -183,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab = findViewById(R.id.fab);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-        navView = findViewById(R.id.nav_bottom_view);
+//        navView = findViewById(R.id.nav_bottom_view);
 
         horizontalListView1 = findViewById(R.id.hlv_main_all_books);
         horizontalListView2 = findViewById(R.id.hlv_main_top_books);
@@ -209,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.bottom_nav_menu, menu);
         return true;
     }
 
@@ -221,8 +224,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.menu_main_all_shared_book) {
+            Intent intent = new Intent(MainActivity.this, AllSharedBooksActivity.class);
+            intent.putExtra("username", userLogin.getUserUsername());
+            intent.putExtra("fullname", userLogin.getUserFullname());
+            intent.putExtra("avatar", userLogin.getUserAvatar());
+            intent.putExtra("is_admin", userLogin.getUserIsAdmin());
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -247,10 +255,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
 
         } else if (id == R.id.drawermenu_reading_history) {
-            Intent intent = new Intent(MainActivity.this, UserReadingHistoryActivity_.class);
+            Intent intent = new Intent(MainActivity.this, UserReadingHistoryActivity.class);
             startActivity(intent);
         } else if (id == R.id.drawermenu_user_share_book) {
             Intent intent = new Intent(MainActivity.this, UserShareBookActivity_.class);
+            intent.putExtra("username", userLogin.getUserUsername());
+            intent.putExtra("password", userLogin.getUserPassword());
+            intent.putExtra("fullname", userLogin.getUserFullname());
+            intent.putExtra("created_date", userLogin.getUserCreatedDate());
+            intent.putExtra("address", userLogin.getUserAddress());
+            intent.putExtra("date_of_birth", userLogin.getUserDateOfBirth());
+            intent.putExtra("avatar", userLogin.getUserAvatar());
+            intent.putExtra("is_admin", userLogin.getUserIsAdmin());
             startActivity(intent);
         } else if (id == R.id.drawermenu_book_library) {
             Intent intent = new Intent(MainActivity.this, BookLibraryActivity_.class);
@@ -299,7 +315,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (userLogin.userIsAdmin.equalsIgnoreCase("1")) {
                         itemAdmin.setVisible(true);
                     }
-                } else {
+                }
+                else {
                     Toasty.info(getApplicationContext(), response.message(), Toast.LENGTH_SHORT, true).show();
                 }
             }
@@ -331,8 +348,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 .bookPublicDate(response.body().get(i).getBookPublicDate())
                                 .bookRatedTime(response.body().get(i).getBookRatedTime())
                                 .bookRating(response.body().get(i).getBookRating())
-                                .bookReadTimes(response.body().get(i).getBookReadTimes())
+                                .bookReadTime(response.body().get(i).getBookReadTime())
+                                .bookIsDeleted(response.body().get(i).getBookIsDeleted())
                                 .bookTitle(response.body().get(i).getBookTitle())
+                                .bookCreatedTime(response.body().get(i).getBookCreatedTime())
                                 .bookType(response.body().get(i).getBookType()).build();
                         books.add(i, book);
                     }
@@ -369,8 +388,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 .bookPublicDate(response.body().get(i).getBookPublicDate())
                                 .bookRatedTime(response.body().get(i).getBookRatedTime())
                                 .bookRating(response.body().get(i).getBookRating())
-                                .bookReadTimes(response.body().get(i).getBookReadTimes())
+                                .bookReadTime(response.body().get(i).getBookReadTime())
                                 .bookTitle(response.body().get(i).getBookTitle())
+                                .bookIsDeleted(response.body().get(i).getBookIsDeleted())
+                                .bookCreatedTime(response.body().get(i).getBookCreatedTime())
                                 .bookType(response.body().get(i).getBookType()).build();
                         topBooks.add(i, book);
                     }
@@ -407,8 +428,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 .bookPublicDate(response.body().get(i).getBookPublicDate())
                                 .bookRatedTime(response.body().get(i).getBookRatedTime())
                                 .bookRating(response.body().get(i).getBookRating())
-                                .bookReadTimes(response.body().get(i).getBookReadTimes())
+                                .bookReadTime(response.body().get(i).getBookReadTime())
                                 .bookTitle(response.body().get(i).getBookTitle())
+                                .bookIsDeleted(response.body().get(i).getBookIsDeleted())
+                                .bookCreatedTime(response.body().get(i).getBookCreatedTime())
                                 .bookType(response.body().get(i).getBookType()).build();
                         recommendBooks.add(i, book);
                     }
@@ -427,7 +450,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     void horizontalOnItemClick(AdapterView<?> parentAdapter, int position) {
         book = (BookModel) parentAdapter.getItemAtPosition(position);
-        Intent intent = new Intent(MainActivity.this, BookDetailActivity_.class);
+        Intent intent = new Intent(MainActivity.this, BookDetailActivity.class);
+        intent.putExtra("book_id", book.getBookId());
+        intent.putExtra("book_author", book.getBookAuthor());
+        intent.putExtra("book_category", book.getBookCategory());
+        intent.putExtra("book_description", book.getBookDescription());
+        intent.putExtra("book_download", book.getBookDownload());
+        intent.putExtra("book_file", book.getBookFile());
+        intent.putExtra("book_image", book.getBookImage());
+        intent.putExtra("book_page", book.getBookPage());
+        intent.putExtra("book_public_date", book.getBookPublicDate());
+        intent.putExtra("book_rated_time", book.getBookRatedTime());
+        intent.putExtra("book_read_time", book.getBookReadTime());
+        intent.putExtra("book_rating", book.getBookRating());
+        intent.putExtra("book_title", book.getBookTitle());
+        intent.putExtra("book_type", book.getBookType());
+        intent.putExtra("book_is_deleted", book.getBookIsDeleted());
+        intent.putExtra("book_created_time", book.getBookCreatedTime());
         startActivity(intent);
     }
 

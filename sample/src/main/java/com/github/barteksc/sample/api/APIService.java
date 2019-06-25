@@ -4,6 +4,8 @@ import com.github.barteksc.sample.constant.ApiLink;
 import com.github.barteksc.sample.model.BookModel;
 import com.github.barteksc.sample.model.CommentModel;
 import com.github.barteksc.sample.model.NewsModel;
+import com.github.barteksc.sample.model.ReadModel;
+import com.github.barteksc.sample.model.SharedBookModel;
 import com.github.barteksc.sample.model.UserModel;
 import com.google.gson.JsonObject;
 
@@ -45,7 +47,7 @@ public interface APIService {
     Call<List<BookModel>> getBooksByCategory(@Body JsonObject categoryObjectJson);
 
     @POST(ApiLink.GET_READING_HISTORY)
-    Call<List<BookModel>> getReadingHistory(@Body JsonObject username);
+    Call<List<ReadModel>> getReadingHistory(@Body JsonObject username);
 
     @POST(ApiLink.GET_MENU_BOOKS)
     Call<List<BookModel>> getMenuBook();
@@ -59,11 +61,38 @@ public interface APIService {
     @POST(ApiLink.ADD_BOOK_TO_READING_HISTORY)
     Call<String> addReadingHistory(@Body JsonObject username);
 
+    @POST(ApiLink.UPDATE_READ_DONE)
+    Call<String> updateReadDone(@Body JsonObject readObjectJson);
+
+    @POST(ApiLink.DELETE_READ_BOOK)
+    Call<String> deleteReadBook(@Body JsonObject readObjectJson);
+
+    @POST(ApiLink.GET_NEWS)
+    Call<List<SharedBookModel>> getNews();
+
     @Multipart
     @POST(ApiLink.ADD_NEWS)
-    Call<String> addNews(@Url String url,
-                         @Part MultipartBody.Part file,
-                         @Part MultipartBody.Part jsonobject);
+    Call<String> addNews(@Part("username") RequestBody news_username,
+                         @Part("book_type") RequestBody book_type,
+                         @Part("book_title") RequestBody book_title,
+                         @Part("book_author") RequestBody book_author,
+                         @Part("book_public_date") RequestBody book_public_date,
+                         @Part("book_page") RequestBody book_page,
+                         @Part("book_description") RequestBody book_description,
+                         @Part("content") RequestBody news_content,
+                         @Part MultipartBody.Part book_image);
+
+    @Multipart
+    @POST(ApiLink.UPDATE_NEWS)
+    Call<String> updateNews(@Part("username") RequestBody news_username,
+                         @Part("book_type") RequestBody book_type,
+                         @Part("book_title") RequestBody book_title,
+                         @Part("book_author") RequestBody book_author,
+                         @Part("book_public_date") RequestBody book_public_date,
+                         @Part("book_page") RequestBody book_page,
+                         @Part("book_description") RequestBody book_description,
+                         @Part("content") RequestBody news_content,
+                         @Part MultipartBody.Part book_image);
 
     @POST(ApiLink.ADD_COMMENT)
     Call<String> addComment(@Body JsonObject comment);

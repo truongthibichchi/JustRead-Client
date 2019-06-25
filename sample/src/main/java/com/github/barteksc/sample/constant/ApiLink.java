@@ -18,6 +18,8 @@ public class ApiLink {
     //reading history
     public final static String GET_READING_HISTORY = "/get-reading-history";
     public final static String ADD_BOOK_TO_READING_HISTORY = "/add-book-to-reading-history";
+    public final static String UPDATE_READ_DONE = "/update-read-done";
+    public final static String DELETE_READ_BOOK = "/delete-read-book";
 
     //category+books
     public final static String GET_CATEGORY = "/get-category";

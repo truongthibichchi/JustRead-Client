@@ -6,11 +6,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL"
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.MEDIA_CONTENT_CONTROL"
         tools:ignore="ProtectedPermissions" />
-    
 
     <application
         android:allowBackup="true"
@@ -21,10 +21,12 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".activity.UsersActivity_"></activity>
+        <activity android:name=".activity.AddSharedBookActivity"></activity>
+        <activity android:name=".activity.AllSharedBooksActivity" />
+        <activity android:name=".activity.UsersActivity_" />
         <activity android:name=".activity.BookLibraryActivity_" />
         <activity android:name=".activity.UserShareBookActivity_" />
-        <activity android:name=".activity.UserReadingHistoryActivity_" />
+        <activity android:name=".activity.UserReadingHistoryActivity" />
         <activity android:name=".activity.AddNewsActivity_" />
         <activity android:name=".activity.AdminActivity_" />
         <activity
@@ -41,11 +43,8 @@
             android:label="User" />
         <activity
             android:name=".activity.UserInformationActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="User" />
-        <activity
-            android:name=".activity.BookDetailActivity_"
-            android:label="Book detail" />
+            android:label="User"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.BookDetailActivity"
             android:label="Book detail" />

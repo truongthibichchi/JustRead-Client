@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.AddSharedBookActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/img_add_share_book_avatar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:adjustViewBounds="true"
+                android:padding="8dp"
+                tools:targetApi="n" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_add_shared_book_fullname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#0059b3"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+                <EditText
+                    android:id="@+id/et_add_shared_book_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/img_add_shared_book_book_image"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@mipmap/img_choose_image" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/child_radius_background_primary"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/book_title"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColorHint="@color/colorSecondary">
+
+                <EditText
+                    android:id="@+id/et_add_shared_book_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/book_author"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColorHint="@color/colorSecondary">
+
+                <EditText
+                    android:id="@+id/et_add_shared_book_author"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/book_public_date"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColorHint="@color/colorSecondary">
+
+                <EditText
+                    android:id="@+id/et_add_shared_book_public_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/book_pages"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColorHint="@color/colorSecondary">
+
+                <EditText
+                    android:id="@+id/et_add_shared_book_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/book_descriptions"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColorHint="@color/colorSecondary">
+
+                <EditText
+                    android:id="@+id/et_add_shared_book_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                android:hint="Thể loại"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColorHint="@color/colorSecondary">
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/sp_add_shared_book_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/child_radius_background_white"
+                    android:entries="@array/category_array"
+                    android:padding="8dp"
+                    android:spinnerMode="dialog" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="Loại sách"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColorHint="@color/colorSecondary">
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/sp_add_shared_book_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/child_radius_background_white"
+                    android:entries="@array/book_type"
+                    android:padding="8dp"
+                    android:spinnerMode="dialog" />
+
+                <!--<Spinner-->
+                    <!--android:id="@+id/sp_add_shared_book_type"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+
+                <!--</Spinner>-->
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_add_shared_book_file"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="@color/yellow"
+                android:padding="12dp"
+                android:text="@string/choose_file" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_add_shared_book_filename"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_add_shared_book_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="@color/yellow"
+                android:visibility="gone"
+                android:padding="12dp"
+                android:text="Tạo sách" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_add_shared_book_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="@color/yellow"
+                android:visibility="gone"
+                android:padding="12dp"
+                android:text="@string/edit_user_information" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

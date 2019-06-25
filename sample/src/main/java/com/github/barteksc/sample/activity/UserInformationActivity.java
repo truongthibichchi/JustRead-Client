@@ -121,6 +121,8 @@ public class UserInformationActivity extends AppCompatActivity {
                 bmp = (Bitmap) bundle.get("data");
                 Glide.with(getApplicationContext())
                         .load(bmp)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(ivAvatar);
             } else if (requestCode == SELECT_FILE) {
                 selectImageUri = data.getData();
@@ -176,7 +178,7 @@ public class UserInformationActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(ConstString.OOPS);
         builder.setMessage(ConstString.NULL_USER_INFOR);
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         builder.setPositiveButton(ConstString.YES, (dialogInterface, i) -> {
             Intent intent = new Intent(UserInformationActivity.this, UserInformationChangePasswordActivity_.class);
             intent.putExtra("username", username);

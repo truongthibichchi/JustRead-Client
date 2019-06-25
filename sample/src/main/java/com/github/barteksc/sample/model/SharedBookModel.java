@@ -12,21 +12,33 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Builder
 @Setter
-public class ReadModel {
-    @SerializedName("read_book_id")
+@Builder
+public class SharedBookModel {
+    @SerializedName("news_id")
     @Expose
-    public String readBookId;
-    @SerializedName("read_started_time")
+    public String newsId;
+    @SerializedName("news_username")
     @Expose
-    public String readStartedTime;
-    @SerializedName("read_ended_time")
+    public String newsUsername;
+    @SerializedName("news_user_fullname")
     @Expose
-    public String readEndedTime;
-    @SerializedName("read_is_deleted")
+    public String newsUserFullname;
+    @SerializedName("news_user_avatar")
     @Expose
-    public String readIsDeleted;
+    public String newsUserAvatar;
+    @SerializedName("news_book_id")
+    @Expose
+    public String newsBookId;
+    @SerializedName("news_content")
+    @Expose
+    public String newsContent;
+    @SerializedName("news_created_time")
+    @Expose
+    public String newsCreated_time;
+    @SerializedName("news_is_deleted")
+    @Expose
+    public String newsIsDeleted;
     @SerializedName("book_id")
     @Expose
     private String bookId;
@@ -76,4 +88,3 @@ public class ReadModel {
     @Expose
     private String bookCreatedTime;
 }
-

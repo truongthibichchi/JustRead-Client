@@ -46,9 +46,9 @@ public final class BookModel {
     @SerializedName("book_rated_time")
     @Expose
     private String bookRatedTime;
-    @SerializedName("book_read_times")
+    @SerializedName("book_read_time")
     @Expose
-    private String bookReadTimes;
+    private String bookReadTime;
     @SerializedName("book_rating")
     @Expose
     private String bookRating;
@@ -61,5 +61,8 @@ public final class BookModel {
     @SerializedName("book_is_deleted")
     @Expose
     private String bookIsDeleted;
+    @SerializedName("book_created_time")
+    @Expose
+    private String bookCreatedTime;
 
 }

@@ -38,6 +38,7 @@ import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.github.barteksc.sample.R;
+import com.github.barteksc.sample.constant.ApiLink;
 import com.shockwave.pdfium.PdfDocument;
 
 import org.androidannotations.annotations.AfterViews;
@@ -119,6 +120,7 @@ public class PDFViewActivity extends AppCompatActivity implements OnPageChangeLi
     @AfterViews
     void afterViews() {
         pdfView.setBackgroundColor(Color.LTGRAY);
+//        uri = Uri.parse(ApiLink.HOST+"/static/books/book_file.pdf");
         if (uri != null) {
             displayFromUri(uri);
         } else {

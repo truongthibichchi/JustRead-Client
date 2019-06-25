@@ -35,7 +35,7 @@ public class CommentAdapter extends ArrayAdapter<CommentModel> {
         CommentModel comment = comments.get(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.comment_list_item, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_comment, parent, false);
             viewHolder = new ViewHolder();
             this.setViewHolder(viewHolder, convertView);
             convertView.setTag(viewHolder);

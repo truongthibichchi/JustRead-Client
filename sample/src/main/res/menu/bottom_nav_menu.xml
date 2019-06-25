@@ -2,20 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_main_home"
+        android:id="@+id/menu_main_all_shared_book"
         android:icon="@drawable/baseline_home_black_24"
-        android:title="Trang chủ"
+        android:title="Bảng tin chia sẻ sách"
         >
     </item>
     <item
-        android:id="@+id/menu_main_book_news"
+        android:id="@+id/menu_main_all_book"
         android:icon="@drawable/ic_menu_slideshow"
         android:title="Tra cứu sách"
         >
     </item>
 
     <item
-        android:id="@+id/menu_main_users"
+        android:id="@+id/menu_main_all_users"
         android:icon="@drawable/ic_user"
         android:title="Tra cứu người dùng"
         >

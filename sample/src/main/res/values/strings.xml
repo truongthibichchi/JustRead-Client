@@ -12,7 +12,7 @@
     <string name="book_rated_time">So luot danh gia</string>
     <string name="book_download">Số lượt xem</string>
     <string name="book_pages">Số trang</string>
-    <string name="book_descriptions">Tóm tắc</string>
+    <string name="book_descriptions">Tóm tắt</string>
     <string name="edit_user_information">Chỉnh sửa thông tin</string>
     <string name="reading_history">Lịch sử đọc sách</string>
 
@@ -70,4 +70,17 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
 
+    <string-array name="book_type">
+        <item>Ebook</item>
+        <item>Sách giấy</item>
+    </string-array>
+
+    <string-array name="book_category">
+        <item>Văn học</item>
+        <item>Kinh tế</item>
+        <item>Tâm lý - Kỹ năng sống</item>
+        <item>Nuôi dạy con</item>
+        <item>Sách thiếu nhi</item>
+        <item>Tiểu sử - Hồi ký</item>
+    </string-array>
 </resources>

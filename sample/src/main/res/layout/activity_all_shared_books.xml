@@ -8,7 +8,7 @@
     >
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_reading_history"
+        android:id="@+id/toolbar_all_shared_book"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/gradient_background_blue"
@@ -19,16 +19,16 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
         >
-
         <GridView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:stretchMode="columnWidth"
-            android:id="@+id/gv_user_reading_history"
+            android:id="@+id/gv_all_shared_book"
             android:numColumns="1">
+
 
         </GridView>
     </GridLayout>
+
 </LinearLayout>

@@ -42,4 +42,6 @@ public class ConstString {
 
     public static final String PASSWORD_NOT_MATCH = "Mật khẩu mới không khớp! Vui lòng nhập lại";
     public static final String WRONG_PASSWORD = "Sai mật khẩu";
+    public static final String ACTION_ADD = "add";
+    public static final String ACTION_UPDATE = "update";
 }

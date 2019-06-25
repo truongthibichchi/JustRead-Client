@@ -37,7 +37,7 @@ public class BooksAdapter extends ArrayAdapter<BookModel> {
         BookModel book = books.get(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_book_list_column, parent, false);
+//            convertView = LayoutInflater.from(context).inflate(R.layout.item_book_list_column, parent, false);
             viewHolder = new ViewHolder();
             this.setViewHolder(viewHolder, convertView);
             convertView.setTag(viewHolder);
@@ -50,10 +50,10 @@ public class BooksAdapter extends ArrayAdapter<BookModel> {
     }
 
     private void setViewHolder(ViewHolder viewHolder, View convertView) {
-        viewHolder.ivBookImage = convertView.findViewById(R.id.img_book_item_book_image);
-        viewHolder.tvBookAuthor = convertView.findViewById(R.id.tv_book_item_book_author);
-        viewHolder.tvBookCategory = convertView.findViewById(R.id.tv_book_item_book_category);
-        viewHolder.tvBookTitle = convertView.findViewById(R.id.tv_book_item_book_title);
+//        viewHolder.ivBookImage = convertView.findViewById(R.id.img_book_item_book_image);
+//        viewHolder.tvBookAuthor = convertView.findViewById(R.id.tv_book_item_book_author);
+//        viewHolder.tvBookCategory = convertView.findViewById(R.id.tv_book_item_book_category);
+//        viewHolder.tvBookTitle = convertView.findViewById(R.id.tv_book_item_book_title);
     }
 
     private void setViewHolderItemContent(ViewHolder viewHolder, BookModel book) {

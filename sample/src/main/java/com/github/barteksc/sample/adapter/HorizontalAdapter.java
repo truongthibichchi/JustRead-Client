@@ -60,31 +60,31 @@ public class HorizontalAdapter extends ArrayAdapter<BookModel> {
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.book_list_row_item, null, true);
+            convertView = inflater.inflate(R.layout.item_book, null, true);
 
-            holder.tvname = convertView.findViewById(R.id.name);
-            holder.iv = convertView.findViewById(R.id.imgView);
-            holder.tvrating = convertView.findViewById(R.id.rating);
+            holder.tvBookTile = convertView.findViewById(R.id.tv_item_book_book_title);
+            holder.imgBookImage = convertView.findViewById(R.id.img_item_book_book_image);
+            holder.tvBookRating = convertView.findViewById(R.id.tv_item_book_book_rating);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tvname.setText(books.get(position).getBookTitle());
-        holder.tvrating.setText(books.get(position).getBookRating() + "%");
+        holder.tvBookTile.setText(books.get(position).getBookTitle());
+        holder.tvBookRating.setText(books.get(position).getBookRating() + "%");
         if (books.get(position).getBookImage() != null) {
-            Glide.with(context).load(books.get(position).getBookImage()).into(holder.iv);
+            Glide.with(context).load(books.get(position).getBookImage()).into(holder.imgBookImage);
         } else {
-            holder.iv.setImageResource(R.drawable.ic_launcher);
+            holder.imgBookImage.setImageResource(R.drawable.ic_launcher);
         }
 
         return convertView;
     }
 
     private class ViewHolder {
-        TextView tvname, tvrating;
-        ImageView iv;
+        TextView tvBookTile, tvBookRating;
+        ImageView imgBookImage;
     }
 
 }

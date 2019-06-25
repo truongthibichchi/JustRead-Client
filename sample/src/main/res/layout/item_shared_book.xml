@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/ll_item_shared_book"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/img_item_shared_book_avatar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="8dp"
+                android:adjustViewBounds="true"
+                tools:targetApi="n" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_item_shared_book_fullname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:textSize="16sp"
+                    android:textColor="#0059b3"
+                    android:layout_marginRight="10dp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/tv_item_shared_book_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_item_shared_book_book_image"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+
+            />
+        <!--android:scaleType="fitCenter"-->
+        <TextView
+            android:id="@+id/tv_item_shared_book_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#cca300"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star_yellow_24dp"/>
+            <TextView
+                android:id="@+id/tv_item_shared_book_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textColor="#cca300"
+                android:textAlignment="textStart"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tv_item_shared_book_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="80dp"
+                android:padding="8dp"
+                android:textAlignment="center"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_item_shared_book_rating"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:textAllCaps="false"
+                android:background="#ffffff"
+                android:drawableLeft="@drawable/ic_star_border_black_24dp"
+                android:text="Rating" />
+
+            <Button
+                android:id="@+id/btn_item_shared_book_comment"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:textAllCaps="false"
+                android:padding="10dp"
+                android:background="#ffffff"
+                android:drawableLeft="@drawable/ic_chat_bubble_outline_black_24dp"
+                android:text="Bình luận" />
+
+            <Button
+                android:id="@+id/btn_item_shared_book_save"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="12dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAllCaps="false"
+                android:background="#ffffff"
+                android:drawableLeft="@drawable/ic_done_all_black_24dp"
+                android:text="Lưu" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/gradient_background_blue">
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
