@@ -113,7 +113,7 @@ public class AllSharedBooksActivity extends AppCompatActivity {
                                 .bookType(response.body().get(i).getBookType()).build();
                         mSharedBookList.add(i, sharedBookModel);
                     }
-                    mAdapter = new SharedBookAdapter(getApplicationContext(), mSharedBookList, username);
+                    mAdapter = new SharedBookAdapter(getApplicationContext(), mSharedBookList, username, isAdmin);
                     gvAllSharedBooks.setAdapter(mAdapter);
 //                    gvAllSharedBooks.setOnItemLongClickListener((parent, view, position, id) -> {
 //                        final CharSequence[] items = {"Edit", "Delete"};

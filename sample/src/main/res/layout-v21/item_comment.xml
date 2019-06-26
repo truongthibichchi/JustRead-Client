@@ -18,15 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-
-            <android.support.v7.widget.AppCompatImageView
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/img_comment_item_avatar"
+                tools:targetApi="n"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:padding="8dp"
-                android:adjustViewBounds="true"
-                android:src="@mipmap/img_avatar"
-                tools:targetApi="n" />
+                android:layout_gravity="center"
+                android:src="@mipmap/img_avatar" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

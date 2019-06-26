@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.github.barteksc.sample.R;
+import com.github.barteksc.sample.constant.ApiLink;
 import com.github.barteksc.sample.model.BookModel;
 
 import java.util.List;
@@ -73,8 +74,14 @@ public class HorizontalAdapter extends ArrayAdapter<BookModel> {
 
         holder.tvBookTile.setText(books.get(position).getBookTitle());
         holder.tvBookRating.setText(books.get(position).getBookRating() + "%");
+
+        String bookImage = books.get(position).getBookImage();
+        if (bookImage.charAt(0)=='/'){
+            bookImage = ApiLink.HOST+bookImage;
+        }
+
         if (books.get(position).getBookImage() != null) {
-            Glide.with(context).load(books.get(position).getBookImage()).into(holder.imgBookImage);
+            Glide.with(context).load(bookImage).into(holder.imgBookImage);
         } else {
             holder.imgBookImage.setImageResource(R.drawable.ic_launcher);
         }

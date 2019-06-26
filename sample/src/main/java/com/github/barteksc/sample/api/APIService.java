@@ -52,6 +52,9 @@ public interface APIService {
     @POST(ApiLink.GET_READING_HISTORY)
     Call<List<ReadModel>> getReadingHistory(@Body JsonObject username);
 
+    @POST(ApiLink.GET_ALL_BOOKS)
+    Call<List<BookModel>> getAllBooks();
+
     @POST(ApiLink.GET_MENU_BOOKS)
     Call<List<BookModel>> getMenuBook();
     

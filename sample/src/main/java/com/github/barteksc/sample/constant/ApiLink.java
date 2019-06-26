@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public class ApiLink {
-    public final static String HOST = "http://192.168.1.103:4600";
+    public final static String HOST = "http://192.168.43.230:4600";
 
     //login + register
     public final static String LOG_IN = "/login";
@@ -25,6 +25,7 @@ public class ApiLink {
     //category+books
     public final static String GET_CATEGORY = "/get-category";
     public final static String GET_BOOKS_BY_CATEGORY = "/get-books-by-category";
+    public final static String GET_ALL_BOOKS = "/get-all-books";
     public final static String GET_MENU_BOOKS = "/get-menu-book";
     public final static String GET_TOP_BOOKS = "/get-top-books";
     public final static String GET_RECOMMEND_BOOKs = "/get-recommend-books";

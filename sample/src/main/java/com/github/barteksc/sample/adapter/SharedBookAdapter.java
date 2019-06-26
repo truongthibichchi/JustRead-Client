@@ -48,6 +48,7 @@ public class SharedBookAdapter extends BaseAdapter {
     private SharedBookModel sharedBook;
     public APIService apiService = ApiUtils.getAPIService();
     public String userLogin;
+    public String isAdmin;
 
     ImageView imgAvatar;
     TextView tvUserFullname;
@@ -62,10 +63,11 @@ public class SharedBookAdapter extends BaseAdapter {
     Button btnComment;
     Button btnSave;
 
-    public SharedBookAdapter(Context mContext, List<SharedBookModel> mSharedBookModelList, String userLogin) {
+    public SharedBookAdapter(Context mContext, List<SharedBookModel> mSharedBookModelList, String userLogin, String isAdmin) {
         this.mContext = mContext;
         this.mSharedBookModelList = mSharedBookModelList;
         this.userLogin = userLogin;
+        this.isAdmin = isAdmin;
     }
 
     @Override
@@ -106,8 +108,11 @@ public class SharedBookAdapter extends BaseAdapter {
         btnSave = itemView.findViewById(R.id.btn_item_shared_book_save);
         imgDelete = itemView.findViewById(R.id.img_item_shared_book_delete);
 
-        if(userLogin.equals(mSharedBookModelList.get(position).getNewsUsername())){
+        if(userLogin.equals(mSharedBookModelList.get(position).getNewsUsername())|| isAdmin.equals("1")){
             imgDelete.setVisibility(View.VISIBLE);
+        }
+        else{
+            imgDelete.setVisibility(View.GONE);
         }
 
         tvBookTitle.setText(mSharedBookModelList.get(position).getBookTitle());
@@ -228,37 +233,5 @@ public class SharedBookAdapter extends BaseAdapter {
         });
 
     }
-
-//    private void getUserInfoByUsername(String username) {
-//
-//        apiService.getUserInfo(CreateJsonObject.username(username)).enqueue(new Callback<UserModel>() {
-//            @Override
-//            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-//                if (response.body() != null) {
-//                    UserModel user = UserModel.builder()
-//                            .userAvatar(response.body().userAvatar)
-//                            .userAddress(response.body().userAddress)
-//                            .userDateOfBirth(response.body().userDateOfBirth)
-//                            .userIsAdmin(response.body().userIsAdmin)
-//                            .userFullname(response.body().userFullname)
-//                            .userUsername(response.body().userUsername)
-//                            .userCreatedDate(response.body().userCreatedDate)
-//                            .userPassword(response.body().userPassword)
-//                            .build();
-//                    tvUserFullname.setText(user.getUserFullname());
-//                    Glide.with(mContext)
-//                            .load(Uri.parse(ApiLink.HOST + user.getUserAvatar()))
-//                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                            .skipMemoryCache(true)
-//                            .into(imgAvatar);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<UserModel> call, Throwable t) {
-//                HandleAPIResponse.handleFailureResponse(mContext, t);
-//            }
-//        });
-//    }
 
 }

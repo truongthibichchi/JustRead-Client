@@ -8,11 +8,18 @@
 
     android:padding="20dp">
 
-    <ImageView
+    <!--<ImageView-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:src="@mipmap/img_avatar"-->
+        <!--android:id="@+id/img_header_avatar"/>-->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_header_avatar"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_gravity="center"
         android:src="@mipmap/img_avatar"
-        android:id="@+id/img_header_avatar"/>
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"

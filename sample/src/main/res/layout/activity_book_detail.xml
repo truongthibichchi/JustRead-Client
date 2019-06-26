@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:numStars="5"
+                android:backgroundTint="@color/yellow"
                 android:stepSize="0.5" />
 
             <LinearLayout

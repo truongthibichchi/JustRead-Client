@@ -21,10 +21,11 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".activity.AddSharedBookActivity"></activity>
+        <activity android:name=".activity.PersonalPageActivity"></activity>
+        <activity android:name=".activity.AddSharedBookActivity" />
         <activity android:name=".activity.AllSharedBooksActivity" />
         <activity android:name=".activity.UsersActivity" />
-        <activity android:name=".activity.BookLibraryActivity_" />
+        <activity android:name=".activity.BookLibraryActivity" />
         <activity android:name=".activity.UserShareBookActivity" />
         <activity android:name=".activity.UserReadingHistoryActivity" />
         <activity android:name=".activity.AddNewsActivity_" />

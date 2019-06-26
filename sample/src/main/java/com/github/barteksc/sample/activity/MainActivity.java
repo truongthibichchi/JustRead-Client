@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             intent.putExtra("is_admin", userLogin.getUserIsAdmin());
             startActivity(intent);
         } else if (id == R.id.drawermenu_book_library) {
-            Intent intent = new Intent(MainActivity.this, BookLibraryActivity_.class);
+            Intent intent = new Intent(MainActivity.this, BookLibraryActivity.class);
             startActivity(intent);
         } else if (id == R.id.drawermenu_all_user) {
             Intent intent = new Intent(MainActivity.this, UsersActivity.class);

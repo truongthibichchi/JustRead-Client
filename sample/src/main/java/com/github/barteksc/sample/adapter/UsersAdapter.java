@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.github.barteksc.sample.R;
 import com.github.barteksc.sample.activity.BookDetailActivity;
+import com.github.barteksc.sample.activity.PersonalPageActivity;
 import com.github.barteksc.sample.api.APIService;
 import com.github.barteksc.sample.api.ApiUtils;
 import com.github.barteksc.sample.constant.ApiLink;
@@ -35,9 +36,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UsersAdapter extends BaseAdapter {
-    private List<UserModel> users;
-    private Context context;
-
     private Context mContext;
     private List<UserModel> mUserModel;
     private UserModel userModel;
@@ -46,16 +44,7 @@ public class UsersAdapter extends BaseAdapter {
 
     ImageView imgAvatar;
     TextView tvUserFullname;
-    TextView tvNewsContent;
-    ImageView imgBookImage;
-    TextView tvBookTitle;
-    TextView tvBookRating;
-    TextView tvBookComment;
     LinearLayout llItem;
-    ImageView imgDelete;
-    Button btnRating;
-    Button btnComment;
-    Button btnSave;
 
     public UsersAdapter(Context mContext, List<UserModel> mUserModel, String userLogin) {
         this.mContext = mContext;
@@ -90,110 +79,25 @@ public class UsersAdapter extends BaseAdapter {
         }
         tvUserFullname = itemView.findViewById(R.id.tv_item_user_fullname);
         imgAvatar = itemView.findViewById(R.id.img_item_user_avatar);
+        llItem = itemView.findViewById(R.id.ll_item_user);
 
         tvUserFullname.setText(mUserModel.get(position).getUserFullname());
         Glide.with(mContext)
                 .load(Uri.parse(ApiLink.HOST + mUserModel.get(position).getUserAvatar()))
                 .into(imgAvatar);
 
+        llItem.setOnClickListener(view ->{
+            Intent intent = new Intent(mContext, PersonalPageActivity.class);
+            intent.putExtra("username",mUserModel.get(position).getUserUsername() );
+            intent.putExtra("avatar", ApiLink.HOST+mUserModel.get(position).getUserAvatar());
+            intent.putExtra("created_date", mUserModel.get(position).getUserCreatedDate());
+            intent.putExtra("fullname", mUserModel.get(position).getUserFullname());
+            intent.putExtra("is_admin", mUserModel.get(position).getUserIsAdmin());
+            mContext.startActivity(intent);
+        });
+
         return itemView;
     }
 
-    private void setEventHandler(SharedBookModel sharedBook) {
-        btnRating.setOnClickListener(View -> {
 
-        });
-
-        imgDelete.setOnClickListener(View ->{
-            apiService.removeNews(CreateJsonObject.removeNews(sharedBook.getNewsId(),
-                    sharedBook.getNewsBookId())).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Toast.makeText(mContext, "Xóa thành công", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    Toast.makeText(mContext, "Không thành công", Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
-
-        imgBookImage.setOnClickListener(View -> {
-            Intent intent = new Intent(mContext, BookDetailActivity.class);
-            intent.putExtra("book_id", sharedBook.getBookId());
-            intent.putExtra("book_author", sharedBook.getBookAuthor());
-            intent.putExtra("book_category", sharedBook.getBookCategory());
-            intent.putExtra("book_description", sharedBook.getBookDescription());
-            intent.putExtra("book_download", sharedBook.getBookDownload());
-            intent.putExtra("book_file", sharedBook.getBookFile());
-            intent.putExtra("book_image", ApiLink.HOST + sharedBook.getBookImage());
-            intent.putExtra("book_page", sharedBook.getBookPage());
-            intent.putExtra("book_public_date", sharedBook.getBookPublicDate());
-            intent.putExtra("book_rated_time", sharedBook.getBookRatedTime());
-            intent.putExtra("book_read_time", sharedBook.getBookReadTime());
-            intent.putExtra("book_rating", sharedBook.getBookRating());
-            intent.putExtra("book_title", sharedBook.getBookTitle());
-            intent.putExtra("book_type", sharedBook.getBookType());
-            intent.putExtra("book_is_deleted", sharedBook.getBookIsDeleted());
-            intent.putExtra("book_created_time", sharedBook.getBookCreatedTime());
-            mContext.startActivity(intent);
-        });
-        btnComment.setOnClickListener(View -> {
-            Intent intent = new Intent(mContext, BookDetailActivity.class);
-            intent.putExtra("book_id", sharedBook.getBookId());
-            intent.putExtra("book_author", sharedBook.getBookAuthor());
-            intent.putExtra("book_category", sharedBook.getBookCategory());
-            intent.putExtra("book_description", sharedBook.getBookDescription());
-            intent.putExtra("book_download", sharedBook.getBookDownload());
-            intent.putExtra("book_file", sharedBook.getBookFile());
-            intent.putExtra("book_image", ApiLink.HOST + sharedBook.getBookImage());
-            intent.putExtra("book_page", sharedBook.getBookPage());
-            intent.putExtra("book_public_date", sharedBook.getBookPublicDate());
-            intent.putExtra("book_rated_time", sharedBook.getBookRatedTime());
-            intent.putExtra("book_read_time", sharedBook.getBookReadTime());
-            intent.putExtra("book_rating", sharedBook.getBookRating());
-            intent.putExtra("book_title", sharedBook.getBookTitle());
-            intent.putExtra("book_type", sharedBook.getBookType());
-            intent.putExtra("book_is_deleted", sharedBook.getBookIsDeleted());
-            intent.putExtra("book_created_time", sharedBook.getBookCreatedTime());
-            mContext.startActivity(intent);
-        });
-
-        btnSave.setOnClickListener(View -> {
-            apiService.addReadingHistory(CreateJsonObject.readingHistory(sharedBook.getBookId(),
-                    sharedBook.getNewsUsername())).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Toast.makeText(mContext, "Lưu thành công", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    Toast.makeText(mContext, "Không thành công", Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
-
-    }
-
-    private void getCommentByBookId(String bookId) {
-        apiService.getComment(CreateJsonObject.bookId(bookId)).enqueue(new Callback<List<CommentModel>>() {
-            @Override
-            public void onResponse(Call<List<CommentModel>> call, Response<List<CommentModel>> response) {
-                if (response.isSuccessful()) {
-                    int commentNumber = response.body().size();
-                    tvBookComment.setText(commentNumber + " bình luận");
-                } else {
-                    Toasty.error(mContext, ConstString.FAILURE_STATUS, Toast.LENGTH_SHORT, true).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<CommentModel>> call, Throwable t) {
-                HandleAPIResponse.handleFailureResponse(mContext, t);
-            }
-        });
-
-    }
 }

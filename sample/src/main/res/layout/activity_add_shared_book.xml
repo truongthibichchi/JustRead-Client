@@ -156,11 +156,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:visibility="gone"
                 android:hint="Thể loại"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:textColorHint="@color/colorSecondary">
+                android:textColorHint="@color/colorSecondary"
+                android:visibility="gone">
+
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/sp_add_shared_book_category"
                     android:layout_width="match_parent"
@@ -174,37 +175,23 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/sp_add_shared_book_type"
                 android:layout_width="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:hint="Loại sách"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:textColorHint="@color/colorSecondary">
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/sp_add_shared_book_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@drawable/child_radius_background_white"
-                    android:entries="@array/book_type"
-                    android:padding="8dp"
-                    android:spinnerMode="dialog" />
+                android:background="@color/compatibility_pressed_color"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:entries="@array/book_type"
+                android:spinnerMode="dialog" />
 
-                <!--<Spinner-->
-                    <!--android:id="@+id/sp_add_shared_book_type"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content">-->
-
-                <!--</Spinner>-->
-            </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_add_shared_book_file"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -212,12 +199,13 @@
                 android:layout_marginBottom="24dp"
                 android:backgroundTint="@color/yellow"
                 android:padding="12dp"
-                android:text="@string/choose_file" />
+                android:text="@string/choose_file"
+                android:visibility="gone" />
 
             <TextView
+                android:id="@+id/tv_add_shared_book_filename"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_add_shared_book_filename"/>
+                android:layout_height="wrap_content" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_add_shared_book_add"
@@ -227,9 +215,9 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
                 android:backgroundTint="@color/yellow"
-                android:visibility="gone"
                 android:padding="12dp"
-                android:text="Tạo sách" />
+                android:text="Tạo sách"
+                android:visibility="gone" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_add_shared_book_edit"
@@ -239,9 +227,9 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
                 android:backgroundTint="@color/yellow"
-                android:visibility="gone"
                 android:padding="12dp"
-                android:text="@string/edit_user_information" />
+                android:text="@string/edit_user_information"
+                android:visibility="gone" />
 
         </LinearLayout>
     </LinearLayout>
