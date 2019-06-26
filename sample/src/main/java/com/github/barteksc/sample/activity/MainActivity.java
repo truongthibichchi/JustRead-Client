@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public HorizontalAdapter horizontalAdapter1, horizontalAdapter2, horizontalAdapter3;
     public UserModel userLogin;
     public APIService apiService;
+    public SharedPreferences.Editor editor;
 
     private Toolbar toolbar;
     private FloatingActionButton fab;
@@ -232,6 +233,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             intent.putExtra("is_admin", userLogin.getUserIsAdmin());
             startActivity(intent);
         }
+        else if(id == R.id.menu_main_all_book){
+            Intent intent = new Intent(MainActivity.this, BookLibraryActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.menu_main_all_users){
+            Intent intent = new Intent(MainActivity.this, UsersActivity.class);
+            intent.putExtra("username", username);
+            intent.putExtra("fullname", userLogin.getUserFullname());
+            intent.putExtra("avatar", userLogin.getUserAvatar());
+            intent.putExtra("is_admin", userLogin.getUserIsAdmin());
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -283,6 +296,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(MainActivity.this, AdminActivity_.class);
             startActivity(intent);
         } else if (id == R.id.drawermenu_logout) {
+            editor = sharedPreferences.edit();
+            editor.putString("username", "");
+            editor.putString("password", "");
+            editor.commit();
             Intent intent = new Intent(MainActivity.this, LogInActivity_.class);
             startActivity(intent);
             finish();

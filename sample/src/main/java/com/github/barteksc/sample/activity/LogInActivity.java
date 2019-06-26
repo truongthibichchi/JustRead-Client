@@ -122,6 +122,7 @@ public class LogInActivity extends AppCompatActivity {
                     Toasty.info(getApplicationContext(), ConstString.SUCCESS_LOGIN, Toast.LENGTH_SHORT, true).show();
                     showMainActivity();
                     cleanInputText();
+                    finish();
 
                 }else {
                     Toasty.info(getApplicationContext(), ConstString.FAILURE_LOGIN, Toast.LENGTH_SHORT, true).show();
