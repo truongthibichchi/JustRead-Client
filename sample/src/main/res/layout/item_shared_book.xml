@@ -126,7 +126,7 @@
                 android:textAllCaps="false"
                 android:background="#ffffff"
                 android:drawableLeft="@drawable/ic_star_border_black_24dp"
-                android:text="Rating" />
+                android:text="@string/book_rating" />
 
             <Button
                 android:id="@+id/btn_item_shared_book_comment"
@@ -137,7 +137,7 @@
                 android:padding="10dp"
                 android:background="#ffffff"
                 android:drawableLeft="@drawable/ic_chat_bubble_outline_black_24dp"
-                android:text="Bình luận" />
+                android:text="@string/comment" />
 
             <Button
                 android:id="@+id/btn_item_shared_book_save"
@@ -149,7 +149,7 @@
                 android:textAllCaps="false"
                 android:background="#ffffff"
                 android:drawableLeft="@drawable/ic_done_all_black_24dp"
-                android:text="Lưu" />
+                android:text="@string/bookmark" />
 
         </LinearLayout>
         <LinearLayout

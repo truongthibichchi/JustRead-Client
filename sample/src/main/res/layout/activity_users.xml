@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/et_users_search"
                 android:layout_marginEnd="60dp"
-                android:hint="Nhập từ khóa"
+                android:hint="@string/input_key"
                 android:layout_alignParentLeft="true"/>
 
             <ImageView

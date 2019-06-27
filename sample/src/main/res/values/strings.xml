@@ -15,7 +15,6 @@
     <string name="book_descriptions">Tóm tắt</string>
     <string name="edit_user_information">Chỉnh sửa thông tin</string>
     <string name="reading_history">Lịch sử đọc sách</string>
-
     <string name="search">Tìm kiếm</string>
     <string name="login">Đăng nhập</string>
     <string name="register">Đăng kí tài khoản</string>
@@ -24,34 +23,17 @@
     <string name="book_viewer">Đọc sách</string>
     <string name="home">Trang chủ</string>
     <string name="search_content_example">Tiêu đề, tác giả,...</string>
-
     <string name="bookDetail">Chi tiết sách</string>
-
     <string name="hint_username">Tên đăng nhập hoặc email</string>
     <string name="hint_password">Mật khẩu</string>
     <string name="hint_fullname">Họ và tên</string>
     <string name="hint_birthday">Ngày sinh</string>
     <string name="hint_address">Địa chỉ</string>
     <string name="avatar">Ảnh đại diện</string>
-
-    <string-array name="category_array">
-        <item></item>
-        <item>Văn học</item>
-        <item>Kinh tế</item>
-        <item>Tâm lý - Kỹ năng sống</item>
-        <item>Nuôi dạy con</item>
-        <item>Sách thiếu nhi</item>
-        <item>Tiểu sử - Hồi ký</item>
-    </string-array>
-
-    <string-array name="rating_array">
-        <item></item>
-        <item>Trên 1 sao</item>
-        <item>Trên 2 sao</item>
-        <item>Trên 3 sao</item>
-        <item>Trên 4 sao</item>
-    </string-array>
-
+    <string name="present_password">Mật khẩu hiện tại</string>
+    <string name="new_password">Mật khẩu mới</string>
+    <string name="re_new_password">Nhập lại mật khẩu mới</string>
+    <string name="edit_password">Thay đổi mật khẩu</string>
     <string name="waiting">Tạo dữ liệu...</string>
     <string name="report_title">Thống kê</string>
     <string name="add_comment">Thêm bình luận</string>
@@ -71,14 +53,31 @@
     <string name="title_home">Trang chủ</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Thông báo</string>
-
+    <string name="date">05/04/2019</string>
     <string name="menu_home">Trang chủ</string>
     <string name="menu_gallery">Bộ sưu tập</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tools">Công cụ</string>
     <string name="menu_share">Chia sẻ</string>
     <string name="menu_send">Gửi</string>
-
+    <string name="category">Thể loại</string>
+    <string name="add_book">Tạo sách</string>
+    <string name="title">Tiêu đề</string>
+    <string name="category_title">Tên thể loại</string>
+    <string name="author_name">Tên tác giả</string>
+    <string name="remember_me">Ghi nhớ tài khoản</string>
+    <string name="date_in">Ngày tham gia</string>
+    <string name="save_changes">Lưu thay đổi</string>
+    <string name="input_key">Nhập từ khóa</string>
+    <string name="all_book">Tất cả sách</string>
+    <string name="book_most_like">Sách được yêu thích nhất</string>
+    <string name="you_like">Có thể bạn thích</string>
+    <string name="comment">Bình luận</string>
+    <string name="bookmark">Đánh dấu</string>
+    <string name="start_date">Thời gian bắt đầu</string>
+    <string name="end_date">Thời gian kết thúc</string>
+    <string name="done">Đọc xong</string>
+    <string name="delete_book">Xóa sách</string>
     <string-array name="book_type">
         <item>Sách điện tử</item>
         <item>Sách giấy</item>
@@ -91,5 +90,21 @@
         <item>Nuôi dạy con</item>
         <item>Sách thiếu nhi</item>
         <item>Tiểu sử - Hồi ký</item>
+    </string-array>
+    <string-array name="category_array">
+        <item></item>
+        <item>Văn học</item>
+        <item>Kinh tế</item>
+        <item>Tâm lý - Kỹ năng sống</item>
+        <item>Nuôi dạy con</item>
+        <item>Sách thiếu nhi</item>
+        <item>Tiểu sử - Hồi ký</item>
+    </string-array>
+
+    <string-array name="rating_array">
+        <item>Trên 1 sao</item>
+        <item>Trên 2 sao</item>
+        <item>Trên 3 sao</item>
+        <item>Trên 4 sao</item>
     </string-array>
 </resources>

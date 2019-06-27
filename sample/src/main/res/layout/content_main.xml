@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Tat ca sach"
+                android:text="@string/all_book"
                 android:textColor="@color/colorSecondary" />
 
 
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="sach duoc yeu thich nhat"
+                android:text="@string/book_most_like"
                 android:textColor="@color/colorSecondary" />
 
             <com.github.barteksc.sample.utilities.HorizontalListView
@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Co the ban se thich"
+                android:text="@string/you_like"
                 android:textColor="@color/colorSecondary"
                 />
 
