@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_item_user_read"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginTop="10dp"
     android:layout_marginRight="10dp"
     android:orientation="horizontal"
-    android:id="@+id/ll_item_user_read"
     android:weightSum="6">
 
     <android.support.v7.widget.CardView
@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="Thời gian bắt đầu"
+                    android:text="@string/start_date"
                     android:textAlignment="center"
                     android:textColor="@color/colorSecondary"
                     android:textSize="16sp"
@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="Thời gian kết thúc"
+                    android:text="@string/end_date"
                     android:textAlignment="textStart"
                     android:textColor="@color/colorSecondary"
                     android:textSize="16sp"
@@ -109,10 +109,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:padding="10dp"
                     android:background="#39ac73"
                     android:drawableLeft="@drawable/ic_check_circle_white_24dp"
-                    android:text="Doc xong"
+                    android:padding="10dp"
+                    android:text="@string/done"
                     android:textColor="#ffffff" />
 
                 <Button
@@ -123,7 +123,7 @@
                     android:background="#ffa64d"
                     android:drawableLeft="@drawable/ic_delete_forever_white_24dp"
                     android:padding="10dp"
-                    android:text="Xóa Sách"
+                    android:text="@string/delete_book"
                     android:textColor="#ffffff" />
 
 

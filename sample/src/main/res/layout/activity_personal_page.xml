@@ -58,7 +58,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:text="05/04/2019"
+                    android:text="@string/date"
                     android:textAlignment="textStart"
                     android:textColor="#cca300"
                     android:textSize="16sp"
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:text="Ho va ten"
+                    android:text="@string/hint_fullname"
                     android:textAlignment="textStart"
                     android:textColor="@color/colorSecondary"
                     android:textSize="16sp"
@@ -88,17 +88,18 @@
                     android:layout_weight="1"
                     android:enabled="true"
                     android:padding="10dp"
-                    android:text="hoten"
+                    android:text="@string/hint_fullname"
                     android:textColor="#cca300"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:orientation="vertical"
-            android:background="@drawable/gradient_background_blue"></LinearLayout>
+            android:background="@drawable/gradient_background_blue"
+            android:orientation="vertical" />
     </LinearLayout>
 
 

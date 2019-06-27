@@ -1,21 +1,20 @@
 <resources>
-    <string name="app_name">JustRead</string>
+    <string name="app_name">Đọc thôi</string>
     <string name="pick_file">Chọn file</string>
     <string name="user_information">Thông tin tài khoản</string>
-    <string name="toast_pick_file_error">Unable to pick file. Check status of file manager.</string>
+    <string name="toast_pick_file_error">Không thể mở được sách</string>
     <string name="book_category">Thể loại sách</string>
     <string name="book_author">Tác giả</string>
     <string name="book_title">Tiêu đề</string>
     <string name="book_rating">Đánh giá</string>
     <string name="book_image">Hình ảnh sách</string>
     <string name="book_public_date">Năm xuất bản</string>
-    <string name="book_rated_time">So luot danh gia</string>
+    <string name="book_rated_time">Số lượt đánh giá</string>
     <string name="book_download">Số lượt xem</string>
     <string name="book_pages">Số trang</string>
     <string name="book_descriptions">Tóm tắt</string>
     <string name="edit_user_information">Chỉnh sửa thông tin</string>
     <string name="reading_history">Lịch sử đọc sách</string>
-
     <string name="search">Tìm kiếm</string>
     <string name="login">Đăng nhập</string>
     <string name="register">Đăng kí tài khoản</string>
@@ -24,16 +23,74 @@
     <string name="book_viewer">Đọc sách</string>
     <string name="home">Trang chủ</string>
     <string name="search_content_example">Tiêu đề, tác giả,...</string>
-
     <string name="bookDetail">Chi tiết sách</string>
-
-    <string name="hint_username">Username hoặc email</string>
+    <string name="hint_username">Tên đăng nhập hoặc email</string>
     <string name="hint_password">Mật khẩu</string>
     <string name="hint_fullname">Họ và tên</string>
     <string name="hint_birthday">Ngày sinh</string>
     <string name="hint_address">Địa chỉ</string>
     <string name="avatar">Ảnh đại diện</string>
+    <string name="present_password">Mật khẩu hiện tại</string>
+    <string name="new_password">Mật khẩu mới</string>
+    <string name="re_new_password">Nhập lại mật khẩu mới</string>
+    <string name="edit_password">Thay đổi mật khẩu</string>
+    <string name="waiting">Tạo dữ liệu...</string>
+    <string name="report_title">Thống kê</string>
+    <string name="add_comment">Thêm bình luận</string>
+    <string name="change_type">Thay đổi loại</string>
+    <string name="share_book">Chia sẻ sách/cảm nghĩ</string>
+    <string name="choose_file">Chọn file</string>
+    <string name="open">Mở</string>
+    <string name="close">Đóng</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Cài đặt</string>
+    <string name="title_activity_bottom">BottomActivity</string>
+    <string name="title_home">Trang chủ</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Thông báo</string>
+    <string name="date">05/04/2019</string>
+    <string name="menu_home">Trang chủ</string>
+    <string name="menu_gallery">Bộ sưu tập</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Công cụ</string>
+    <string name="menu_share">Chia sẻ</string>
+    <string name="menu_send">Gửi</string>
+    <string name="category">Thể loại</string>
+    <string name="add_book">Tạo sách</string>
+    <string name="title">Tiêu đề</string>
+    <string name="category_title">Tên thể loại</string>
+    <string name="author_name">Tên tác giả</string>
+    <string name="remember_me">Ghi nhớ tài khoản</string>
+    <string name="date_in">Ngày tham gia</string>
+    <string name="save_changes">Lưu thay đổi</string>
+    <string name="input_key">Nhập từ khóa</string>
+    <string name="all_book">Tất cả sách</string>
+    <string name="book_most_like">Sách được yêu thích nhất</string>
+    <string name="you_like">Có thể bạn thích</string>
+    <string name="comment">Bình luận</string>
+    <string name="bookmark">Đánh dấu</string>
+    <string name="start_date">Thời gian bắt đầu</string>
+    <string name="end_date">Thời gian kết thúc</string>
+    <string name="done">Đọc xong</string>
+    <string name="delete_book">Xóa sách</string>
+    <string-array name="book_type">
+        <item>Sách điện tử</item>
+        <item>Sách giấy</item>
+    </string-array>
 
+    <string-array name="book_category">
+        <item>Văn học</item>
+        <item>Kinh tế</item>
+        <item>Tâm lý - Kỹ năng sống</item>
+        <item>Nuôi dạy con</item>
+        <item>Sách thiếu nhi</item>
+        <item>Tiểu sử - Hồi ký</item>
+    </string-array>
     <string-array name="category_array">
         <item></item>
         <item>Văn học</item>
@@ -45,51 +102,9 @@
     </string-array>
 
     <string-array name="rating_array">
-        <item></item>
         <item>Trên 1 sao</item>
         <item>Trên 2 sao</item>
         <item>Trên 3 sao</item>
         <item>Trên 4 sao</item>
-    </string-array>
-
-    <string name="waiting">Tạo dữ liệu...</string>
-    <string name="report_title">Thống kê</string>
-    <string name="add_comment">Thêm bình luận</string>
-    <string name="change_type">Thay đổi loại</string>
-    <string name="share_book">Chia sẻ sách/cảm nghĩ</string>
-    <string name="choose_file">Chọn file</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
-    <string name="title_activity_navigation_drawer">NavigationDrawer</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_bottom">BottomActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
-
-    <string-array name="book_type">
-        <item>Ebook</item>
-        <item>Sách giấy</item>
-    </string-array>
-
-    <string-array name="book_category">
-        <item>Văn học</item>
-        <item>Kinh tế</item>
-        <item>Tâm lý - Kỹ năng sống</item>
-        <item>Nuôi dạy con</item>
-        <item>Sách thiếu nhi</item>
-        <item>Tiểu sử - Hồi ký</item>
     </string-array>
 </resources>

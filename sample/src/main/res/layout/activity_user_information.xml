@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_password"
-        android:text="Đổi mật khẩu"
+        android:text="@string/edit_password"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <ScrollView
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="username"
+                android:text="@string/app_name"
                 android:textAlignment="center"
                 android:textColor="@color/colorSecondary"
                 android:textSize="32sp"
@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="Ngay tham gia"
+                    android:text="@string/date_in"
                     android:textAlignment="textStart"
                     android:textColor="@color/colorSecondary"
                     android:textSize="16sp"
@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:padding="8dp"
-                    android:text="05/04/2019"
+                    android:text="@string/date"
                     android:textAlignment="textStart"
                     android:textColor="#cca300"
                     android:textSize="16sp"
@@ -85,7 +85,7 @@
                     <TextView
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:text="Ho va ten"
+                        android:text="@string/hint_fullname"
                         android:textAlignment="textStart"
                         android:textColor="@color/colorSecondary"
                         android:textSize="16sp"
@@ -95,7 +95,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:enabled="true"
-                        android:text="hoten"
+                        android:text="@string/app_name"
                         android:textColor="#cca300"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -109,7 +109,7 @@
                     <TextView
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:text="Dia chi"
+                        android:text="@string/hint_address"
                         android:textAlignment="textStart"
                         android:textColor="@color/colorSecondary"
                         android:textSize="16sp"
@@ -134,7 +134,7 @@
                         <TextView
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
-                            android:text="Ngay sinh"
+                            android:text="@string/hint_birthday"
                             android:textColor="@color/colorSecondary"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -160,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="#39ac73"
-                    android:text="Lưu thay đổi"
+                    android:text="@string/save_changes"
                     android:textColor="#ffffff" />
             </LinearLayout>
         </LinearLayout>
