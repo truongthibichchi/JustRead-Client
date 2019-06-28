@@ -162,7 +162,6 @@ public class ReadAdapter extends BaseAdapter {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     if (response.isSuccessful()) {
-                        Toast.makeText(mContext, response.body(), Toast.LENGTH_SHORT).show();
                         btnDelete.setVisibility(android.view.View.GONE);
                         ll_item.setVisibility(android.view.View.GONE);
 
