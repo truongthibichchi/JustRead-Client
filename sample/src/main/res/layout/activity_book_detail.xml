@@ -345,7 +345,7 @@
             <ListView
                 android:id="@+id/lv_book_detail_comment_list"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="700dp"
                 android:padding="8dp"
                 android:scrollbarStyle="insideInset" />
 
@@ -391,7 +391,7 @@
                     android:layout_margin="8dp"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:hint="Nhap binh luan" />
+                    android:hint="@string/input_comment" />
             </android.support.v7.widget.CardView>
 
 

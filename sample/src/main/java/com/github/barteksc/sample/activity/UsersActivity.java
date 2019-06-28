@@ -89,11 +89,12 @@ public class UsersActivity extends AppCompatActivity {
                                 .userDateOfBirth(response.body().get(i).getUserDateOfBirth())
                                 .userAddress(response.body().get(i).getUserAddress())
                                 .userAvatar(response.body().get(i).getUserAvatar())
+                                .userCreatedDate(response.body().get(i).getUserCreatedDate())
                                 .userIsAdmin(response.body().get(i).getUserIsAdmin()).build();
 
                         mUserModel.add(i, userModel);
                     }
-                    mAdapter = new UsersAdapter(getApplicationContext(), mUserModel, username);
+                    mAdapter = new UsersAdapter(getApplicationContext(), mUserModel, username, isAdmin);
                     gvAllUser.setAdapter(mAdapter);
                 }
             }

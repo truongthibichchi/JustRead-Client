@@ -115,6 +115,7 @@ public class SharedBookAdapter extends BaseAdapter {
             imgDelete.setVisibility(View.GONE);
         }
 
+        getCommentByBookId(sharedBook.getBookId());
         tvBookTitle.setText(mSharedBookModelList.get(position).getBookTitle());
         tvNewsContent.setText(mSharedBookModelList.get(position).getNewsContent());
         tvBookRating.setText(mSharedBookModelList.get(position).getBookRating() + "%");
@@ -125,18 +126,20 @@ public class SharedBookAdapter extends BaseAdapter {
 
         Glide.with(mContext)
                 .load(Uri.parse(ApiLink.HOST + mSharedBookModelList.get(position).getNewsUserAvatar()))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(imgAvatar);
 
 //        getUserInfoByUsername(sharedBook.getNewsUsername());
-        getCommentByBookId(sharedBook.getBookId());
-        setEventHandler(sharedBook);
+
+        setEventHandler(sharedBook, itemView);
         itemView.setTag(mSharedBookModelList.get(position).getBookId());
 
 
         return itemView;
     }
 
-    private void setEventHandler(SharedBookModel sharedBook) {
+    private void setEventHandler(SharedBookModel sharedBook, View itemView) {
         btnRating.setOnClickListener(View -> {
 
         });
@@ -147,6 +150,7 @@ public class SharedBookAdapter extends BaseAdapter {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     Toast.makeText(mContext, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                    itemView.setVisibility(android.view.View.GONE);
                 }
 
                 @Override
