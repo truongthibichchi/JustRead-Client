@@ -89,7 +89,8 @@ public interface APIService {
                          @Part("book_page") RequestBody book_page,
                          @Part("book_description") RequestBody book_description,
                          @Part("content") RequestBody news_content,
-                         @Part MultipartBody.Part book_image);
+                         @Part MultipartBody.Part book_image,
+                         @Part MultipartBody.Part book_file);
 
     @POST(ApiLink.REMOVE_NEWS)
     Call<String> removeNews(@Body JsonObject newsObjectJson);

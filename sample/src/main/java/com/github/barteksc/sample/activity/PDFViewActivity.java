@@ -136,8 +136,6 @@ public class PDFViewActivity extends AppCompatActivity implements OnPageChangeLi
         pdfView.setBackgroundColor(Color.LTGRAY);
         if (pdf_file_url != null) {
             new RetrievePDFBytes().execute(pdf_file_url);
-//            TODO
-//            displayFromUri(uri);
         } else {
             displayFromAsset(SAMPLE_FILE);
         }
