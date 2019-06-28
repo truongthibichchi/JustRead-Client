@@ -17,8 +17,6 @@ import com.github.barteksc.sample.api.APIService;
 import com.github.barteksc.sample.api.ApiUtils;
 import com.github.barteksc.sample.constant.ConstString;
 import com.github.barteksc.sample.jsonObject.CreateJsonObject;
-import com.github.barteksc.sample.model.BookModel;
-import com.github.barteksc.sample.model.UserModel;
 import com.github.barteksc.sample.utilities.HandleAPIResponse;
 import com.github.barteksc.sample.utilities.ToastyConfigUtility;
 
@@ -26,9 +24,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -89,7 +84,7 @@ public class LogInActivity extends AppCompatActivity {
     @Click(R.id.btn_login_login)
     public void buttonLoginAction() {
         if (isNull()) {
-            Toasty.info(getApplicationContext(), ConstString.NULL_INPUT_LOGIN, Toast.LENGTH_SHORT, true).show();
+            Toasty.info(getApplicationContext(), ConstString.NULL_INPUT, Toast.LENGTH_SHORT, true).show();
         } else {
 
             if(isNetworkAvailable()){
@@ -140,9 +135,6 @@ public class LogInActivity extends AppCompatActivity {
         Intent intent = new Intent(LogInActivity.this, MainActivity.class);
         startActivity(intent);
     }
-
-
-
 
     boolean isNull() {
         return et_username.getText().length() == 0 || et_password.getText().length() == 0;

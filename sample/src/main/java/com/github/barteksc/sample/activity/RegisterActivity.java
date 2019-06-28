@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Click(R.id.btn_register_register)
     public void buttonRegisterAction() {
         if (isNull()) {
-            Toasty.info(getApplicationContext(), ConstString.NULL_INPUT_REGISTER, Toast.LENGTH_SHORT, true).show();
+            Toasty.info(getApplicationContext(), ConstString.NULL_INPUT, Toast.LENGTH_SHORT, true).show();
         } else {
             registerAPIExecute();
         }
@@ -61,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Intent intent = new Intent(RegisterActivity.this, LogInActivity_.class);
                     startActivity(intent);
                 } else {
-                    Toasty.info(getApplicationContext(), ConstString.FAILURE_STATUS, Toast.LENGTH_SHORT, true).show();
+                    Toasty.error(getApplicationContext(), ConstString.FAILURE_STATUS, Toast.LENGTH_SHORT, true).show();
                 }
             }
 

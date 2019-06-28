@@ -29,15 +29,18 @@
                     android:id="@+id/et_book_library_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="40dp" />
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="40dp"
+                    android:inputType="text"/>
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/img_book_library_search"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/img_search" />
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/img_search"
+                    android:clickable="true"
+                    android:onClick="search"/>
 
             </RelativeLayout>
 
@@ -56,8 +59,7 @@
             android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="6dp">
+            app:cardCornerRadius="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,8 +90,7 @@
             android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="6dp">
+            app:cardCornerRadius="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
