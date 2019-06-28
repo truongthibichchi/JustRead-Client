@@ -92,20 +92,23 @@ public interface APIService {
                          @Part MultipartBody.Part book_image,
                          @Part MultipartBody.Part book_file);
 
-    @POST(ApiLink.REMOVE_NEWS)
-    Call<String> removeNews(@Body JsonObject newsObjectJson);
-
     @Multipart
     @POST(ApiLink.UPDATE_NEWS)
-    Call<String> updateNews(@Part("username") RequestBody news_username,
-                         @Part("book_type") RequestBody book_type,
-                         @Part("book_title") RequestBody book_title,
-                         @Part("book_author") RequestBody book_author,
-                         @Part("book_public_date") RequestBody book_public_date,
-                         @Part("book_page") RequestBody book_page,
-                         @Part("book_description") RequestBody book_description,
-                         @Part("content") RequestBody news_content,
-                         @Part MultipartBody.Part book_image);
+    Call<String> updateNews(@Part("news_id") RequestBody news_id,
+                            @Part("book_id") RequestBody book_id,
+                            @Part("book_category") RequestBody news_category,
+                            @Part("book_type") RequestBody book_type,
+                            @Part("book_title") RequestBody book_title,
+                            @Part("book_author") RequestBody book_author,
+                            @Part("book_public_date") RequestBody book_public_date,
+                            @Part("book_page") RequestBody book_page,
+                            @Part("book_description") RequestBody book_description,
+                            @Part("news_content") RequestBody news_content,
+                            @Part MultipartBody.Part book_image,
+                            @Part MultipartBody.Part book_file);
+
+    @POST(ApiLink.REMOVE_NEWS)
+    Call<String> removeNews(@Body JsonObject newsObjectJson);
 
     @POST(ApiLink.ADD_COMMENT)
     Call<String> addComment(@Body JsonObject comment);

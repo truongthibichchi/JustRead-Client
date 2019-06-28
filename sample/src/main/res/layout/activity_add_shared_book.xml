@@ -203,6 +203,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
+                android:visibility="gone"
                 android:backgroundTint="@color/yellow"
                 android:padding="12dp"
                 android:text="@string/choose_file"

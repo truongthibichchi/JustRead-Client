@@ -147,7 +147,6 @@ public class AddSharedBookActivity extends AppCompatActivity {
             book_title = (String) mBundle.get("book_title");
             book_type = (String) mBundle.get("book_type");
             btnUpdate.setVisibility(View.VISIBLE);
-
             showSharedBookInfo();
         }
 
@@ -210,6 +209,7 @@ public class AddSharedBookActivity extends AppCompatActivity {
                 }
                 else{
                     btnChooseFile.setVisibility(View.GONE);
+                    upload_file = null;
                 }
             }
 
@@ -231,7 +231,9 @@ public class AddSharedBookActivity extends AppCompatActivity {
             addSharedBook();
         });
 
-
+        btnUpdate.setOnClickListener(view->{
+            updateSharedBook();
+        });
 
     }
 
@@ -298,7 +300,7 @@ public class AddSharedBookActivity extends AppCompatActivity {
 
         RequestBody rqDescription =
                 RequestBody.create(
-                        MediaType.parse("multipart/form-data"), etBookPublicDate.getText().toString());
+                        MediaType.parse("multipart/form-data"), etBookDescription.getText().toString());
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ((BitmapDrawable) imgBookImage.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, bos);
@@ -319,6 +321,88 @@ public class AddSharedBookActivity extends AppCompatActivity {
 
         apiService.addNews(
                 rqUsername, rqBookType, rqTitle, rqAuthor, rqPublicDate, rqPage, rqDescription, rqContent, rqImage, rqFile
+        ).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Toasty.info(getApplicationContext(), response.body(), Toast.LENGTH_SHORT, true).show();
+                    finish();
+                } else {
+                    Toasty.info(getApplicationContext(), ConstString.FAILURE_STATUS, Toast.LENGTH_SHORT, true).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                HandleAPIResponse.handleFailureResponse(getApplicationContext(), t);
+            }
+        });
+    }
+
+    private void updateSharedBook() {
+        RequestBody rqNewsId =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), news_id);
+
+        RequestBody rqBookId =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), book_id);
+
+        RequestBody rqBookCategory =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), book_category);
+
+
+        RequestBody rqBookType =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), spBookType.getSelectedItem().toString());
+
+        RequestBody rqTitle =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), etBookTitle.getText().toString());
+
+
+        RequestBody rqAuthor =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), etBookAuthor.getText().toString());
+
+        RequestBody rqPublicDate =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), etBookPublicDate.getText().toString());
+
+        RequestBody rqPage =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), etBookPage.getText().toString());
+
+
+        RequestBody rqDescription =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), etBookDescription.getText().toString());
+
+        RequestBody rqContent =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), etContent.getText().toString());
+
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ((BitmapDrawable) imgBookImage.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        MultipartBody.Part rqImage = MultipartBody.Part.createFormData(
+                "book_image",
+                "image.jpg",
+                RequestBody.create(MediaType.parse("image/jpg"), bos.toByteArray())
+        );
+
+        MultipartBody.Part rqFile = null;
+        if(upload_file!=null){
+
+            RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), upload_file);
+
+            rqFile =MultipartBody.Part.createFormData("book_file", upload_file.getName(), fileBody);
+        }
+
+
+        apiService.updateNews(
+                rqNewsId, rqBookId, rqBookCategory, rqBookType, rqTitle, rqAuthor, rqPublicDate, rqPage, rqDescription, rqContent, rqImage, rqFile
         ).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

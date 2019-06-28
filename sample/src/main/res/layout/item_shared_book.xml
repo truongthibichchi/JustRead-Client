@@ -41,14 +41,7 @@
                         android:layout_marginRight="10dp"
                         android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/img_item_shared_book_delete"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintRight_toRightOf="parent"
-                        android:src="@drawable/ic_delete_forever_black_24dp"/>
+
                 </LinearLayout>
 
 
@@ -104,12 +97,28 @@
             <TextView
                 android:id="@+id/tv_item_shared_book_comment"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="80dp"
                 android:padding="8dp"
                 android:textAlignment="center"
                 android:textSize="10sp"
                 android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/img_item_shared_book_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/ic_edit_orange_24dp" />
+
+            <ImageView
+                android:id="@+id/img_item_shared_book_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/ic_delete_forever_black_24dp"/>
+
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
