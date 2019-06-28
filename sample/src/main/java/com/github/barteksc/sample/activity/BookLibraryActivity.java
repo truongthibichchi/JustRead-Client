@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
+import android.widget.EditText;
 import android.widget.GridView;
 
 import com.github.barteksc.sample.R;
@@ -33,10 +34,11 @@ public class BookLibraryActivity extends AppCompatActivity {
     private Toolbar toolbar;
     public HorizontalAdapter horizontalAdapter;
 
-    public BookModel book;
     private GridView gvBooks;
+    private EditText searchBar;
     private AppCompatSpinner sp_category;
     private AppCompatSpinner sp_rating;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +46,6 @@ public class BookLibraryActivity extends AppCompatActivity {
         findViewsByIds();
         apiService = ApiUtils.getAPIService();
         ToastyConfigUtility.createInstance();
-
         setSupportActionBar(toolbar);
         getAllBooks();
 
@@ -55,6 +56,7 @@ public class BookLibraryActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_book_library);
         sp_category = findViewById(R.id.sp_book_library_category);
         sp_rating = findViewById(R.id.sp_book_library_rating);
+        searchBar = findViewById(R.id.et_book_library_search);
     }
 
     private void getAllBooks() {
@@ -94,6 +96,27 @@ public class BookLibraryActivity extends AppCompatActivity {
                 HandleAPIResponse.handleFailureResponse(getApplicationContext(), t);
             }
         });
+    }
+
+    private String getRating() {
+        String spText = sp_rating.getSelectedItem().toString();
+        if (spText.contains("1")) {
+            return 20 + "";
+        } else if (spText.contains("2")) {
+            return 40 + "";
+        } else if (spText.contains("3")) {
+            return 60 + "";
+        } else {
+            return 80 + "";
+        }
+    }
+
+    private String getCategoy() {
+        return sp_category.getSelectedItem().toString();
+    }
+
+    private String getKey() {
+        return searchBar.getText().toString();
     }
 
 }
