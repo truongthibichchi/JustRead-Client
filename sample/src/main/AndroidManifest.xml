@@ -17,18 +17,24 @@
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".activity.PersonalPageActivity"></activity>
-        <activity android:name=".activity.AddSharedBookActivity" />
-        <activity android:name=".activity.AllSharedBooksActivity" />
-        <activity android:name=".activity.UsersActivity" />
-        <activity android:name=".activity.BookLibraryActivity" />
-        <activity android:name=".activity.UserShareBookActivity" />
-        <activity android:name=".activity.UserReadingHistoryActivity" />
-        <activity android:name=".activity.AddNewsActivity_" />
+        <activity android:name=".activity.PersonalPageActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.AddSharedBookActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.AllSharedBooksActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.UsersActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.BookLibraryActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.UserShareBookActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.UserReadingHistoryActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.AdminActivity_" />
         <activity
             android:name=".activity.MainActivity"
@@ -41,13 +47,15 @@
         </activity>
         <activity
             android:name=".activity.UserInformationChangePasswordActivity_"
-            android:label="User" />
+            android:label="User"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.UserInformationActivity"
             android:label="User"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.BookDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="Book detail" />
         <activity
             android:name=".activity.RegisterActivity_"
@@ -57,6 +65,7 @@
             android:label="@string/book_viewer" />
         <activity
             android:name=".activity.LogInActivity_"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/home" />
     </application>
 

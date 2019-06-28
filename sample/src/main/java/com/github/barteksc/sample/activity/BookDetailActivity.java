@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.sample.R;
 import com.github.barteksc.sample.adapter.CommentAdapter;
 import com.github.barteksc.sample.api.APIService;
@@ -58,6 +59,7 @@ public class BookDetailActivity extends AppCompatActivity {
     private String book_is_deleted;
     private String book_created_time;
     private int rated_time;
+    private int read_time;
 
     private ImageView imgBookImage;
     private TextView tvBookTitle;
@@ -140,6 +142,7 @@ public class BookDetailActivity extends AppCompatActivity {
         book_is_deleted = (String) mBundle.get("book_is_deleted");
         book_created_time = (String) mBundle.get("book_created_time");
         rated_time = Integer.parseInt(book_rated_time);
+        read_time = Integer.parseInt(book_read_time);
     }
 
     private void disPlayBookInfo() {
@@ -286,8 +289,8 @@ public class BookDetailActivity extends AppCompatActivity {
         apiService.addReadingHistory(CreateJsonObject.readingHistory(book_id, username)).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                tvBookReadTime.setText(response.body());
                 Intent intent = new Intent(BookDetailActivity.this, PDFViewActivity_.class);
+                intent.putExtra("book_file", book_file);
                 startActivity(intent);
             }
 

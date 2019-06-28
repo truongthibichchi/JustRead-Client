@@ -62,8 +62,8 @@
     <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:titleTextStyle">@style/MyTitleTextStyle</item>
         <item name="titleTextStyle">@style/MyTitleTextStyle</item>
-        <item name="android:background">@color/yellow</item>
-        <item name="background">@color/yellow</item>
+        <item name="android:background">@drawable/gradient_background_blue</item>
+        <item name="background">@drawable/gradient_background_blue</item>
     </style>
 
     <style name="MyTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
