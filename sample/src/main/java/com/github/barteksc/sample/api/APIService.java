@@ -119,6 +119,10 @@ public interface APIService {
     @POST(ApiLink.ADD_RATING)
     Call<String> addRating(@Body JsonObject comment);
 
+    @POST(ApiLink.GET_REPORT)
+    Call<JsonObject> getReport();
+
     @POST(ApiLink.VOICE_REMOTE)
     Call<String> voiceRemote(@Body JsonObject speechToText);
+
 }

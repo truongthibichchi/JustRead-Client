@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
@@ -18,19 +18,33 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/tv_user_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Users: 3"
         android:textColor="@color/colorSecondary"
         android:textSize="16sp" />
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/piechart"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="20"
-        android:contentDescription="@string/app_name" />
+        android:layout_weight="20">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/piechart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:visibility="invisible"/>
+
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/loadingcircle"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />
+    </FrameLayout>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_change"
@@ -42,6 +56,6 @@
         android:backgroundTint="@color/yellow"
         android:padding="12dp"
         android:text="@string/change_type"
-        tools:targetApi="lollipop"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        tools:targetApi="lollipop" />
 </LinearLayout>

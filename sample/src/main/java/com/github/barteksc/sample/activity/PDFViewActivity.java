@@ -27,9 +27,11 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -73,6 +75,8 @@ public class PDFViewActivity extends AppCompatActivity implements OnPageChangeLi
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
     private String pdf_file_url;
     private Bundle mBundle;
+    @ViewById(R.id.loadingcircle)
+    ContentLoadingProgressBar contentLoadingProgressBar;
 
     @ViewById
     PDFView pdfView;
@@ -132,9 +136,11 @@ public class PDFViewActivity extends AppCompatActivity implements OnPageChangeLi
     @AfterViews
     void afterViews() {
         mBundle = getIntent().getExtras();
-        pdf_file_url = ApiLink.HOST+mBundle.get("book_file");
+        pdf_file_url = ApiLink.HOST + mBundle.get("book_file");
         pdfView.setBackgroundColor(Color.LTGRAY);
         if (pdf_file_url != null) {
+            contentLoadingProgressBar.setVisibility(View.VISIBLE);
+            contentLoadingProgressBar.show();
             new RetrievePDFBytes().execute(pdf_file_url);
         } else {
             displayFromAsset(SAMPLE_FILE);
@@ -170,6 +176,24 @@ public class PDFViewActivity extends AppCompatActivity implements OnPageChangeLi
                 .scrollHandle(new DefaultScrollHandle(this))
                 .pageFling(true)
                 .swipeHorizontal(true)
+                .pageFitPolicy(FitPolicy.BOTH)
+                .spacing(10) // in dp
+                .onPageError(this)
+                .load();
+    }
+
+    private void displayFromBytes(byte[] bytes){
+        pdfFileName = "doremon";
+
+        pdfView.fromBytes(bytes)
+                .defaultPage(pageNumber)
+                .onPageChange(this)
+                .enableAnnotationRendering(true)
+                .onLoad(this)
+                .scrollHandle(new DefaultScrollHandle(this))
+                .pageFling(true)
+                .swipeHorizontal(true)
+                .pageFitPolicy(FitPolicy.BOTH)
                 .spacing(10) // in dp
                 .onPageError(this)
                 .load();
@@ -189,7 +213,7 @@ public class PDFViewActivity extends AppCompatActivity implements OnPageChangeLi
         setTitle(String.format("%s %s / %s", pdfFileName, page + 1, pageCount));
     }
 
-    public String getFileName(Uri uri) {
+    public String  getFileName(Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
@@ -259,19 +283,18 @@ public class PDFViewActivity extends AppCompatActivity implements OnPageChangeLi
         Log.e(TAG, "Cannot load page " + page);
     }
 
-    class RetrievePDFBytes extends AsyncTask<String,Void, byte[]>{
+    class RetrievePDFBytes extends AsyncTask<String, Void, byte[]> {
 
         @Override
         protected byte[] doInBackground(String... strings) {
             InputStream inputStream = null;
-            try{
+            try {
                 URL url = new URL(strings[0]);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                if (urlConnection.getResponseCode()==200){
+                if (urlConnection.getResponseCode() == 200) {
                     inputStream = new BufferedInputStream(urlConnection.getInputStream());
                 }
-            }
-            catch (IOException e){
+            } catch (IOException e) {
                 return null;
             }
             try {
@@ -284,7 +307,8 @@ public class PDFViewActivity extends AppCompatActivity implements OnPageChangeLi
 
         @Override
         protected void onPostExecute(byte[] bytes) {
-            pdfView.fromBytes(bytes).load();
+            contentLoadingProgressBar.hide();
+            displayFromBytes(bytes);
         }
     }
 }

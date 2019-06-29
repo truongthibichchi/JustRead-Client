@@ -1,10 +1,17 @@
 package com.github.barteksc.sample.activity;
 
 import android.graphics.Color;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.github.barteksc.sample.R;
+import com.github.barteksc.sample.api.APIService;
+import com.github.barteksc.sample.api.ApiUtils;
+import com.github.barteksc.sample.model.ReportReturnModel;
 import com.github.barteksc.sample.utilities.NumberFormatUtility;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -14,14 +21,24 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.github.barteksc.sample.activity.LogInActivity.apiService;
 
 @EActivity(R.layout.activity_admin)
 public class AdminActivity extends AppCompatActivity {
@@ -35,17 +52,25 @@ public class AdminActivity extends AppCompatActivity {
     static PieDataSet dataSet;
     static ArrayList<Integer> colors = new ArrayList<>();
     static List<PieEntry> entries = new ArrayList<>();
+    public APIService apiService;
+    @ViewById(R.id.tv_user_count)
+    TextView userCount;
+    @ViewById(R.id.loadingcircle)
+    ContentLoadingProgressBar contentLoadingProgressBar;
 
     @Click(R.id.btn_change)
-    public void changeTypeButton(){
+    public void changeTypeButton() {
         isPercentValues = !isPercentValues;
+        setUpPieChart();
+        setUpData();
     }
 
     @AfterViews
     protected void init() {
-        dummyData();
-        setUpPieChart();
-        setUpData();
+        contentLoadingProgressBar.show();
+        contentLoadingProgressBar.setVisibility(View.VISIBLE);
+        apiService = ApiUtils.getAPIService();
+        getData();
     }
 
     private void setUpPieChart() {
@@ -119,33 +144,32 @@ public class AdminActivity extends AppCompatActivity {
 
     }
 
-    private void dummyData(){
-        entries.clear();
-        entries.add(new PieEntry(96, configCategory(0)));
-        entries.add(new PieEntry(98, configCategory(1)));
-        entries.add(new PieEntry(123, configCategory(2)));
-        entries.add(new PieEntry(78, configCategory(3)));
-        entries.add(new PieEntry(85, configCategory(4)));
-        entries.add(new PieEntry(95, configCategory(5)));
-    }
+    private void getData() {
+        apiService.getReport().enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    entries.clear();
+                    entries.add(new PieEntry(response.body().get("Kinh tế").getAsInt(), "Kinh tế"));
+                    entries.add(new PieEntry(response.body().get("Nuôi dạy con").getAsInt(), "Nuôi dạy con"));
+                    entries.add(new PieEntry(response.body().get("Sách thiếu nhi").getAsInt(), "Sách thiếu nhi"));
+                    entries.add(new PieEntry(response.body().get("Tâm lý - Kỹ năng sống").getAsInt(), "Tâm lý - Kỹ năng sống"));
+                    entries.add(new PieEntry(response.body().get("Văn học").getAsInt(), "Văn học"));
+                    userCount.setText(new StringBuilder().append("Người dùng ứng dụng: ").append(response.body().get("user").getAsInt()));
+                }
+                setUpData();
+                setUpPieChart();
+                contentLoadingProgressBar.hide();
+                contentLoadingProgressBar.setVisibility(View.GONE);
+                pieChart.setVisibility(View.VISIBLE);
 
-    private String configCategory(int x) {
-        switch (x) {
-            case 0:
-                return "Kinh tế";
-            case 1:
-                return "Nuôi dạy con";
-            case 2:
-                return "Sách thiếu nhi";
-            case 3:
-                return "Tiểu sử - Hồi ký";
-            case 4:
-                return "Tâm lý - Kỹ năng sống";
-            case 5:
-                return "Văn học";
-            default:
-                return "user";
-        }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
     }
 }
 
