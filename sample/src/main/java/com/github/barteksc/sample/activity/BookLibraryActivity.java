@@ -1,14 +1,11 @@
 package com.github.barteksc.sample.activity;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -17,29 +14,26 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.github.barteksc.sample.R;
 import com.github.barteksc.sample.adapter.HorizontalAdapter;
 import com.github.barteksc.sample.api.APIService;
 import com.github.barteksc.sample.api.ApiUtils;
-import com.github.barteksc.sample.constant.ConstString;
 import com.github.barteksc.sample.model.BookModel;
-import com.github.barteksc.sample.model.UserModel;
 import com.github.barteksc.sample.utilities.GeneralUtility;
 import com.github.barteksc.sample.utilities.HandleAPIResponse;
-import com.github.barteksc.sample.utilities.HorizontalListView;
-import com.github.barteksc.sample.utilities.ToastyConfigUtility;
+import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.view.View.*;
 
 
 public class BookLibraryActivity extends AppCompatActivity {
@@ -49,13 +43,16 @@ public class BookLibraryActivity extends AppCompatActivity {
     public APIService apiService;
     private Toolbar toolbar;
     public HorizontalAdapter horizontalAdapter;
+    private static int sortStatusAlpha = 0;
+    private static int sortStatusLike = 0;
 
-    private ImageView search;
     private GridView gvBooks;
     private EditText searchBar;
     private AppCompatSpinner sp_category;
     private AppCompatSpinner sp_rating;
     private ContentLoadingProgressBar contentLoadingProgressBar;
+    private FloatingActionButton sortAlpha;
+    private FloatingActionButton sortLike;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -64,60 +61,42 @@ public class BookLibraryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book_library);
         findViewsByIds();
         apiService = ApiUtils.getAPIService();
-        getAllBooks();
+        if (books.size() < 1) {
+            getAllBooks();
+        }
+        horizontalAdapter = new HorizontalAdapter(getApplicationContext(), books);
+        gvBooks.setAdapter(horizontalAdapter);
+        horizontalAdapter.notifyDataSetChanged();
         setSupportActionBar(toolbar);
-        //search.setOnClickListener(view -> search());
+        search();
         gvBooks.setOnItemClickListener((parent, view, position, id) -> horizontalOnItemClick(parent, position));
-        searchBar.addTextChangedListener(new TextWatcher() {
+        sortAlpha.setOnClickListener(new OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String keySearch = searchBar.getText().toString().toLowerCase().trim();
-                result = searchWithText(keySearch, books);
-                horizontalAdapter = new HorizontalAdapter(getApplicationContext(), result);
-                gvBooks.setAdapter(horizontalAdapter);
-                horizontalAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+            public void onClick(View v) {
+                setSortAlpha();
             }
         });
-
-        sp_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sortLike.setOnClickListener(new OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String keySearch = searchBar.getText().toString().toLowerCase().trim();
-                horizontalAdapter = new HorizontalAdapter(getApplicationContext(), searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()),  searchWithText(keySearch, books)));
-                gvBooks.setAdapter(horizontalAdapter);
-                horizontalAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                setSortLike();
             }
         });
     }
 
     private void findViewsByIds() {
-        search = findViewById(R.id.img_book_library_search);
         gvBooks = findViewById(R.id.gv_all_books);
         toolbar = findViewById(R.id.toolbar_book_library);
         sp_category = findViewById(R.id.sp_book_library_category);
         sp_rating = findViewById(R.id.sp_book_library_rating);
         searchBar = findViewById(R.id.et_book_library_search);
         contentLoadingProgressBar = findViewById(R.id.address_looking_up);
+        sortAlpha = findViewById(R.id.sort_alpha);
+        sortLike = findViewById(R.id.sort_like);
     }
 
 
     private void getAllBooks() {
-        books.clear();
         contentLoadingProgressBar.show();
         apiService.getAllBooks().enqueue(new Callback<List<BookModel>>() {
             @Override
@@ -153,14 +132,76 @@ public class BookLibraryActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<BookModel>> call, Throwable t) {
                 HandleAPIResponse.handleFailureResponse(getApplicationContext(), t);
+                contentLoadingProgressBar.hide();
             }
         });
     }
 
-   /* @RequiresApi(api = Build.VERSION_CODES.N)
-    public void search(){
-        searchWithSpinner();
-    }*/
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void search() {
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String keySearch = searchBar.getText().toString().toLowerCase().trim();
+                if (result != null && result.size() > 0) {
+                    result = searchWithText(keySearch, result);
+                } else {
+                    result = searchWithText(keySearch, books);
+                }
+                horizontalAdapter = new HorizontalAdapter(getApplicationContext(), result);
+                gvBooks.setAdapter(horizontalAdapter);
+                horizontalAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        sp_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (result != null && result.size() > 0) {
+                    result = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), result);
+                } else {
+                    result = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), books);
+                }
+                horizontalAdapter = new HorizontalAdapter(getApplicationContext(), result);
+                gvBooks.setAdapter(horizontalAdapter);
+                horizontalAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        sp_rating.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (result != null && result.size() > 0) {
+                    result = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), result);
+                } else {
+                    result = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), books);
+                }
+                horizontalAdapter = new HorizontalAdapter(getApplicationContext(), result);
+                gvBooks.setAdapter(horizontalAdapter);
+                horizontalAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private List<BookModel> searchWithSpinnerCategory(String category, List<BookModel> books) {
@@ -170,7 +211,7 @@ public class BookLibraryActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private List<BookModel> searchWithSpinnerRating(int rating, List<BookModel> books) {
-        return books.stream().filter(bookModel -> Integer.valueOf(bookModel.getBookRating()) >= rating)
+        return books.stream().filter(bookModel -> Integer.valueOf(bookModel.getBookRating()) > rating)
                 .collect(Collectors.toList());
     }
 
@@ -189,8 +230,10 @@ public class BookLibraryActivity extends AppCompatActivity {
             return 40;
         } else if (spSelected.contains("3")) {
             return 60;
-        } else {
+        } else if (spSelected.contains("4")) {
             return 80;
+        } else {
+            return 0;
         }
     }
 
@@ -207,6 +250,56 @@ public class BookLibraryActivity extends AppCompatActivity {
         Intent intent = new Intent(BookLibraryActivity.this, BookDetailActivity.class);
         GeneralUtility.putIntent(intent, book);
         startActivity(intent);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void setSortAlpha() {
+        if (sortStatusAlpha == 0) {
+            if (result != null && result.size() > 0) {
+                result.sort(Comparator.comparing(BookModel::getBookTitle));
+                horizontalAdapter.notifyDataSetChanged();
+                sortStatusAlpha = 1;
+            } else {
+                books.sort(Comparator.comparing(BookModel::getBookTitle));
+                horizontalAdapter.notifyDataSetChanged();
+                sortStatusAlpha = 1;
+            }
+        } else {
+            if (result != null && result.size() > 0) {
+                result.sort(Comparator.comparing(BookModel::getBookTitle).reversed());
+                horizontalAdapter.notifyDataSetChanged();
+                sortStatusAlpha = 0;
+            } else {
+                books.sort(Comparator.comparing(BookModel::getBookTitle).reversed());
+                horizontalAdapter.notifyDataSetChanged();
+                sortStatusAlpha = 0;
+            }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void setSortLike() {
+        if (sortStatusLike == 0) {
+            if (result != null && result.size() > 0) {
+                result.sort(Comparator.comparing(BookModel::getBookRating));
+                horizontalAdapter.notifyDataSetChanged();
+                sortStatusLike = 1;
+            } else {
+                books.sort(Comparator.comparing(BookModel::getBookRating));
+                horizontalAdapter.notifyDataSetChanged();
+                sortStatusLike = 1;
+            }
+        } else {
+            if (result != null && result.size() > 0) {
+                result.sort(Comparator.comparing(BookModel::getBookRating).reversed());
+                horizontalAdapter.notifyDataSetChanged();
+                sortStatusLike = 0;
+            } else {
+                books.sort(Comparator.comparing(BookModel::getBookRating).reversed());
+                horizontalAdapter.notifyDataSetChanged();
+                sortStatusLike = 0;
+            }
+        }
     }
 
 }
