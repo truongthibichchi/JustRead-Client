@@ -2,6 +2,7 @@ package com.github.barteksc.sample.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +10,8 @@ import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.barteksc.sample.R;
 import com.github.barteksc.sample.adapter.SharedBookAdapter;
 import com.github.barteksc.sample.api.APIService;
@@ -53,10 +56,20 @@ public class PersonalPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_personal_page);
 
         findViewByIds();
+
         getDataFromBundle();
         sharedPreferences = getSharedPreferences("loginref", MODE_PRIVATE);
         userLogin = sharedPreferences.getString("username", null);
     }
+
+    private void findViewByIds() {
+        gvAllSharedBooks = findViewById(R.id.gv_personal_shared_books);
+        imgAvatar = findViewById(R.id.img_personal_avatar);
+        tvUsername = findViewById(R.id.tv_personal_username);
+        tvCreatedDate = findViewById(R.id.tv_personal_created_date);
+        tvFullname = findViewById(R.id.tv_personal_fullname);
+    }
+
 
     private void getDataFromBundle() {
         mBundle = getIntent().getExtras();
@@ -65,6 +78,19 @@ public class PersonalPageActivity extends AppCompatActivity {
         fullname = (String) mBundle.get("fullname");
         createdDate = (String) mBundle.get("created_date");
         isAdmin = (String) mBundle.get("is_admin");
+        showUserInfo();
+    }
+
+    private void showUserInfo() {
+        Glide.with(getApplicationContext())
+                .load(Uri.parse(avatar))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(imgAvatar);
+
+        tvUsername.setText(username);
+        tvCreatedDate.setText(createdDate);
+        tvFullname.setText(fullname);
     }
 
     @Override
@@ -123,11 +149,5 @@ public class PersonalPageActivity extends AppCompatActivity {
         });
     }
 
-    private void findViewByIds() {
-        gvAllSharedBooks = findViewById(R.id.gv_personal_shared_books);
-        imgAvatar = findViewById(R.id.img_personal_avatar);
-        tvUsername = findViewById(R.id.tv_personal_username);
-        tvCreatedDate = findViewById(R.id.tv_personal_created_date);
-        tvFullname = findViewById(R.id.tv_personal_fullname);
-    }
+
 }

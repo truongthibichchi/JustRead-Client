@@ -57,6 +57,7 @@ public class BookDetailActivity extends AppCompatActivity {
     private String book_type;
     private String book_is_deleted;
     private String book_created_time;
+    private int rated_time;
 
     private ImageView imgBookImage;
     private TextView tvBookTitle;
@@ -138,6 +139,7 @@ public class BookDetailActivity extends AppCompatActivity {
         book_type = (String) mBundle.get("book_type");
         book_is_deleted = (String) mBundle.get("book_is_deleted");
         book_created_time = (String) mBundle.get("book_created_time");
+        rated_time = Integer.parseInt(book_rated_time);
     }
 
     private void disPlayBookInfo() {
@@ -180,7 +182,8 @@ public class BookDetailActivity extends AppCompatActivity {
                     public void onResponse(Call<String> call, Response<String> response) {
                         if (response.isSuccessful()) {
                             tvBookRating.setText(response.body() + "/100");
-//                            tvBookRatedTime.setText(rated_time);
+                            rated_time +=1;
+                            tvBookRatedTime.setText(Integer.toString(rated_time));
                         }
                     }
 

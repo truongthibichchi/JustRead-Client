@@ -78,6 +78,7 @@
     <string name="end_date">Thời gian kết thúc</string>
     <string name="done">Đọc xong</string>
     <string name="delete_book">Xóa sách</string>
+    <string name="input_comment">Nhập bình luận</string>
     <string-array name="book_type">
         <item>Sách điện tử</item>
         <item>Sách giấy</item>

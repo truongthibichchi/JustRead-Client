@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.barteksc.sample.R;
 import com.github.barteksc.sample.activity.BookDetailActivity;
 import com.github.barteksc.sample.activity.PersonalPageActivity;
@@ -41,15 +42,17 @@ public class UsersAdapter extends BaseAdapter {
     private UserModel userModel;
     public APIService apiService = ApiUtils.getAPIService();
     public String userLogin;
+    public String login_isAdmin;
 
     ImageView imgAvatar;
     TextView tvUserFullname;
     LinearLayout llItem;
 
-    public UsersAdapter(Context mContext, List<UserModel> mUserModel, String userLogin) {
+    public UsersAdapter(Context mContext, List<UserModel> mUserModel, String userLogin, String login_isAdmin) {
         this.mContext = mContext;
         this.mUserModel = mUserModel;
         this.userLogin = userLogin;
+        this.login_isAdmin = login_isAdmin;
     }
 
     @Override
@@ -84,6 +87,8 @@ public class UsersAdapter extends BaseAdapter {
         tvUserFullname.setText(mUserModel.get(position).getUserFullname());
         Glide.with(mContext)
                 .load(Uri.parse(ApiLink.HOST + mUserModel.get(position).getUserAvatar()))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(imgAvatar);
 
         llItem.setOnClickListener(view ->{
@@ -92,7 +97,7 @@ public class UsersAdapter extends BaseAdapter {
             intent.putExtra("avatar", ApiLink.HOST+mUserModel.get(position).getUserAvatar());
             intent.putExtra("created_date", mUserModel.get(position).getUserCreatedDate());
             intent.putExtra("fullname", mUserModel.get(position).getUserFullname());
-            intent.putExtra("is_admin", mUserModel.get(position).getUserIsAdmin());
+            intent.putExtra("is_admin",login_isAdmin);
             mContext.startActivity(intent);
         });
 
