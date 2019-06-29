@@ -1,18 +1,27 @@
 package com.github.barteksc.sample.activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
@@ -23,6 +32,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.LoginFilter;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -57,6 +67,7 @@ import org.androidannotations.annotations.OptionsItem;
 import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -77,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public UserModel userLogin;
     public APIService apiService;
     public SharedPreferences.Editor editor;
+    public SpeechRecognizer speechRecognizer;
+    public Intent speechRecognizerIntent;
 
     private Toolbar toolbar;
     private FloatingActionButton fab;
@@ -92,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageView imgHeaderAvatar;
     private TextView tvHeaderFullName;
     private MenuItem itemAdmin;
+    private ImageView imgVoice;
     private String username;
     private String password;
     private ImageView imageSearch;
@@ -115,8 +129,66 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+        speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, Locale.getDefault());
+        speechRecognizer.setRecognitionListener(new RecognitionListener() {
+            @Override
+            public void onReadyForSpeech(Bundle params) {
+
+            }
+
+            @Override
+            public void onBeginningOfSpeech() {
+
+            }
+
+            @Override
+            public void onRmsChanged(float rmsdB) {
+
+            }
+
+            @Override
+            public void onBufferReceived(byte[] buffer) {
+
+            }
+
+            @Override
+            public void onEndOfSpeech() {
+
+            }
+
+            @Override
+            public void onError(int error) {
+
+            }
+
+            @Override
+            public void onResults(Bundle results) {
+                ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if(matches!=null){
+                    Toast.makeText(getApplicationContext(), matches.get(0), Toast.LENGTH_SHORT).show();
+                    voiceRemoteAPIExecute(matches.get(0));
+                }
+            }
+
+            @Override
+            public void onPartialResults(Bundle partialResults) {
+
+            }
+
+            @Override
+            public void onEvent(int eventType, Bundle params) {
+
+            }
+        });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onResume() {
         super.onResume();
@@ -163,6 +235,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         navigationView.setNavigationItemSelectedListener(this);
+
+        imgVoice.setOnTouchListener((v,event) -> {
+            checkPermission();
+            switch (event.getAction()){
+                case MotionEvent.ACTION_UP:
+                    speechRecognizer.stopListening();
+                    break;
+
+                case MotionEvent.ACTION_DOWN:
+                    speechRecognizer.startListening(speechRecognizerIntent);
+                    Toast.makeText(getApplicationContext(),"Listening...", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+            return false;
+        });
 //        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
@@ -173,6 +260,87 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    private void checkPermission(){
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
+            if(!(ContextCompat.checkSelfPermission(getApplicationContext(),
+                    Manifest.permission.RECORD_AUDIO)== PackageManager.PERMISSION_GRANTED)){
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:"+getPackageName()));
+                startActivity(intent);
+                finish();
+            }
+        }
+    }
+
+    private void voiceRemoteAPIExecute(String speechToText) {
+        apiService.voiceRemote(CreateJsonObject.speechToText(speechToText)).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+//                    Toasty.info(getApplicationContext(), response.body(), Toast.LENGTH_SHORT, true).show();
+                    Intent intent;
+                    switch (response.body()) {
+                        case ConstString.REMOTE_MANAGE_ACCOUNT:
+                            intent = new Intent(MainActivity.this, UserInformationActivity.class);
+                            intent.putExtra("username", userLogin.getUserUsername());
+                            intent.putExtra("password", userLogin.getUserPassword());
+                            intent.putExtra("fullname", userLogin.getUserFullname());
+                            intent.putExtra("created_date", userLogin.getUserCreatedDate());
+                            intent.putExtra("address", userLogin.getUserAddress());
+                            intent.putExtra("date_of_birth", userLogin.getUserDateOfBirth());
+                            intent.putExtra("avatar", userLogin.getUserAvatar());
+                            intent.putExtra("is_admin", userLogin.getUserIsAdmin());
+                            startActivity(intent);
+                            break;
+
+                        case ConstString.REMOTE_SHARE:
+                            intent = new Intent(MainActivity.this, AllSharedBooksActivity.class);
+                            intent.putExtra("username", userLogin.getUserUsername());
+                            intent.putExtra("fullname", userLogin.getUserFullname());
+                            intent.putExtra("avatar", userLogin.getUserAvatar());
+                            intent.putExtra("is_admin", userLogin.getUserIsAdmin());
+                            startActivity(intent);
+                            break;
+
+                        case ConstString.REMOTE_MANAGE_READING_HISTORY:
+                            intent = new Intent(MainActivity.this, UserReadingHistoryActivity.class);
+                            startActivity(intent);
+                            break;
+
+                        case ConstString.REMOTE_SEARCH_USER:
+                            intent = new Intent(MainActivity.this, UsersActivity.class);
+                            intent.putExtra("username", username);
+                            intent.putExtra("fullname", userLogin.getUserFullname());
+                            intent.putExtra("avatar", userLogin.getUserAvatar());
+                            intent.putExtra("is_admin", userLogin.getUserIsAdmin());
+                            startActivity(intent);
+                            break;
+
+                        case ConstString.REMOTE_LOGOUT:
+                            editor = sharedPreferences.edit();
+                            editor.putString("username", "");
+                            editor.putString("password", "");
+                            editor.commit();
+                            intent = new Intent(MainActivity.this, LogInActivity_.class);
+                            startActivity(intent);
+                            finish();
+                            break;
+
+                        case ConstString.REMOTE_SEARCH_BOOK:
+                            intent = new Intent(MainActivity.this, BookLibraryActivity.class);
+                            startActivity(intent);
+                            break;
+                    }
+                } else {
+                    Toasty.info(getApplicationContext(), "Can't recognize!", Toast.LENGTH_SHORT, true).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                HandleAPIResponse.handleFailureResponse(getApplicationContext(), t);
+            }
+        });
+    }
     public void logInAPIExecute() {
         apiService.logIn(CreateJsonObject.usernameAndPassword(username, password)).enqueue(new Callback<String>() {
             @Override
@@ -206,6 +374,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab = findViewById(R.id.fab_main);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        imgVoice = findViewById(R.id.img_main_voice_mic);
 //        navView = findViewById(R.id.nav_bottom_view);
 
         horizontalListView1 = findViewById(R.id.hlv_main_all_books);

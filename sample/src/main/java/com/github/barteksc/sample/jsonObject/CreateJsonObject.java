@@ -62,4 +62,10 @@ public class CreateJsonObject {
         bodyRequest.addProperty("book_id", bookId);
         return bodyRequest;
     }
+
+    public static JsonObject speechToText(String speechToText) {
+        JsonObject bodyRequest = new JsonObject();
+        bodyRequest.addProperty("speech_to_text", speechToText);
+        return bodyRequest;
+    }
 }

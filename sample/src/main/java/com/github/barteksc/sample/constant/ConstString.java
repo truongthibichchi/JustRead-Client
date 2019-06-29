@@ -17,4 +17,10 @@ public class ConstString {
     public static final String WRONG_PASSWORD = "Sai mật khẩu";
     public static final String ACTION_ADD = "add";
     public static final String ACTION_UPDATE = "update";
+    public static final String REMOTE_MANAGE_ACCOUNT = "manage_account";
+    public static final String REMOTE_SHARE = "share";
+    public static final String REMOTE_MANAGE_READING_HISTORY = "manage_reading_history";
+    public static final String REMOTE_SEARCH_USER = "search_user";
+    public static final String REMOTE_LOGOUT = "logout";
+    public static final String REMOTE_SEARCH_BOOK = "search_book";
 }

@@ -122,5 +122,7 @@ public interface APIService {
     @POST(ApiLink.GET_REPORT)
     Call<JsonObject> getReport();
 
+    @POST(ApiLink.VOICE_REMOTE)
+    Call<String> voiceRemote(@Body JsonObject speechToText);
 
 }
