@@ -25,6 +25,7 @@ import com.github.barteksc.sample.utilities.HandleAPIResponse;
 import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,13 +34,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.view.View.*;
-
 
 public class BookLibraryActivity extends AppCompatActivity {
 
     public List<BookModel> books = new ArrayList<>();
     public List<BookModel> result = new ArrayList<>();
+    public List<BookModel> resultText = new ArrayList<>();
+    public List<BookModel> resultCategory = new ArrayList<>();
+    public List<BookModel> resultRating = new ArrayList<>();
     public APIService apiService;
     private Toolbar toolbar;
     public HorizontalAdapter horizontalAdapter;
@@ -53,6 +55,68 @@ public class BookLibraryActivity extends AppCompatActivity {
     private ContentLoadingProgressBar contentLoadingProgressBar;
     private FloatingActionButton sortAlpha;
     private FloatingActionButton sortLike;
+
+    private TextWatcher searchBarListener = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String keySearch = searchBar.getText().toString().toLowerCase().trim();
+            resultText = searchWithText(keySearch, books);
+            result = resultText;
+            setResult();
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    private AdapterView.OnItemSelectedListener spCategoryListener = new AdapterView.OnItemSelectedListener() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (resultText.size() > 0) {
+                result = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), resultText);
+            } else if (result.size() > 0 ) {
+                result = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), result);
+            } else{
+                result = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), books);
+                resultCategory = result;
+            }
+            setResult();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
+    private AdapterView.OnItemSelectedListener spRatingListener = new AdapterView.OnItemSelectedListener() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (result.size() <= 0) {
+                result = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), books);
+            } else if (resultText.size() == result.size()) {
+                result = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), resultText);
+            } else {
+                result = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), result);
+            }
+            setResult();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -68,21 +132,14 @@ public class BookLibraryActivity extends AppCompatActivity {
         gvBooks.setAdapter(horizontalAdapter);
         horizontalAdapter.notifyDataSetChanged();
         setSupportActionBar(toolbar);
-        search();
+        searchBar.addTextChangedListener(searchBarListener);
+        sp_category.setOnItemSelectedListener(spCategoryListener);
+        sp_rating.setOnItemSelectedListener(spRatingListener);
         gvBooks.setOnItemClickListener((parent, view, position, id) -> horizontalOnItemClick(parent, position));
-        sortAlpha.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSortAlpha();
-            }
-        });
-        sortLike.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSortLike();
-            }
-        });
+        sortAlpha.setOnClickListener(v -> setSortAlpha());
+        sortLike.setOnClickListener(v -> setSortLike());
     }
+
 
     private void findViewsByIds() {
         gvBooks = findViewById(R.id.gv_all_books);
@@ -138,74 +195,8 @@ public class BookLibraryActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void search() {
-        searchBar.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String keySearch = searchBar.getText().toString().toLowerCase().trim();
-                if (result != null && result.size() > 0) {
-                    result = searchWithText(keySearch, result);
-                } else {
-                    result = searchWithText(keySearch, books);
-                }
-                horizontalAdapter = new HorizontalAdapter(getApplicationContext(), result);
-                gvBooks.setAdapter(horizontalAdapter);
-                horizontalAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        sp_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (result != null && result.size() > 0) {
-                    result = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), result);
-                } else {
-                    result = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), books);
-                }
-                horizontalAdapter = new HorizontalAdapter(getApplicationContext(), result);
-                gvBooks.setAdapter(horizontalAdapter);
-                horizontalAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        sp_rating.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (result != null && result.size() > 0) {
-                    result = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), result);
-                } else {
-                    result = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), books);
-                }
-                horizontalAdapter = new HorizontalAdapter(getApplicationContext(), result);
-                gvBooks.setAdapter(horizontalAdapter);
-                horizontalAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private List<BookModel> searchWithSpinnerCategory(String category, List<BookModel> books) {
-        return books.stream().filter(bookModel -> category.equals(bookModel.getBookCategory()))
+        return books.stream().filter(bookModel -> bookModel.getBookCategory().contains(category))
                 .collect(Collectors.toList());
     }
 
@@ -239,7 +230,7 @@ public class BookLibraryActivity extends AppCompatActivity {
 
     private String getCategory(String spSelected) {
         if (spSelected.contains("--")) {
-            return "";
+            return " ";
         } else {
             return spSelected;
         }
@@ -300,6 +291,24 @@ public class BookLibraryActivity extends AppCompatActivity {
                 sortStatusLike = 0;
             }
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void search() {
+       /* result.addAll(resultCategory);
+        result.addAll(resultRating);*/
+        result.addAll(resultText);
+
+        //result = result.stream().filter(bookModel -> Collections.frequency(result, bookModel) == 3).collect(Collectors.toList());
+        horizontalAdapter = new HorizontalAdapter(getApplicationContext(), result);
+        gvBooks.setAdapter(horizontalAdapter);
+        horizontalAdapter.notifyDataSetChanged();
+    }
+
+    private void setResult() {
+        horizontalAdapter = new HorizontalAdapter(getApplicationContext(), result);
+        gvBooks.setAdapter(horizontalAdapter);
+        horizontalAdapter.notifyDataSetChanged();
     }
 
 }
