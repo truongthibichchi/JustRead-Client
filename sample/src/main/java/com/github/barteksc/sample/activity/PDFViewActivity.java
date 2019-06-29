@@ -21,6 +21,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -47,8 +49,16 @@ import org.androidannotations.annotations.NonConfigurationInstance;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.apache.commons.io.IOUtils;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
+
+import retrofit2.http.Url;
 
 @EActivity(R.layout.activity_pdf_viewer)
 public class PDFViewActivity extends AppCompatActivity implements OnPageChangeListener, OnLoadCompleteListener,
@@ -61,6 +71,8 @@ public class PDFViewActivity extends AppCompatActivity implements OnPageChangeLi
 
     public static final String SAMPLE_FILE = "Clean Code A Handbook of Agile Software Craftmanship.pdf";
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
+    private String pdf_file_url;
+    private Bundle mBundle;
 
     @ViewById
     PDFView pdfView;
@@ -119,10 +131,11 @@ public class PDFViewActivity extends AppCompatActivity implements OnPageChangeLi
 
     @AfterViews
     void afterViews() {
+        mBundle = getIntent().getExtras();
+        pdf_file_url = ApiLink.HOST+mBundle.get("book_file");
         pdfView.setBackgroundColor(Color.LTGRAY);
-//        uri = Uri.parse(ApiLink.HOST+"/static/books/book_file.pdf");
-        if (uri != null) {
-            displayFromUri(uri);
+        if (pdf_file_url != null) {
+            new RetrievePDFBytes().execute(pdf_file_url);
         } else {
             displayFromAsset(SAMPLE_FILE);
         }
@@ -244,5 +257,34 @@ public class PDFViewActivity extends AppCompatActivity implements OnPageChangeLi
     @Override
     public void onPageError(int page, Throwable t) {
         Log.e(TAG, "Cannot load page " + page);
+    }
+
+    class RetrievePDFBytes extends AsyncTask<String,Void, byte[]>{
+
+        @Override
+        protected byte[] doInBackground(String... strings) {
+            InputStream inputStream = null;
+            try{
+                URL url = new URL(strings[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                if (urlConnection.getResponseCode()==200){
+                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                }
+            }
+            catch (IOException e){
+                return null;
+            }
+            try {
+                return IOUtils.toByteArray(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(byte[] bytes) {
+            pdfView.fromBytes(bytes).load();
+        }
     }
 }

@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission
         android:name="android.permission.MEDIA_CONTENT_CONTROL"
         tools:ignore="ProtectedPermissions" />
@@ -17,18 +19,24 @@
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".activity.PersonalPageActivity"></activity>
-        <activity android:name=".activity.AddSharedBookActivity" />
-        <activity android:name=".activity.AllSharedBooksActivity" />
-        <activity android:name=".activity.UsersActivity" />
-        <activity android:name=".activity.BookLibraryActivity" />
-        <activity android:name=".activity.UserShareBookActivity" />
-        <activity android:name=".activity.UserReadingHistoryActivity" />
-        <activity android:name=".activity.AddNewsActivity_" />
+        <activity android:name=".activity.PersonalPageActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.AddSharedBookActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.AllSharedBooksActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.UsersActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.BookLibraryActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.UserShareBookActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.UserReadingHistoryActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.AdminActivity_" />
         <activity
             android:name=".activity.MainActivity"
@@ -41,13 +49,15 @@
         </activity>
         <activity
             android:name=".activity.UserInformationChangePasswordActivity_"
-            android:label="User" />
+            android:label="User"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.UserInformationActivity"
             android:label="User"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.BookDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="Book detail" />
         <activity
             android:name=".activity.RegisterActivity_"
@@ -57,7 +67,29 @@
             android:label="@string/book_viewer" />
         <activity
             android:name=".activity.LogInActivity_"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/home" />
+        <activity
+            android:name=".alarmReminder.AlarmMainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".alarmReminder.AddReminderActivity"
+            android:label="@string/title_activity_add_reminder"
+            android:parentActivityName=".alarmReminder.AlarmMainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".alarmReminder.AlarmMainActivity"
+                />
+        </activity>
+        <provider
+            android:name=".alarmReminder.data.AlarmReminderProvider"
+            android:authorities="com.github.barteksc.sample.alarmReminder"
+            android:exported="false" />
+
+        <service
+            android:name=".alarmReminder.reminder.ReminderAlarmService"
+            android:exported="false" />
     </application>
 
 </manifest>

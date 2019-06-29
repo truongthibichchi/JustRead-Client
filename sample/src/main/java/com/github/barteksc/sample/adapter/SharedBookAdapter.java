@@ -61,6 +61,7 @@ public class SharedBookAdapter extends BaseAdapter {
     ImageView imgDelete;
     Button btnRating;
     Button btnComment;
+    ImageView imgEdit;
     Button btnSave;
 
     public SharedBookAdapter(Context mContext, List<SharedBookModel> mSharedBookModelList, String userLogin, String isAdmin) {
@@ -107,12 +108,15 @@ public class SharedBookAdapter extends BaseAdapter {
         btnComment = itemView.findViewById(R.id.btn_item_shared_book_comment);
         btnSave = itemView.findViewById(R.id.btn_item_shared_book_save);
         imgDelete = itemView.findViewById(R.id.img_item_shared_book_delete);
+        imgEdit = itemView.findViewById(R.id.img_item_shared_book_edit);
 
         if(userLogin.equals(mSharedBookModelList.get(position).getNewsUsername())|| isAdmin.equals("1")){
             imgDelete.setVisibility(View.VISIBLE);
+            imgEdit.setVisibility(View.VISIBLE);
         }
         else{
             imgDelete.setVisibility(View.GONE);
+            imgEdit.setVisibility(View.GONE);
         }
 
         getCommentByBookId(sharedBook.getBookId());
@@ -158,6 +162,27 @@ public class SharedBookAdapter extends BaseAdapter {
                     Toast.makeText(mContext, "Không thành công", Toast.LENGTH_SHORT).show();
                 }
             });
+        });
+
+        imgEdit.setOnClickListener(View ->{
+            Intent intent = new Intent(mContext, AddSharedBookActivity.class);
+            intent.putExtra("username", sharedBook.getNewsUsername());
+            intent.putExtra("avatar", ApiLink.HOST+sharedBook.getNewsUserAvatar());
+            intent.putExtra("fullname", sharedBook.getNewsUserFullname());
+            intent.putExtra("action", ConstString.ACTION_UPDATE);
+            intent.putExtra("news_id", sharedBook.getNewsId());
+            intent.putExtra("news_content", sharedBook.getNewsContent());
+            intent.putExtra("book_id", sharedBook.getBookId());
+            intent.putExtra("book_author", sharedBook.getBookAuthor());
+            intent.putExtra("book_category", sharedBook.getBookCategory());
+            intent.putExtra("book_description", sharedBook.getBookDescription());
+            intent.putExtra("book_file", sharedBook.getBookFile());
+            intent.putExtra("book_image", ApiLink.HOST + sharedBook.getBookImage());
+            intent.putExtra("book_page", sharedBook.getBookPage());
+            intent.putExtra("book_public_date", sharedBook.getBookPublicDate());
+            intent.putExtra("book_title", sharedBook.getBookTitle());
+            intent.putExtra("book_type", sharedBook.getBookType());
+            mContext.startActivity(intent);
         });
 
         imgBookImage.setOnClickListener(View -> {
