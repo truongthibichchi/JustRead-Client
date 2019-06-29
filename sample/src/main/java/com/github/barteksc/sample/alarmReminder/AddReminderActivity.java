@@ -116,16 +116,16 @@ public class AddReminderActivity extends AppCompatActivity implements
 
 
         // Initialize Views
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mTitleText = (EditText) findViewById(R.id.reminder_title);
-        mDateText = (TextView) findViewById(R.id.set_date);
-        mTimeText = (TextView) findViewById(R.id.set_time);
-        mRepeatText = (TextView) findViewById(R.id.set_repeat);
-        mRepeatNoText = (TextView) findViewById(R.id.set_repeat_no);
-        mRepeatTypeText = (TextView) findViewById(R.id.set_repeat_type);
-        mRepeatSwitch = (Switch) findViewById(R.id.repeat_switch);
-        mFAB1 = (FloatingActionButton) findViewById(R.id.starred1);
-        mFAB2 = (FloatingActionButton) findViewById(R.id.starred2);
+        mToolbar = findViewById(R.id.toolbar);
+        mTitleText = findViewById(R.id.reminder_title);
+        mDateText = findViewById(R.id.set_date);
+        mTimeText = findViewById(R.id.set_time);
+        mRepeatText = findViewById(R.id.set_repeat);
+        mRepeatNoText = findViewById(R.id.set_repeat_no);
+        mRepeatTypeText = findViewById(R.id.set_repeat_type);
+        mRepeatSwitch = findViewById(R.id.repeat_switch);
+        mFAB1 = findViewById(R.id.starred1);
+        mFAB2 = findViewById(R.id.starred2);
 
         // Initialize default values
         mActive = "true";

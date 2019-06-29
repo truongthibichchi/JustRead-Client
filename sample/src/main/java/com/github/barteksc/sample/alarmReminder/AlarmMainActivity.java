@@ -65,14 +65,11 @@ public class AlarmMainActivity extends AppCompatActivity implements LoaderManage
         });
 
 
-        mAddReminderButton = (FloatingActionButton) findViewById(R.id.fab);
+        mAddReminderButton = findViewById(R.id.fab);
 
-        mAddReminderButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), AddReminderActivity.class);
+        mAddReminderButton.setOnClickListener(view-> {
+                Intent intent = new Intent(view.getContext(), AddReminderActivity.class);
                 startActivity(intent);
-            }
         });
 
         getLoaderManager().initLoader(VEHICLE_LOADER, null, this);
