@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -114,17 +113,18 @@
         </android.support.v7.widget.CardView>
     </LinearLayout>
 
+
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/address_looking_up"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <android.support.v4.widget.ContentLoadingProgressBar
-            android:id="@+id/address_looking_up"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="visible" />
 
         <GridLayout
             android:layout_width="match_parent"
@@ -135,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:numColumns="3"
-                android:stretchMode="columnWidth"/>
+                android:stretchMode="columnWidth" />
         </GridLayout>
 
         <com.github.clans.fab.FloatingActionMenu
@@ -146,26 +146,26 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             app:menu_colorNormal="@color/colorPrimary"
-            app:menu_icon="@drawable/baseline_sort_black_24"
-            app:menu_colorPressed="@color/colorSecondary">
+            app:menu_colorPressed="@color/colorSecondary"
+            app:menu_icon="@drawable/baseline_sort_black_24">
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/sort_alpha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="setSortAlpha"
                 android:src="@drawable/baseline_sort_by_alpha_black_24"
                 app:fab_colorNormal="@color/colorPrimary"
-                app:fab_colorPressed="@color/colorSecondary"
-                android:onClick="setSortAlpha"/>
+                app:fab_colorPressed="@color/colorSecondary" />
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/sort_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="setSortLike"
                 android:src="@drawable/baseline_thumb_up_black_24"
                 app:fab_colorNormal="@color/colorPrimary"
-                app:fab_colorPressed="@color/colorSecondary"
-                android:onClick="setSortLike"/>
+                app:fab_colorPressed="@color/colorSecondary" />
 
             <!--<com.github.clans.fab.FloatingActionButton
                 android:id="@+id/menu_bill"

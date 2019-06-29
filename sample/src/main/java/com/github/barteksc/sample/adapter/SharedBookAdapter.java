@@ -166,6 +166,7 @@ public class SharedBookAdapter extends BaseAdapter {
 
         imgEdit.setOnClickListener(View ->{
             Intent intent = new Intent(mContext, AddSharedBookActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("username", sharedBook.getNewsUsername());
             intent.putExtra("avatar", ApiLink.HOST+sharedBook.getNewsUserAvatar());
             intent.putExtra("fullname", sharedBook.getNewsUserFullname());
@@ -187,6 +188,7 @@ public class SharedBookAdapter extends BaseAdapter {
 
         imgBookImage.setOnClickListener(View -> {
             Intent intent = new Intent(mContext, BookDetailActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("book_id", sharedBook.getBookId());
             intent.putExtra("book_author", sharedBook.getBookAuthor());
             intent.putExtra("book_category", sharedBook.getBookCategory());
@@ -207,6 +209,7 @@ public class SharedBookAdapter extends BaseAdapter {
         });
         btnComment.setOnClickListener(View -> {
             Intent intent = new Intent(mContext, BookDetailActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("book_id", sharedBook.getBookId());
             intent.putExtra("book_author", sharedBook.getBookAuthor());
             intent.putExtra("book_category", sharedBook.getBookCategory());
