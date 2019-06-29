@@ -56,9 +56,9 @@
 
     </LinearLayout>
 
-    <ImageView android:layout_width="wrap_content"
+    <ImageView android:layout_width="25dp"
         android:layout_alignParentRight="true"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:src="@drawable/ic_notifications_off_grey600_24dp"
