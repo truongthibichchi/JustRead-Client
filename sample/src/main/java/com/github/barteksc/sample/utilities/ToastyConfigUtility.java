@@ -13,8 +13,4 @@ public class ToastyConfigUtility {
                 .setTextSize(12)
                 .apply();
     }
-
-    public static void resetConfig() {
-        Toasty.Config.reset();
-    }
 }

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -216,7 +215,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
     void sendComment(){
         if (isNull()) {
-            Toasty.info(getApplicationContext(), ConstString.NULL_INPUT_LOGIN, Toast.LENGTH_SHORT, true).show();
+            Toasty.info(getApplicationContext(), ConstString.NULL_INPUT, Toast.LENGTH_SHORT, true).show();
         } else {
             addCommentAPIExecute(etCommentContent.getText().toString());
 

@@ -1,13 +1,18 @@
 package com.github.barteksc.sample.activity;
 
+import android.annotation.TargetApi;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.github.barteksc.sample.R;
 import com.github.barteksc.sample.adapter.HorizontalAdapter;
@@ -21,6 +26,7 @@ import com.github.barteksc.sample.utilities.ToastyConfigUtility;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,28 +36,31 @@ import retrofit2.Response;
 public class BookLibraryActivity extends AppCompatActivity {
 
     public List<BookModel> books = new ArrayList<>();
+    public List<BookModel> result = new ArrayList<>();
     public APIService apiService;
     private Toolbar toolbar;
     public HorizontalAdapter horizontalAdapter;
 
+    private ImageView search;
     private GridView gvBooks;
     private EditText searchBar;
     private AppCompatSpinner sp_category;
     private AppCompatSpinner sp_rating;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_library);
         findViewsByIds();
         apiService = ApiUtils.getAPIService();
-        ToastyConfigUtility.createInstance();
-        setSupportActionBar(toolbar);
         getAllBooks();
-
+        setSupportActionBar(toolbar);
+        search.setOnClickListener(view -> search());
     }
 
     private void findViewsByIds() {
+        search = findViewById(R.id.img_book_library_search);
         gvBooks = findViewById(R.id.gv_all_books);
         toolbar = findViewById(R.id.toolbar_book_library);
         sp_category = findViewById(R.id.sp_book_library_category);
@@ -98,25 +107,35 @@ public class BookLibraryActivity extends AppCompatActivity {
         });
     }
 
-    private String getRating() {
-        String spText = sp_rating.getSelectedItem().toString();
-        if (spText.contains("1")) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void search(){
+        searchWithSpinner();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void searchWithSpinner(boolean sprating, boolean spcategory) {
+        if (sp_rating.getSelectedItem()!= null) {
+            result.addAll(books.stream().filter(bookModel -> getRating(sp_rating.getSelectedItem().toString()).equals(bookModel.getBookRating())).collect(Collectors.toList()));
+        }
+        if(sp_category.getSelectedItem() !=null) {
+            result.addAll(books.stream().filter(bookModel -> sp_category.getSelectedItem().toString().equals(bookModel.getBookCategory())).collect(Collectors.toList()));
+        }
+    }
+
+    private String getRating(String spSelected) {
+        if (spSelected.contains("1")) {
             return 20 + "";
-        } else if (spText.contains("2")) {
+        } else if (spSelected.contains("2")) {
             return 40 + "";
-        } else if (spText.contains("3")) {
+        } else if (spSelected.contains("3")) {
             return 60 + "";
         } else {
             return 80 + "";
         }
     }
 
-    private String getCategoy() {
-        return sp_category.getSelectedItem().toString();
-    }
+    private void searchWithText(String keySearch) {
 
-    private String getKey() {
-        return searchBar.getText().toString();
     }
 
 }

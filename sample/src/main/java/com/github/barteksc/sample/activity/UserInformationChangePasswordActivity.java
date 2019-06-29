@@ -67,7 +67,7 @@ public class UserInformationChangePasswordActivity extends AppCompatActivity {
     @Click(R.id.btn_user_change_pass_save)
     void changePassword(){
         if(isNull()){
-            Toasty.info(getApplicationContext(), ConstString.NULL_INPUT_REGISTER, Toast.LENGTH_SHORT, true).show();
+            Toasty.info(getApplicationContext(), ConstString.NULL_INPUT, Toast.LENGTH_SHORT, true).show();
         }
         else if(wrongPassword()){
             Toasty.info(getApplicationContext(), ConstString.WRONG_PASSWORD, Toast.LENGTH_SHORT, true).show();
@@ -102,7 +102,7 @@ public class UserInformationChangePasswordActivity extends AppCompatActivity {
                     editor = sharedPreferences.edit();
                     editor.putString("password", etNewPass.getText().toString());
                 } else {
-                    Toasty.info(getApplicationContext(), ConstString.FAILURE_STATUS, Toast.LENGTH_SHORT, true).show();
+                    Toasty.error(getApplicationContext(), ConstString.FAILURE_STATUS, Toast.LENGTH_SHORT, true).show();
                 }
             }
 
