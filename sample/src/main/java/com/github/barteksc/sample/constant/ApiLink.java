@@ -45,6 +45,6 @@ public class ApiLink {
     public final static String GET_COMMENT = "/get-comment";
 
     public final static String ADD_RATING = "/add-rating";
-
+    public final static String VOICE_REMOTE = "/voice-remote";
 
 }
