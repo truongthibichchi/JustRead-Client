@@ -41,6 +41,7 @@
         <activity android:name=".activity.UserReadingHistoryActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.AdminActivity_" />
+        <activity android:name=".activity.AdminActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
