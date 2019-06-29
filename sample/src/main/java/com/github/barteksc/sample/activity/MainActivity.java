@@ -35,6 +35,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.Resource;
 import com.github.barteksc.sample.R;
 import com.github.barteksc.sample.adapter.HorizontalAdapter;
+import com.github.barteksc.sample.alarmReminder.AlarmMainActivity;
 import com.github.barteksc.sample.api.APIService;
 import com.github.barteksc.sample.api.ApiUtils;
 import com.github.barteksc.sample.constant.ApiLink;
@@ -119,9 +120,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setSupportActionBar(toolbar);
         fab.setOnClickListener(view->{
+            Intent intent = new Intent(MainActivity.this, AlarmMainActivity.class);
+            startActivity(intent);
 
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show();
         });
 
         toggle = new ActionBarDrawerToggle(
@@ -184,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void findViewsByIds() {
         toolbar = findViewById(R.id.toolbar);
-        fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab_main);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 //        navView = findViewById(R.id.nav_bottom_view);
@@ -503,6 +506,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         horizontalListView3.setOnItemClickListener((parentAdapter, view, position, id) -> {
             horizontalOnItemClick(parentAdapter, position);
         });
+
+
     }
 
 
