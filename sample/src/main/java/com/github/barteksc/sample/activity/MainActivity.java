@@ -15,6 +15,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,7 @@ import com.github.barteksc.sample.constant.ConstString;
 import com.github.barteksc.sample.jsonObject.CreateJsonObject;
 import com.github.barteksc.sample.model.BookModel;
 import com.github.barteksc.sample.model.UserModel;
+import com.github.barteksc.sample.utilities.GeneralUtility;
 import com.github.barteksc.sample.utilities.HandleAPIResponse;
 import com.github.barteksc.sample.utilities.HorizontalListView;
 import com.github.barteksc.sample.utilities.ToastyConfigUtility;
@@ -60,12 +63,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.view.View.*;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public SharedPreferences sharedPreferences;
     public boolean saveLogin;
 
-    public BookModel book;
     public List<BookModel> books = new ArrayList<>();
     public List<BookModel> topBooks = new ArrayList<>();
     public List<BookModel> recommendBooks = new ArrayList<>();
@@ -90,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private MenuItem itemAdmin;
     private String username;
     private String password;
+    private ImageView imageSearch;
+    private ContentLoadingProgressBar loadingCircle;
+    private ScrollView mainContent;
 
 //    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
 //            = (item -> {
@@ -108,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
     }
 
     @Override
@@ -127,6 +133,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    .setAction("Action", null).show();
         });
 
+        imageSearch.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, BookLibraryActivity.class);
+                startActivity(intent);
+            }
+        });
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -164,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         apiService.logIn(CreateJsonObject.usernameAndPassword(username, password)).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+                loadingCircle.show();
                 if (response.isSuccessful()) {
                     getNewestBooks();
                     getTopBooks();
@@ -176,6 +190,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Intent intent = new Intent(MainActivity.this, LogInActivity_.class);
                     startActivity(intent);
                 }
+                loadingCircle.hide();
+                mainContent.setVisibility(VISIBLE);
             }
 
             @Override
@@ -198,9 +214,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         headerView = navigationView.getHeaderView(0);
         imgHeaderAvatar = headerView.findViewById(R.id.img_header_avatar);
         tvHeaderFullName = headerView.findViewById(R.id.tv_header_fullname);
-
+        imageSearch = findViewById(R.id.imageSearch);
         menuNav = navigationView.getMenu();
         itemAdmin = menuNav.findItem(R.id.drawermenu_admin);
+        loadingCircle = findViewById(R.id.address_looking_up);
+        mainContent = findViewById(R.id.main_content);
     }
 
     @Override
@@ -475,24 +493,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     void horizontalOnItemClick(AdapterView<?> parentAdapter, int position) {
-        book = (BookModel) parentAdapter.getItemAtPosition(position);
+        BookModel book = (BookModel) parentAdapter.getItemAtPosition(position);
         Intent intent = new Intent(MainActivity.this, BookDetailActivity.class);
-        intent.putExtra("book_id", book.getBookId());
-        intent.putExtra("book_author", book.getBookAuthor());
-        intent.putExtra("book_category", book.getBookCategory());
-        intent.putExtra("book_description", book.getBookDescription());
-        intent.putExtra("book_download", book.getBookDownload());
-        intent.putExtra("book_file", book.getBookFile());
-        intent.putExtra("book_image", book.getBookImage());
-        intent.putExtra("book_page", book.getBookPage());
-        intent.putExtra("book_public_date", book.getBookPublicDate());
-        intent.putExtra("book_rated_time", book.getBookRatedTime());
-        intent.putExtra("book_read_time", book.getBookReadTime());
-        intent.putExtra("book_rating", book.getBookRating());
-        intent.putExtra("book_title", book.getBookTitle());
-        intent.putExtra("book_type", book.getBookType());
-        intent.putExtra("book_is_deleted", book.getBookIsDeleted());
-        intent.putExtra("book_created_time", book.getBookCreatedTime());
+        GeneralUtility.putIntent(intent, book);
         startActivity(intent);
     }
 

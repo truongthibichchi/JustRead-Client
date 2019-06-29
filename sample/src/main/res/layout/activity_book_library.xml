@@ -9,7 +9,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_book_library"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:background="@drawable/gradient_background_blue"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
@@ -31,16 +31,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="40dp"
-                    android:inputType="text"/>
+                    android:inputType="text" />
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/img_book_library_search"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/img_search"
                     android:clickable="true"
-                    android:onClick="search"/>
+                    android:src="@drawable/img_search" />
 
             </RelativeLayout>
 
@@ -115,20 +114,33 @@
         </android.support.v7.widget.CardView>
     </LinearLayout>
 
-    <GridLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <GridView
-            android:id="@+id/gv_all_books"
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/address_looking_up"
+            style="?android:attr/progressBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="3"
-            android:stretchMode="columnWidth">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <GridView
+                android:id="@+id/gv_all_books"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="3"
+                android:stretchMode="columnWidth">
 
 
-        </GridView>
-    </GridLayout>
+            </GridView>
+        </GridLayout>
+    </FrameLayout>
 
 
 </LinearLayout>

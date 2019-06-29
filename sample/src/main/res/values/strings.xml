@@ -84,16 +84,8 @@
         <item>Sách giấy</item>
     </string-array>
 
-    <string-array name="book_category">
-        <item>Văn học</item>
-        <item>Kinh tế</item>
-        <item>Tâm lý - Kỹ năng sống</item>
-        <item>Nuôi dạy con</item>
-        <item>Sách thiếu nhi</item>
-        <item>Tiểu sử - Hồi ký</item>
-    </string-array>
     <string-array name="category_array">
-        <item></item>
+        <item>--Thể loại--</item>
         <item>Văn học</item>
         <item>Kinh tế</item>
         <item>Tâm lý - Kỹ năng sống</item>
@@ -103,6 +95,7 @@
     </string-array>
 
     <string-array name="rating_array">
+        <item>--Đánh giá--</item>
         <item>Trên 1 sao</item>
         <item>Trên 2 sao</item>
         <item>Trên 3 sao</item>
