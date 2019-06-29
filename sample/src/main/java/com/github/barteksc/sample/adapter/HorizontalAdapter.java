@@ -29,7 +29,7 @@ public class HorizontalAdapter extends ArrayAdapter<BookModel> {
 
     @Override
     public int getViewTypeCount() {
-        return getCount();
+        return 1;
     }
 
     @Override

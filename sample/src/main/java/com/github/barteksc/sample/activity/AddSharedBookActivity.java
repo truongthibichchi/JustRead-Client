@@ -410,7 +410,7 @@ public class AddSharedBookActivity extends AppCompatActivity {
                     Toasty.info(getApplicationContext(), response.body(), Toast.LENGTH_SHORT, true).show();
                     finish();
                 } else {
-                    Toasty.info(getApplicationContext(), ConstString.FAILURE_STATUS, Toast.LENGTH_SHORT, true).show();
+                    Toasty.error(getApplicationContext(), ConstString.FAILURE_STATUS, Toast.LENGTH_SHORT, true).show();
                 }
             }
 

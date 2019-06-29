@@ -98,7 +98,7 @@ public class UserReadingHistoryActivity extends AppCompatActivity {
                     }
                     Toasty.success(getApplicationContext(), ConstString.GET_READING_HISTORY_SUCCESSFULL, Toast.LENGTH_SHORT, true).show();
                 } else {
-                    Toasty.info(getApplicationContext(), ConstString.GET_READING_HISTORY_FAILURE, Toast.LENGTH_SHORT, true).show();
+                    Toasty.error(getApplicationContext(), ConstString.GET_READING_HISTORY_FAILURE, Toast.LENGTH_SHORT, true).show();
                 }
             }
 

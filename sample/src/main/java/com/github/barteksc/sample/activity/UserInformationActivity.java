@@ -231,7 +231,7 @@ public class UserInformationActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     Toasty.info(getApplicationContext(), response.body(), Toast.LENGTH_SHORT, true).show();
                 } else {
-                    Toasty.info(getApplicationContext(), ConstString.FAILURE_STATUS, Toast.LENGTH_SHORT, true).show();
+                    Toasty.error(getApplicationContext(), ConstString.FAILURE_STATUS, Toast.LENGTH_SHORT, true).show();
                 }
             }
 

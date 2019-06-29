@@ -30,6 +30,8 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
+                        android:id="@+id/imageSearch"
+                        android:clickable="true"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_alignParentRight="true"
