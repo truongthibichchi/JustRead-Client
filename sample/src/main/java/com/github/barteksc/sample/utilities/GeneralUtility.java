@@ -5,9 +5,22 @@ import android.content.Intent;
 import com.github.barteksc.sample.constant.ApiLink;
 import com.github.barteksc.sample.model.BookModel;
 
+import java.text.Normalizer;
+import java.util.regex.Pattern;
+
 public class GeneralUtility {
     public static String ratingFloatToIntPercent(float x){
         return "" + ((int) (x * 20));
+    }
+
+    public static String removeAccent(String s){
+        String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(temp).replaceAll("");
+    }
+
+    public static String formatString(String s){
+        return removeAccent(s.toLowerCase().trim());
     }
 
     public static Intent putIntent(Intent intent, BookModel book) {

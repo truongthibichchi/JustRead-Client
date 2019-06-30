@@ -1,5 +1,7 @@
 package com.github.barteksc.sample.constant;
 
+import java.text.RuleBasedCollator;
+
 public class ConstString {
 
     public static final String NULL_INPUT = "Điền đầy đủ thông tin bạn nhé.";
@@ -25,4 +27,5 @@ public class ConstString {
     public static final String REMOTE_SEARCH_BOOK = "search_book";
     public static final String LISTENING = "Nói gì đi bạn ơi...";
     public static final String GRANT_PERMISSION = "Cho mình quyền nghe bạn nói nhé?";
+
 }

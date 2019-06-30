@@ -226,8 +226,8 @@ public class BookLibraryActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private List<BookModel> searchWithText(String keySearch, List<BookModel> books) {
         return books.stream()
-                .filter(bookModel -> bookModel.getBookAuthor().toLowerCase().trim().contains(keySearch)
-                        || bookModel.getBookTitle().toLowerCase().trim().contains(keySearch))
+                .filter(bookModel -> GeneralUtility.formatString(bookModel.getBookAuthor()).contains(keySearch)
+                        || GeneralUtility.formatString(bookModel.getBookTitle()).contains(keySearch))
                 .collect(Collectors.toList());
     }
 
