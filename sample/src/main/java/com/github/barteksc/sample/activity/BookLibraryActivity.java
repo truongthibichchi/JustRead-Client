@@ -65,7 +65,7 @@ public class BookLibraryActivity extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            String keySearch = searchBar.getText().toString().toLowerCase().trim();
+            String keySearch = GeneralUtility.formatString(searchBar.getText().toString());
             resultText = searchWithText(keySearch, books);
             result = resultText;
             setResult(result);
@@ -81,15 +81,19 @@ public class BookLibraryActivity extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (resultText.containsAll(result)) {
+            if (result.isEmpty()) {
+                resultCategory = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), books);
+                result = resultCategory;
+                setResult(result);
+            } else if (resultText.size() > 0 && resultText.containsAll(result)) {
                 resultCategory = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), resultText);
                 result = resultCategory;
                 setResult(result);
-            } else if (resultRating.containsAll(result)){
+            } else if (resultRating.size() > 0 && resultRating.containsAll(result)) {
                 resultCategory = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), resultRating);
                 result = resultCategory;
                 setResult(result);
-            }else if(result.isEmpty()){
+            } else {
                 resultCategory = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), books);
                 result = resultCategory;
                 setResult(result);
@@ -106,7 +110,11 @@ public class BookLibraryActivity extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (resultText.containsAll(result)) {
+            if (result.isEmpty()) {
+                resultRating = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), books);
+                result = resultRating;
+                setResult(result);
+            } else if (resultText.containsAll(result)) {
                 resultRating = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), resultText);
                 result = resultRating;
                 setResult(result);
@@ -114,7 +122,7 @@ public class BookLibraryActivity extends AppCompatActivity {
                 resultRating = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), resultCategory);
                 result = resultRating;
                 setResult(result);
-            } else if(result.isEmpty()){
+            } else {
                 resultRating = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), books);
                 result = resultRating;
                 setResult(result);
@@ -218,8 +226,8 @@ public class BookLibraryActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private List<BookModel> searchWithText(String keySearch, List<BookModel> books) {
         return books.stream()
-                .filter(bookModel -> bookModel.getBookAuthor().toLowerCase().trim().contains(keySearch)
-                        || bookModel.getBookTitle().toLowerCase().trim().contains(keySearch))
+                .filter(bookModel -> GeneralUtility.formatString(bookModel.getBookAuthor()).contains(keySearch)
+                        || GeneralUtility.formatString(bookModel.getBookTitle()).contains(keySearch))
                 .collect(Collectors.toList());
     }
 
