@@ -65,7 +65,7 @@ public class BookLibraryActivity extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            String keySearch = searchBar.getText().toString().toLowerCase().trim();
+            String keySearch = GeneralUtility.formatString(searchBar.getText().toString());
             resultText = searchWithText(keySearch, books);
             result = resultText;
             setResult(result);
