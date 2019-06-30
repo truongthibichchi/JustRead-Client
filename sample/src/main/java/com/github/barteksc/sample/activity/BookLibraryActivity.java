@@ -81,15 +81,19 @@ public class BookLibraryActivity extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (resultText.containsAll(result)) {
+            if (result.isEmpty()) {
+                resultCategory = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), books);
+                result = resultCategory;
+                setResult(result);
+            } else if (resultText.size() > 0 && resultText.containsAll(result)) {
                 resultCategory = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), resultText);
                 result = resultCategory;
                 setResult(result);
-            } else if (resultRating.containsAll(result)){
+            } else if (resultRating.size() > 0 && resultRating.containsAll(result)) {
                 resultCategory = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), resultRating);
                 result = resultCategory;
                 setResult(result);
-            }else if(result.isEmpty()){
+            } else {
                 resultCategory = searchWithSpinnerCategory(getCategory(sp_category.getSelectedItem().toString()), books);
                 result = resultCategory;
                 setResult(result);
@@ -106,7 +110,11 @@ public class BookLibraryActivity extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (resultText.containsAll(result)) {
+            if (result.isEmpty()) {
+                resultRating = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), books);
+                result = resultRating;
+                setResult(result);
+            } else if (resultText.containsAll(result)) {
                 resultRating = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), resultText);
                 result = resultRating;
                 setResult(result);
@@ -114,7 +122,7 @@ public class BookLibraryActivity extends AppCompatActivity {
                 resultRating = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), resultCategory);
                 result = resultRating;
                 setResult(result);
-            } else if(result.isEmpty()){
+            } else {
                 resultRating = searchWithSpinnerRating(getRating(sp_rating.getSelectedItem().toString()), books);
                 result = resultRating;
                 setResult(result);

@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 case MotionEvent.ACTION_DOWN:
                     speechRecognizer.startListening(speechRecognizerIntent);
-                    Toast.makeText(getApplicationContext(),"Listening...", Toast.LENGTH_SHORT).show();
+                    Toasty.info(getApplicationContext(), ConstString.LISTENING, Toast.LENGTH_SHORT, true).show();
                     break;
             }
             return false;
@@ -264,6 +264,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
             if(!(ContextCompat.checkSelfPermission(getApplicationContext(),
                     Manifest.permission.RECORD_AUDIO)== PackageManager.PERMISSION_GRANTED)){
+                Toasty.info(getApplicationContext(), ConstString.GRANT_PERMISSION, Toast.LENGTH_SHORT, true).show();
                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:"+getPackageName()));
                 startActivity(intent);
                 finish();
