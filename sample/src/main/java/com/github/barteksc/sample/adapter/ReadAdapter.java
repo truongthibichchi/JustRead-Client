@@ -38,8 +38,6 @@ public class ReadAdapter extends BaseAdapter {
     private Context mContext;
     private List<ReadModel> mReadModelList;
     private String username;
-    private String bookImage;
-    private ReadModel read;
     public APIService apiService = ApiUtils.getAPIService();
 
     public ReadAdapter(Context mContext, List<ReadModel> mReadModelList, String username) {
@@ -68,7 +66,6 @@ public class ReadAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View recycled, ViewGroup parent) {
         View itemView;
-        read = mReadModelList.get(position);
         if (recycled == null) {
             itemView = View.inflate(mContext, R.layout.item_user_reading_history, null);
         } else {
@@ -84,7 +81,7 @@ public class ReadAdapter extends BaseAdapter {
         Button btnDelete = itemView.findViewById(R.id.btn_item_user_read_delete);
         LinearLayout ll_item = itemView.findViewById(R.id.ll_item_user_read);
 
-        bookImage = mReadModelList.get(position).getBookImage();
+        String bookImage = mReadModelList.get(position).getBookImage();
         if (bookImage.charAt(0)=='/'){
             bookImage = ApiLink.HOST+bookImage;
         }
@@ -117,27 +114,31 @@ public class ReadAdapter extends BaseAdapter {
         imgBookImage.setOnClickListener(view -> {
 
             Intent intent = new Intent(mContext, BookDetailActivity.class);
-            intent.putExtra("book_id", read.getBookId());
-            intent.putExtra("book_author", read.getBookAuthor());
-            intent.putExtra("book_category", read.getBookCategory());
-            intent.putExtra("book_description", read.getBookDescription());
-            intent.putExtra("book_download", read.getBookDownload());
-            intent.putExtra("book_file", read.getBookFile());
-            intent.putExtra("book_image", bookImage);
-            intent.putExtra("book_page", read.getBookPage());
-            intent.putExtra("book_public_date", read.getBookPublicDate());
-            intent.putExtra("book_rated_time", read.getBookRatedTime());
-            intent.putExtra("book_read_time", read.getBookReadTime());
-            intent.putExtra("book_rating", read.getBookRating());
-            intent.putExtra("book_title", read.getBookTitle());
-            intent.putExtra("book_type", read.getBookType());
-            intent.putExtra("book_is_deleted", read.getBookIsDeleted());
-            intent.putExtra("book_created_time", read.getBookCreatedTime());
+            intent.putExtra("book_id", mReadModelList.get(position).getBookId());
+            intent.putExtra("book_author", mReadModelList.get(position).getBookAuthor());
+            intent.putExtra("book_category", mReadModelList.get(position).getBookCategory());
+            intent.putExtra("book_description", mReadModelList.get(position).getBookDescription());
+            intent.putExtra("book_download", mReadModelList.get(position).getBookDownload());
+            intent.putExtra("book_file", mReadModelList.get(position).getBookFile());
+            String image = mReadModelList.get(position).getBookImage();
+            if (image.charAt(0)=='/'){
+                image = ApiLink.HOST+image;
+            }
+            intent.putExtra("book_image", image);
+            intent.putExtra("book_page", mReadModelList.get(position).getBookPage());
+            intent.putExtra("book_public_date", mReadModelList.get(position).getBookPublicDate());
+            intent.putExtra("book_rated_time", mReadModelList.get(position).getBookRatedTime());
+            intent.putExtra("book_read_time", mReadModelList.get(position).getBookReadTime());
+            intent.putExtra("book_rating", mReadModelList.get(position).getBookRating());
+            intent.putExtra("book_title", mReadModelList.get(position).getBookTitle());
+            intent.putExtra("book_type", mReadModelList.get(position).getBookType());
+            intent.putExtra("book_is_deleted", mReadModelList.get(position).getBookIsDeleted());
+            intent.putExtra("book_created_time", mReadModelList.get(position).getBookCreatedTime());
             mContext.startActivity(intent);
         });
 
         btnDone.setOnClickListener(View ->{
-            apiService.updateReadDone(CreateJsonObject.readingHistory(read.getBookId(), username)).enqueue(new Callback<String>() {
+            apiService.updateReadDone(CreateJsonObject.readingHistory(mReadModelList.get(position).getBookId(), username)).enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     if (response.isSuccessful()) {
@@ -158,7 +159,7 @@ public class ReadAdapter extends BaseAdapter {
         });
 
         btnDelete.setOnClickListener(View -> {
-            apiService.deleteReadBook(CreateJsonObject.readingHistory(read.getBookId(), username)).enqueue(new Callback<String>() {
+            apiService.deleteReadBook(CreateJsonObject.readingHistory(mReadModelList.get(position).getBookId(), username)).enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     if (response.isSuccessful()) {

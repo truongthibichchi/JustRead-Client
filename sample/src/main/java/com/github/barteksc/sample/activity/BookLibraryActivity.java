@@ -142,9 +142,7 @@ public class BookLibraryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book_library);
         findViewsByIds();
         apiService = ApiUtils.getAPIService();
-        if (books.size() < 1) {
-            getAllBooks();
-        }
+        getAllBooks();
         setResult(books);
         setSupportActionBar(toolbar);
         searchBar.addTextChangedListener(searchBarListener);
