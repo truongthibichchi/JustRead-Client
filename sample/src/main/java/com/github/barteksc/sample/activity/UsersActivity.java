@@ -1,30 +1,28 @@
 package com.github.barteksc.sample.activity;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.GridView;
 
 import com.github.barteksc.sample.R;
-import com.github.barteksc.sample.adapter.SharedBookAdapter;
 import com.github.barteksc.sample.adapter.UsersAdapter;
 import com.github.barteksc.sample.api.APIService;
 import com.github.barteksc.sample.api.ApiUtils;
-import com.github.barteksc.sample.constant.ApiLink;
-import com.github.barteksc.sample.constant.ConstString;
-import com.github.barteksc.sample.model.SharedBookModel;
 import com.github.barteksc.sample.model.UserModel;
+import com.github.barteksc.sample.utilities.GeneralUtility;
 import com.github.barteksc.sample.utilities.HandleAPIResponse;
 import com.github.barteksc.sample.utilities.ToastyConfigUtility;
 
-import org.androidannotations.annotations.EActivity;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,8 +33,10 @@ public class UsersActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     private GridView gvAllUser;
+    private EditText etUserSearch;
     private UsersAdapter mAdapter;
     private List<UserModel> mUserModel = new ArrayList<>();
+    private List<UserModel> resultUserModel = new ArrayList<>();
     public APIService apiService;
     public SharedPreferences sharedPreferences;
     private Bundle mBundle;
@@ -45,6 +45,41 @@ public class UsersActivity extends AppCompatActivity {
     private String fullname;
     private String isAdmin;
 
+    private TextWatcher searchBarListener = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String keySearch = GeneralUtility.formatString(etUserSearch.getText().toString());
+            resultUserModel = searchWithText(keySearch, mUserModel);
+            setResult(resultUserModel);
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private List<UserModel> searchWithText(String keySearch, List<UserModel> users) {
+        return users.stream()
+                .filter(userModel -> GeneralUtility.formatString(userModel.getUserFullname()).contains(keySearch)
+                        || GeneralUtility.formatString(userModel.getUserUsername()).contains(keySearch))
+                .collect(Collectors.toList());
+    }
+
+    private void setResult(List<UserModel> resultUserModel) {
+        mAdapter = new UsersAdapter(getApplicationContext(), resultUserModel, username, isAdmin);
+        gvAllUser.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +87,7 @@ public class UsersActivity extends AppCompatActivity {
         findViewByIds();
         getDataFromBundle();
         sharedPreferences = getSharedPreferences("loginref", MODE_PRIVATE);
-
+        etUserSearch.addTextChangedListener(searchBarListener);
         username = sharedPreferences.getString("username", null);
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setTitle("Danh sách người dùng");
@@ -108,6 +143,7 @@ public class UsersActivity extends AppCompatActivity {
 
     private void findViewByIds() {
         gvAllUser = findViewById(R.id.gv_users);
+        etUserSearch = findViewById(R.id.et_users_search);
     }
 
 }
