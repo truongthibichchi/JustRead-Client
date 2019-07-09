@@ -18,6 +18,9 @@ public class CommentModel {
     @SerializedName("comment_id")
     @Expose
     public String commentId;
+    @SerializedName("comment_avatar")
+    @Expose
+    public String commentAvatar;
     @SerializedName("comment_username")
     @Expose
     public String commentUsername;

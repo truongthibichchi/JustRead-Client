@@ -39,7 +39,6 @@ import retrofit2.Response;
 public class UsersAdapter extends BaseAdapter {
     private Context mContext;
     private List<UserModel> mUserModel;
-    private UserModel userModel;
     public APIService apiService = ApiUtils.getAPIService();
     public String userLogin;
     public String login_isAdmin;
@@ -74,7 +73,6 @@ public class UsersAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View recycled, ViewGroup parent) {
         View itemView;
-        userModel = mUserModel.get(position);
         if (recycled == null) {
             itemView = View.inflate(mContext, R.layout.item_user, null);
         } else {

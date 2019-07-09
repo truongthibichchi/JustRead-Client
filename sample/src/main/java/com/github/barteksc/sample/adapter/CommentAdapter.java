@@ -1,6 +1,7 @@
 package com.github.barteksc.sample.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.barteksc.sample.R;
+import com.github.barteksc.sample.constant.ApiLink;
 import com.github.barteksc.sample.model.CommentModel;
 
 import java.util.List;
@@ -50,11 +54,17 @@ public class CommentAdapter extends ArrayAdapter<CommentModel> {
     private void setViewHolder(ViewHolder viewHolder, View convertView) {
         viewHolder.tvusername = convertView.findViewById(R.id.tv_comment_item_fullname);
         viewHolder.tvcontent = convertView.findViewById(R.id.tv_content);
+        viewHolder.ivavatar = convertView.findViewById(R.id.img_comment_item_avatar);
     }
 
     private void setViewHolderItemContent(ViewHolder viewHolder, CommentModel comment) {
         viewHolder.tvusername.setText(comment.getCommentUsername());
         viewHolder.tvcontent.setText(comment.getCommentContent());
+        Glide.with(context)
+                .load(Uri.parse(ApiLink.HOST + comment.getCommentAvatar()))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(viewHolder.ivavatar);
     }
 
 }
