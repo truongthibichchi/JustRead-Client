@@ -1,2 +1,1 @@
-# AndroidPdfViewer
-This is folked from https://github.com/barteksc/AndroidPdfViewer
+Server: https://github.com/truongthibichchi/JustRead-Server
